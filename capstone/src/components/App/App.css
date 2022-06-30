@@ -36,3 +36,9 @@
     transform: rotate(360deg);
   }
 }
+
+/* added */
+span {
+  /* Font-family: Century Gothic, CenturyGothic, AppleGothic, sans-serif; */
+  Font-family: Gill Sans, Gill Sans MT, Calibri, sans-serif;
+}

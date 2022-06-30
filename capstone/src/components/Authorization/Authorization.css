@@ -1,0 +1,45 @@
+.instruction {
+    font-size: 3rem;
+    padding: 1rem;
+}
+
+.register-button {
+    width: 5rem;
+    height: 2rem;
+    margin: 1rem;
+}
+
+.go-back-button {
+    width: 5rem;
+    height: 2rem;
+    margin: 1rem;
+}
+
+input {
+    height: 2rem;
+    width: 10rem;
+    font-size: 2rem;
+}
+
+.logo-wrapper {
+    flex: 0.5;
+    width: 100%;
+    height: 100vh;
+    background-color: darkseagreen;
+}
+
+.submission-wrapper {
+    flex: 0.5;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.authorization-page {
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+}

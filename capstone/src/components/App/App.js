@@ -7,6 +7,9 @@ import PostCard from '../PostCard/PostCard';
 import Search from '../Search/Search';
 import SearchBar from '../SearchBar/SearchBar';
 import SearchResults from '../SearchResults/SearchResults';
+import Login from '../Login/Login';
+import Register from '../Register/Register';
+import Authorization from '../Authorization/Authorization';
 
 import './App.css';
 
@@ -56,8 +59,17 @@ function App() {
       {/* <span>Search</span>
       <Search></Search> */}
 
-      <span>Search Results</span>
-      <SearchResults></SearchResults>
+      {/* <span>Search Results</span>
+      <SearchResults></SearchResults> */}
+
+      {/* <span>Login</span>
+      <Login></Login> */}
+
+      {/* <span>Register</span>
+      <Register></Register> */}
+
+      <span>Authorization</span>
+      <Authorization></Authorization>
     </div>
   );
 }
