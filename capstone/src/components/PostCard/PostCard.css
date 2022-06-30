@@ -1,0 +1,22 @@
+.profileheader-wrapper {
+    flex: 0.3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.songcard-wrapper {
+    flex: 0.7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.postcard-component {
+    display: flex;
+    /* width: auto;
+    height: auto; */
+    background-color: lightgray;
+    width: 20%;
+    height: 20%;
+}

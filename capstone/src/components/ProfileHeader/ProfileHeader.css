@@ -1,0 +1,23 @@
+img {
+    width: 100%;
+    height: 100%;
+}
+
+.profile-picture-wrapper {
+    flex: 0.5;
+    /* width: 100%;
+    height: 100%; */
+}
+
+.profile-username-wrapper {
+    flex: 0.5;
+    /* font-size: 2rem; */
+}
+
+.profileheader-component {
+    width: 6rem; 
+    height: 6rem;
+    display: flex;
+    flex-direction: column;
+    background-color: lightgray;
+}

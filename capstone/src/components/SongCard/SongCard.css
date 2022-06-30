@@ -1,0 +1,15 @@
+.songheader-wrapper {
+    flex: 0.3;
+}
+
+.album-picture-wrapper {
+    flex: 0.7;
+}
+
+.songcard-component {
+    display: flex;
+    flex-direction: column;
+    width: auto;
+    height: auto;
+    background-color: lightgray;
+}

@@ -1,0 +1,21 @@
+#songcard-component {
+    flex: 0.7;
+}
+
+.postheader-component .songcard-component {
+    flex: 0.7;
+}
+
+.post-info-wrapper {
+    display: flex;
+    align-items: center;
+    flex: 0.3;
+    justify-content: center;
+}
+
+.postheader-component {
+    display: flex;
+    background-color: lightgray;
+    /* width: 10%;
+    height: 10%; */
+}
