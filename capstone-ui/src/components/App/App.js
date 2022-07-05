@@ -17,8 +17,9 @@ import './App.css';
 // Parse
 import PostComponent from "../../api/PostComponent";
 
-// Import Parse minified version
-// import Parse from 'parse/dist/parse.min.js';
+import { Routes, Route, BrowserRouter } from "react-router-dom";
+
+// Parse initialization
 const Parse = require('parse');
 const PARSE_APPLICATION_ID = 'tW3HTz0fUSdMPmk1hE4qA8c9FbZqcerL3iY1kejp';
 const PARSE_HOST_URL = 'https://parseapi.back4app.com/';
@@ -29,6 +30,15 @@ Parse.serverURL = PARSE_HOST_URL;
 function App() {
   return (
     <div className="App">
+      <BrowserRouter>
+        <Routes>
+          <Route exact path="/" element={<Login></Login>}
+          />
+          <Route exact path="/register" element={<Register></Register>}
+          />
+        </Routes>
+      </BrowserRouter>
+
       {/* <span>SongHeader</span>
       <SongHeader></SongHeader> */}
 
@@ -64,7 +74,12 @@ function App() {
 
       {/* <span>Home</span>
       <Home></Home> */}
-      <PostComponent></PostComponent>
+
+      {/* Parse */}
+      {/* <PostComponent></PostComponent> */}
+
+      {/* 6/5/22 */}
+      {/* <Register></Register> */}
     </div>
   );
 }
