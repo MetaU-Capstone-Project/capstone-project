@@ -1,0 +1,13 @@
+.navbar-link {
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
+
+.navbar-component {
+    width: 100wh;
+    display: flex;
+    justify-content: flex-end;
+    height: 4rem;
+    background-color: darkseagreen;
+    align-items: center;
+}
