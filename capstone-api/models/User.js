@@ -27,13 +27,31 @@ class User {
         return loggedInUser;
     }
 
+    // static async registerUser(userValue) {
+    //     let {usernameRegister, passwordRegister, emailRegister} = userValue;
+    //     let user = new Parse.User();
+  
+    //     user.set("username", usernameRegister);
+    //     user.set("password", passwordRegister);
+    //     user.set("email", emailRegister);
+
+    //     console.log('user register');
+    //     console.log(user);
+  
+    //     try{
+    //         await user.signUp();
+    //         return "User created!";
+    //     } catch (error) {
+    //         return error.message;
+    //     }
+    // }
+
     static async registerUser(userValue) {
-        let {usernameRegister, passwordRegister, emailRegister} = userValue;
+        let {usernameRegister, passwordRegister} = userValue;
         let user = new Parse.User();
   
         user.set("username", usernameRegister);
         user.set("password", passwordRegister);
-        user.set("email", emailRegister);
 
         console.log('user register');
         console.log(user);

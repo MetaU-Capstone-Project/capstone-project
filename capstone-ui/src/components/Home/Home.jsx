@@ -12,12 +12,12 @@ import "./Home.css";
 import logo from "../../logo.svg";
 
 // TODO props = {page}
-export default function Home({ page }) {
+export default function Home({ page, token }) {
   return (
     <div className="home-page">
       <Navbar></Navbar>
       {page === "feed" && <Feed></Feed>}
-      {page === "search" && <Search></Search>}
+      {page === "search" && <Search token={token}></Search>}
       {page === "groups" && <Groups></Groups>}
       {page === "profile" && <Profile></Profile>}
     </div>

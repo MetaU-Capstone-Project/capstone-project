@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "./Register.css";
+import axios from "axios";
 
 // added
 import { loginURL } from "../../spotify";
@@ -15,22 +16,68 @@ export default function Register() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
+  // const registerUser = async function () {
+  //   // Note that these values come from state variables that we've declared before
+  //   const usernameValue = username;
+  //   const passwordValue = password;
+  //   try {
+  //     // Since the signUp method returns a Promise, we need to call it using await
+  //     const createdUser = await Parse.User.signUp(usernameValue, passwordValue);
+  //     alert(
+  //       `Success! User ${createdUser.getUsername()} was successfully created!`
+  //     );
+  //     return true;
+  //   } catch (error) {
+  //     // signUp can fail if any parameter is blank or failed an uniqueness check on the server
+  //     alert(`Error! ${error}`);
+  //     return false;
+  //   }
+  // };
+
   const registerUser = async function () {
-    // Note that these values come from state variables that we've declared before
     const usernameValue = username;
     const passwordValue = password;
-    try {
-      // Since the signUp method returns a Promise, we need to call it using await
-      const createdUser = await Parse.User.signUp(usernameValue, passwordValue);
-      alert(
-        `Success! User ${createdUser.getUsername()} was successfully created!`
-      );
-      return true;
-    } catch (error) {
-      // signUp can fail if any parameter is blank or failed an uniqueness check on the server
-      alert(`Error! ${error}`);
-      return false;
-    }
+
+    let postRequest = {
+      username: usernameValue,
+      password: passwordValue,
+    };
+    axios
+      .post("http://localhost:3001/user/register", postRequest)
+      .then(function (response) {
+        console.log("app.jsx");
+        console.log(response.data);
+
+        alert(
+          `Success! User ${response.data.username} was successfully created!`
+        );
+
+        // TODO login user after registration
+        // getCurrentUser();
+        window.location.href = "http://localhost:3000/feed";
+      })
+      .catch((error) => {
+        alert(`Error! ${error.message}`);
+        setUsername("");
+        setPassword("");
+        return false;
+      });
+
+    // // Note that these values come from state variables that we've declared before
+    // const usernameValue = username;
+    // const passwordValue = password;
+    // try {
+    //   // Since the signUp method returns a Promise, we need to call it using await
+    //   const createdUser = await Parse.User.signUp(usernameValue, passwordValue);
+    //   alert(
+    //     `Success! User ${createdUser.getUsername()} was successfully created!`
+    //   );
+    //   return true;
+    // } catch (error) {
+    //   // signUp can fail if any parameter is blank or failed an uniqueness check on the server
+    //   alert(`Error! ${error}`);
+    //   return false;
+    // }
   };
 
   return (

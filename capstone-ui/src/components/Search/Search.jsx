@@ -1,15 +1,43 @@
 // import * as React from "react";
+import React, { useState } from "react";
 import SearchBar from "../SearchBar/SearchBar";
+import SearchResults from "../SearchResults/SearchResults";
+
+import axios from "axios";
 
 import "./Search.css";
 
-// TODO - temporarily use logo as profile picture
-import logo from "../../logo.svg";
+export default function Search({ token }) {
+  const [searchInput, setSearchInput] = useState("");
+  const [songResults, setSongResults] = useState([]);
+  const [profileResults, setProfileResults] = useState([]);
 
-export default function Search() {
+  const searchSongs = async (e) => {
+    e.preventDefault();
+    const { data } = await axios.get("https://api.spotify.com/v1/search", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      params: {
+        q: searchInput,
+        type: "track",
+        include_external: "audio",
+        limit: 50,
+      },
+    });
+
+    console.log(data.tracks.items);
+    setSongResults(data.tracks.items);
+  };
+
   return (
     <div className="search-page">
-      <SearchBar></SearchBar>
+      <SearchBar
+        searchSongs={searchSongs}
+        setSearchInput={setSearchInput}
+      ></SearchBar>
+      <SearchResults results={songResults}></SearchResults>
+      {/* TODO - search results */}
     </div>
   );
 }

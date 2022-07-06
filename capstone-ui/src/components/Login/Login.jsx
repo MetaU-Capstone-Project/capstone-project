@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-// import { Navigate } from "react-router-dom";
-// import { useHistory } from "react-router-dom";
 import "./Login.css";
 
 // TODO - temporarily use logo as profile picture
@@ -32,10 +30,6 @@ export default function Login({ view, setView }) {
       username: usernameValue,
       password: passwordValue,
     };
-
-    // TODO added
-    // let history = useHistory();
-
     axios
       .post("http://localhost:3001/user/login", postRequest)
       .then(function (response) {
@@ -49,9 +43,6 @@ export default function Login({ view, setView }) {
         setPassword("");
         getCurrentUser();
         window.location.href = "http://localhost:3000/feed";
-        // history.push("/feed");
-        // return <Navigate to="/feed" />;
-        // return true;
       })
       .catch((error) => {
         alert(`Error! ${error.message}`);

@@ -13,7 +13,7 @@ import Authorization from '../Authorization/Authorization';
 import Home from '../Home/Home';
 import Profile from '../Profile/Profile';
 import ProfileCard from '../ProfileCard/ProfileCard';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 
 import axios from "axios";
 
@@ -35,9 +35,26 @@ Parse.serverURL = PARSE_HOST_URL;
 function App() {
   const [view, setView] = React.useState("");
 
-  if (view === "home") {
-    
-  }
+  // Spotify API stuff
+  const [token, setToken] = useState("");
+  // TODO pass token to everything
+
+  useEffect(() => {
+    const hash = window.location.hash;
+    let token = window.localStorage.getItem("token");
+
+    if (!token && hash) {
+        token = hash.substring(1).split("&").find(elem => elem.startsWith("access_token")).split("=")[1];
+
+        window.location.hash = "";
+        window.localStorage.setItem("token", token);
+    }
+
+    console.log('token');
+    console.log(token);
+    setToken(token);
+  }, []);
+
 
   return (
     <div className="App">
@@ -49,7 +66,7 @@ function App() {
           />
           <Route exact path="/feed" element={<Home page={'feed'}></Home>}
           />
-          <Route exact path="/search" element={<Home page={'search'}></Home>}
+          <Route exact path="/search" element={<Home page={'search'} token={token}></Home>}
           />
           <Route exact path="/groups" element={<Home page={'groups'}></Home>}
           />
