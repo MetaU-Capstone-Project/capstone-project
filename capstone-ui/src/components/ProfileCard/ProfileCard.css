@@ -1,0 +1,50 @@
+img {
+    width: 100%;
+    height: 100%;
+}
+
+.profile-picture-wrapper {
+    flex: 0.5;
+}
+
+.profile-info-wrapper {
+    flex: 0.5;
+    display: flex;
+    flex-direction: column;
+    /* added below here - make id? */
+    justify-content: center;
+    align-items: center;
+    /* font-size: 3rem; */
+}
+
+.profile-username {
+    font-size: 3rem;
+}
+
+.profile-join-date {
+    font-size: 1rem;
+}
+
+.profile-friends-button {
+    background-color: darkseagreen;
+    text-decoration: none;
+    width: 10rem;
+    height: 3rem;
+    font-size: 1rem;
+}
+
+.profile-buttons {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.profilecard-component {
+    display: flex;
+    flex-direction: column;
+    /* width: 20rem; 
+    height: 20rem; */
+    /* width: auto; */
+    /* height: auto; */
+    max-width: 30rem;
+    max-height: 30rem;
+}

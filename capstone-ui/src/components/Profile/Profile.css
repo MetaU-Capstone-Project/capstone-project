@@ -21,14 +21,17 @@ input {
     font-size: 2rem;
 }
 
-.logo-wrapper {
+.info-wrapper {
     flex: 0.5;
     width: 100%;
     height: 100vh;
-    background-color: darkseagreen;
+    /* added */
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.submission-wrapper {
+.timeline-wrapper {
     flex: 0.5;
     width: 100%;
     height: 100vh;
@@ -38,7 +41,7 @@ input {
     justify-content: center;
 }
 
-.login-page {
+.profile-page {
     display: flex;
     flex-direction: row;
     height: 100vh;

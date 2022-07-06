@@ -12,6 +12,7 @@ import Register from '../Register/Register';
 import Authorization from '../Authorization/Authorization';
 import Home from '../Home/Home';
 import Profile from '../Profile/Profile';
+import ProfileCard from '../ProfileCard/ProfileCard';
 
 import './App.css';
 
@@ -31,7 +32,7 @@ Parse.serverURL = PARSE_HOST_URL;
 function App() {
   return (
     <div className="App">
-      <BrowserRouter>
+      {/* <BrowserRouter>
         <Routes>
           <Route exact path="/" element={<Login></Login>}
           />
@@ -44,7 +45,7 @@ function App() {
           <Route exact path="/groups" element={<Home page={'groups'}></Home>}
           />
         </Routes>
-      </BrowserRouter>
+      </BrowserRouter> */}
 
       {/* <span>SongHeader</span>
       <SongHeader></SongHeader> */}
@@ -89,6 +90,10 @@ function App() {
       {/* <Register></Register> */}
 
       {/* <Profile></Profile> */}
+
+      {/* <ProfileCard></ProfileCard> */}
+
+      <Profile></Profile>
     </div>
   );
 }
