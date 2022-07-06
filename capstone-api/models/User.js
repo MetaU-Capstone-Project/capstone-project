@@ -15,74 +15,36 @@ class User {
         this.super();
     }
 
-    // TODO async
     static getCurrentUser() {
         Parse.User.enableUnsafeCurrentUser();
         let currentUser = Parse.User.current();
-        // TODO set state in frontend
-        console.log('getting current user');
-        console.log(currentUser);
         return currentUser;
     }
 
-    // static hasDuplicates(array) {
-    //     return (new Set(array)).size !== array.length;
-    // }
+    static async logUserIn(usernameValue, passwordValue) {
+        Parse.User.enableUnsafeCurrentUser();
+        const loggedInUser = await Parse.User.logIn(usernameValue, passwordValue);
+        return loggedInUser;
+    }
 
-    // static products() {
-    //     return storage.get('products').value();
-    // }
+    static async registerUser(userValue) {
+        let {usernameRegister, passwordRegister, emailRegister} = userValue;
+        let user = new Parse.User();
+  
+        user.set("username", usernameRegister);
+        user.set("password", passwordRegister);
+        user.set("email", emailRegister);
 
-    // static product(productId) {
-    //     return storage.get('products').value()[productId - 1];
-    // }
-
-    // static purchaseOrder(purchaseOrder) {
-    //     const { user, shoppingCart } = purchaseOrder;
-
-    //     // if either shopping cart or user field is missing
-    //     if (!shoppingCart || !user || shoppingCart === [] || !user.name || user.name === "" || !user.email || user.email === "") {
-    //         throw new BadRequestError('Shopping cart or user field is missing')
-    //     }
-
-    //     // TODO if shoppingCart contains duplicates
-    //     // error
-    //     if (this.hasDuplicates(shoppingCart)) {
-    //         throw new BadRequestError('Duplicate items in shopping cart')
-    //     }
-
-    //     const {name, email} = user;
-    //     let total = 0;
-    //     for (let i = 0; i < shoppingCart.length; i++) {
-    //         let currItem = shoppingCart[i];
-    //         if (!currItem.quantity || !currItem.itemId) {
-    //             // if quantity or item id is missing
-    //             throw new BadRequestError('Shopping cart item quantity or id is missing')
-    //         } else {
-    //             let productObj = this.product(currItem.itemId);
-    //             total += currItem.quantity * productObj.price;
-    //         }
-    //     }
-
-    //     let id = storage.get('purchases').value().length + 1;
-    //     total += 0.0875 * total;
-    //     let createdAt = new Date().toLocaleString();
-
-    //     const receipt = shoppingCart.map((element) => {
-    //         return {itemId: element.itemId, quantity: element.quantity, name: this.product(element.itemId).name, price: this.product(element.itemId).price};
-    //     });
-    //     const purchaseObject = {id: id, name: name, email: email, order: shoppingCart, total: total?.toFixed(2), createdAt: createdAt, receipt: receipt};
-    //     storage.get('purchases').push({purchase: purchaseObject}).write();
-    //     return purchaseObject;
-    // }
-
-    // static orders() {
-    //     return storage.get('purchases').value();
-    // }
-
-    // static order(orderId) {
-    //     return storage.get('purchases').value()[orderId - 1];
-    // }
+        console.log('user register');
+        console.log(user);
+  
+        try{
+            await user.signUp();
+            return "User created!";
+        } catch (error) {
+            return error.message;
+        }
+    }
 }
 
 module.exports = User;

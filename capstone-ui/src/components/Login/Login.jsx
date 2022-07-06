@@ -1,57 +1,64 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+// import { Navigate } from "react-router-dom";
+// import { useHistory } from "react-router-dom";
 import "./Login.css";
 
 // TODO - temporarily use logo as profile picture
 import logo from "../../logo.svg";
+import axios from "axios";
 
 const Parse = require("parse");
 
-export default function Login() {
+export default function Login({ view, setView }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [currentUser, setCurrentUser] = useState(null);
 
   const getCurrentUser = async function () {
-    const currentUser = await Parse.User.current();
-    setCurrentUser(currentUser);
-    return currentUser;
+    axios.get("http://localhost:3001/user").then(function (response) {
+      console.log("getting current user");
+      console.log(response.data);
+      setCurrentUser(response.data);
+      return response.data;
+    });
   };
 
   const logUserIn = async function () {
-    // Note that these values come from state variables that we've declared before
     const usernameValue = username;
     const passwordValue = password;
-    try {
-      const loggedInUser = await Parse.User.logIn(usernameValue, passwordValue);
-      // logIn returns the corresponding ParseUser object
-      alert(
-        `Success! User ${loggedInUser.get(
-          "username"
-        )} has successfully signed in!`
-      );
-      // To verify that this is in fact the current user, `current` can be used
-      const currentUser = await Parse.User.current();
-      console.log(loggedInUser === currentUser);
-      // added stuff
-      console.log(currentUser);
 
-      // added stuff
+    let postRequest = {
+      username: usernameValue,
+      password: passwordValue,
+    };
 
-      // Clear input fields
-      setUsername("");
-      setPassword("");
-      // Update state variable holding current user
-      getCurrentUser();
-      return true;
-    } catch (error) {
-      // Error can be caused by wrong parameters or lack of Internet connection
-      alert(`Error! ${error.message}`);
-      // Clear input fields
-      setUsername("");
-      setPassword("");
-      return false;
-    }
+    // TODO added
+    // let history = useHistory();
+
+    axios
+      .post("http://localhost:3001/user/login", postRequest)
+      .then(function (response) {
+        console.log("app.jsx");
+        console.log(response.data);
+
+        alert(
+          `Success! User ${response.data.username} has successfully signed in!`
+        );
+        setUsername("");
+        setPassword("");
+        getCurrentUser();
+        window.location.href = "http://localhost:3000/feed";
+        // history.push("/feed");
+        // return <Navigate to="/feed" />;
+        // return true;
+      })
+      .catch((error) => {
+        alert(`Error! ${error.message}`);
+        setUsername("");
+        setPassword("");
+        return false;
+      });
   };
 
   // TODO - move to profile navbar icon, pass states to navbar

@@ -13,6 +13,9 @@ import Authorization from '../Authorization/Authorization';
 import Home from '../Home/Home';
 import Profile from '../Profile/Profile';
 import ProfileCard from '../ProfileCard/ProfileCard';
+import React, {useState} from 'react';
+
+import axios from "axios";
 
 import './App.css';
 
@@ -30,11 +33,17 @@ Parse.initialize(PARSE_APPLICATION_ID, PARSE_JAVASCRIPT_KEY);
 Parse.serverURL = PARSE_HOST_URL;
 
 function App() {
+  const [view, setView] = React.useState("");
+
+  if (view === "home") {
+    
+  }
+
   return (
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route exact path="/" element={<Login></Login>}
+          <Route exact path="/" element={<Login view={view} setView={setView}></Login>}
           />
           <Route exact path="/register" element={<Register></Register>}
           />

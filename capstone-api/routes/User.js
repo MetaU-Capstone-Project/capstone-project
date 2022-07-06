@@ -1,37 +1,30 @@
 const express = require('express');
 const router = express.Router();
-const UserModel = require('../models/User');
+const User = require('../models/User');
+
+router.post('/login', async (req, res) => {
+    let {username, password} = req.body;
+    let loggedInUser = await User.logUserIn(username, password);
+    res.send(loggedInUser)
+})
+
+router.post('/register', async (req, res) => {
+    let infoUser = req.body;    
+    let registrationMessage = await User.registerUser(req.body);
+    if (registrationMessage === "User created!") {
+        res.status(201).send(infoUser);
+    } else {
+        res.status(400).send({errorMessage: registrationMessage});
+    }
+});
 
 router.get('/', (req, res) => {
     try {
-        let currUser = UserModel.getCurrentUser();
-        res.send({currUser: currUser});
+        let currUser = User.getCurrentUser();
+        res.send(currUser);
     } catch {
-        // TODO
-        res.send({currUser: currUser});
+        res.status(400).send();
     }
 })
-
-// router.get('/orders', (req, res) => {
-//     const orders = StoreModel.orders();
-//     res.send({orders: orders});
-// })
-
-// router.get('/orders/:orderId', (req, res) => {
-//     const orderId = req.params.orderId;
-//     const order = StoreModel.order(orderId);
-//     res.send({order: order});
-// })
-
-// router.get('/:productId', (req, res) => {
-//     const productId = req.params.productId;
-//     const product = StoreModel.product(productId);
-//     res.send({product : product});
-// })
-
-// router.get('/', (req, res) => {
-//     const products = StoreModel.products();
-//     res.send({products: products});
-// })
 
 module.exports = router
