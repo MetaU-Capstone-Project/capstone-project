@@ -11,6 +11,7 @@ import Login from '../Login/Login';
 import Register from '../Register/Register';
 import Authorization from '../Authorization/Authorization';
 import Home from '../Home/Home';
+import Profile from '../Profile/Profile';
 
 import './App.css';
 
@@ -35,6 +36,12 @@ function App() {
           <Route exact path="/" element={<Login></Login>}
           />
           <Route exact path="/register" element={<Register></Register>}
+          />
+          <Route exact path="/feed" element={<Home page={'feed'}></Home>}
+          />
+          <Route exact path="/search" element={<Home page={'search'}></Home>}
+          />
+          <Route exact path="/groups" element={<Home page={'groups'}></Home>}
           />
         </Routes>
       </BrowserRouter>
@@ -72,14 +79,16 @@ function App() {
       {/* <span>Authorization</span>
       <Authorization></Authorization> */}
 
-      {/* <span>Home</span>
-      <Home></Home> */}
+      {/* <span>Home</span> */}
+      {/* <Home></Home> */}
 
       {/* Parse */}
       {/* <PostComponent></PostComponent> */}
 
       {/* 6/5/22 */}
       {/* <Register></Register> */}
+
+      {/* <Profile></Profile> */}
     </div>
   );
 }

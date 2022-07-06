@@ -8,22 +8,22 @@ import logo from "../../logo.svg";
 import { Link } from "react-router-dom";
 import { HashLink } from "react-router-hash-link";
 
-// TODO
 export default function Navbar() {
   return (
     <div className="navbar-component">
-      <div className="navbar-link">
-        <span>Home</span>
-      </div>
-      <div className="navbar-link">
-        <span>Search</span>
-      </div>
-      <div className="navbar-link">
-        <span>Groups</span>
-      </div>
-      <div className="navbar-link">
+      <Link to={"/feed"} className="navbar-link">
+        Feed
+      </Link>
+      <Link to={"/search"} className="navbar-link">
+        Search
+      </Link>
+      <Link to={"/groups"} className="navbar-link">
+        Groups
+      </Link>
+      {/* TODO - profile */}
+      <Link to={"/home"} className="navbar-link">
         <img></img>
-      </div>
+      </Link>
     </div>
   );
 }

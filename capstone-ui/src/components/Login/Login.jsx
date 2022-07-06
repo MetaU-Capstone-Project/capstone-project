@@ -33,6 +33,11 @@ export default function Login() {
       // To verify that this is in fact the current user, `current` can be used
       const currentUser = await Parse.User.current();
       console.log(loggedInUser === currentUser);
+      // added stuff
+      console.log(currentUser);
+
+      // added stuff
+
       // Clear input fields
       setUsername("");
       setPassword("");
@@ -56,7 +61,7 @@ export default function Login() {
   //     // To verify that current user is now empty, currentAsync can be used
   //     const currentUser = await Parse.User.current();
   //     if (currentUser === null) {
-  //       alert('Success! No user is logged in anymore!');
+  //       alert("Success! No user is logged in anymore!");
   //     }
   //     // Update state variable holding current user
   //     getCurrentUser();

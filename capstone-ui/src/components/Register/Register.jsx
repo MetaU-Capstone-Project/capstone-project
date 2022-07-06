@@ -3,6 +3,9 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "./Register.css";
 
+// added
+import { loginURL } from "../../spotify";
+
 // TODO - temporarily use logo as profile picture
 import logo from "../../logo.svg";
 
@@ -54,11 +57,18 @@ export default function Register() {
           <Link to={"/"}>
             <button className="go-back-button">Go Back</button>
           </Link>
-          {/* <Link to={"/"}> */}
-          <button className="register-button" onClick={() => registerUser()}>
+          {/* originally working!!! */}
+          {/* <Link to={"/home"}>
+            <button className="register-button" onClick={() => registerUser()}>
+              Register
+            </button>
+          </Link> */}
+
+          <a href={loginURL} className="register-button">
+            {/* <button className="register-button" onClick={() => registerUser()}> */}
             Register
-          </button>
-          {/* </Link> */}
+            {/* </button> */}
+          </a>
         </div>
       </div>
     </div>
