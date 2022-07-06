@@ -14,11 +14,6 @@ img {
     /* added below here - make id? */
     justify-content: center;
     align-items: center;
-    /* font-size: 3rem; */
-}
-
-.profile-username {
-    font-size: 3rem;
 }
 
 .profile-join-date {
@@ -41,10 +36,6 @@ img {
 .profilecard-component {
     display: flex;
     flex-direction: column;
-    /* width: 20rem; 
-    height: 20rem; */
-    /* width: auto; */
-    /* height: auto; */
     max-width: 30rem;
     max-height: 30rem;
 }

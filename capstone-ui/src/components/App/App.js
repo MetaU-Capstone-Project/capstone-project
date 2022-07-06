@@ -32,7 +32,7 @@ Parse.serverURL = PARSE_HOST_URL;
 function App() {
   return (
     <div className="App">
-      {/* <BrowserRouter>
+      <BrowserRouter>
         <Routes>
           <Route exact path="/" element={<Login></Login>}
           />
@@ -44,8 +44,10 @@ function App() {
           />
           <Route exact path="/groups" element={<Home page={'groups'}></Home>}
           />
+          <Route exact path="/profile" element={<Home page={'profile'}></Home>}
+          />
         </Routes>
-      </BrowserRouter> */}
+      </BrowserRouter>
 
       {/* <span>SongHeader</span>
       <SongHeader></SongHeader> */}
@@ -93,7 +95,7 @@ function App() {
 
       {/* <ProfileCard></ProfileCard> */}
 
-      <Profile></Profile>
+      {/* <Profile></Profile> */}
     </div>
   );
 }

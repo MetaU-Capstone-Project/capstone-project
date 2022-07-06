@@ -4,6 +4,7 @@ import Navbar from "../Navbar/Navbar";
 import Search from "../Search/Search";
 import Feed from "../Feed/Feed";
 import Groups from "../Groups/Groups";
+import Profile from "../Profile/Profile";
 
 import "./Home.css";
 
@@ -18,6 +19,7 @@ export default function Home({ page }) {
       {page === "feed" && <Feed></Feed>}
       {page === "search" && <Search></Search>}
       {page === "groups" && <Groups></Groups>}
+      {page === "profile" && <Profile></Profile>}
     </div>
   );
 }

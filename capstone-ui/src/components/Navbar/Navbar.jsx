@@ -21,8 +21,9 @@ export default function Navbar() {
         Groups
       </Link>
       {/* TODO - profile */}
-      <Link to={"/home"} className="navbar-link">
-        <img></img>
+      <Link to={"/profile"} className="navbar-link">
+        {/* TODO profile icon */}
+        Profile
       </Link>
     </div>
   );
