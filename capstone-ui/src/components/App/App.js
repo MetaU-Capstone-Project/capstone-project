@@ -15,6 +15,8 @@ import Profile from '../Profile/Profile';
 import ProfileCard from '../ProfileCard/ProfileCard';
 import React, {useState, useEffect} from 'react';
 
+import { accessToken } from '../../spotify';
+
 import axios from "axios";
 
 import './App.css';
@@ -36,25 +38,26 @@ function App() {
   const [view, setView] = React.useState("");
 
   // Spotify API stuff
-  const [token, setToken] = useState("");
+  const [token, setToken] = useState(null);
   // TODO pass token to everything
 
+  // was working
+  // useEffect(() => {
+  //   const queryString = window.location.search;
+  //   const urlParams = new URLSearchParams(queryString);
+  //   const accessToken = urlParams.get('access_token');
+  //   const refreshToken = urlParams.get('refresh_token');
+
+  //   console.log('in use effect');
+  //   console.log(accessToken);
+  //   console.log(refreshToken);
+  // }, []);
+
   useEffect(() => {
-    const hash = window.location.hash;
-    let token = window.localStorage.getItem("token");
-
-    if (!token && hash) {
-        token = hash.substring(1).split("&").find(elem => elem.startsWith("access_token")).split("=")[1];
-
-        window.location.hash = "";
-        window.localStorage.setItem("token", token);
-    }
-
-    console.log('token');
-    console.log(token);
-    setToken(token);
+    setToken(accessToken);
+    console.log('accessToken');
+    console.log(accessToken);
   }, []);
-
 
   return (
     <div className="App">

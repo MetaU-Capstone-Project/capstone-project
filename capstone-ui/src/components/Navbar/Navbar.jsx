@@ -2,6 +2,8 @@
 
 import "./Navbar.css";
 
+import { logout } from "../../spotify";
+
 // TODO - temporarily use logo as profile picture
 import logo from "../../logo.svg";
 
@@ -21,10 +23,11 @@ export default function Navbar() {
         Groups
       </Link>
       {/* TODO - profile */}
-      <Link to={"/profile"} className="navbar-link">
-        {/* TODO profile icon */}
+      {/* TODO profile icon */}
+      {/* <Link to={"/profile"} className="navbar-link">
         Profile
-      </Link>
+      </Link> */}
+      <button onClick={logout}>Log Out</button>
     </div>
   );
 }
