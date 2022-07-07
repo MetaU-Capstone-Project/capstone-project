@@ -1,19 +1,104 @@
-const express = require('express')
-const app = express()
-const morgan = require('morgan')
+const express = require('express');
+const app = express();
+const morgan = require('morgan');
 const bodyParser = require('body-parser');
-const cors = require('cors')
-// commented out for now 
-// const store = require('./routes/Store');
+const cors = require('cors');
 const user = require('./routes/User');
+const axios = require('axios');
 // TODO import errors
 
 app.use(cors());
 app.use(bodyParser.json());
 app.use(morgan('tiny'));
 
-// commented out for now
-// app.use('/store', store);
+// added
+const REDIRECT_URI = "http://localhost:3001/callback";
+const CLIENT_ID = "df31a108deeb4f8698d7936b772522bb";
+const CLIENT_SECRET = "4c7a1c1bec464bf0ad268409131e0c67";
+
+// was working
+// app.get('/callback', (req, res) => {
+//     res.send(200);
+// });
+
+app.get('/callback', (req, res) => {
+    const code = req.query.code || null;
+
+    const data = `grant_type=authorization_code&rcode=${code}&redirect_uri=${REDIRECT_URI}`;
+
+//   axios({
+//     method: 'post',
+//     url: 'https://accounts.spotify.com/api/token',
+//     data: data,
+//     headers: {
+//       'content-type': 'application/x-www-form-urlencoded',
+//       Authorization: `Basic ${new Buffer.from(`${CLIENT_ID}:${CLIENT_SECRET}`).toString('base64')}`,
+//     },
+//   })
+//     .then(response => {
+//         console.log('in callback');
+//         console.log(response);
+//       if (response.status === 200) {
+//         res.send(`<pre>${JSON.stringify(response.data, null, 2)}</pre>`);
+//       } else {
+//         res.send(response);
+//       }
+//     })
+//     .catch(error => {
+//       res.send(error);
+//     });
+
+
+// commented out
+    // // let postRequest = {
+    // //     grant_type: 'authorization_code',
+    // //     code: code,
+    // //     redirect_uri: REDIRECT_URI
+    // // };
+
+    // const config = { headers: {"content-type": "application/x-www-form-urlencoded", "Authorization": `Basic ${new Buffer.from(`${CLIENT_ID}:${CLIENT_SECRET}`).toString('base64')}`} };
+
+    // // TODO post request vs. data
+    // // TODO 400 error
+    // axios.post('https://accounts.spotify.com/api/token', data, config).then(response => {
+    //     console.log('in callback');
+    //     console.log(response);
+    //   if (response.status === 200) {
+    //     res.send(`<pre>${JSON.stringify(response.data, null, 2)}</pre>`);
+    //   } else {
+    //     res.send(response);
+    //   }
+    // }).catch(error => {
+    //     res.send(error);
+    // });
+// commented out
+
+    axios.post(  
+        'https://accounts.spotify.com/api/token',  
+            new URLSearchParams({ 
+                grant_type: "authorization_code",  
+                code: code,  
+                redirect_uri: REDIRECT_URI  
+            }).toString(),
+            {
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'Authorization': `Basic ${new Buffer.from(`${CLIENT_ID}:${CLIENT_SECRET}`).toString('base64')}`,
+                },
+            }
+        ).then(function (response) {
+            console.log('in callback');
+                console.log(response);
+              if (response.status === 200) {
+                res.send(`<pre>${JSON.stringify(response.data, null, 2)}</pre>`);
+              } else {
+                res.send(response);
+              }
+        }).catch(function (error) {
+            res.send(error);
+        });
+});
+
 app.use('/user', user);
 
 // added

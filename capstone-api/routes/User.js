@@ -2,6 +2,45 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
 
+const REDIRECT_URI = "http://localhost:3001/callback";
+const CLIENT_ID = "df31a108deeb4f8698d7936b772522bb";
+
+const generateRandomString = length => {
+    let text = '';
+    const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    for (let i = 0; i < length; i++) {
+      text += possible.charAt(Math.floor(Math.random() * possible.length));
+    }
+    return text;
+};
+  
+const stateKey = 'spotify_auth_state';
+
+router.get('/authorize', (req, res) => {
+    const state = generateRandomString(16);
+    // TODO temporarily commented out
+    // res.cookie(stateKey, state);
+
+    const scope = 'user-read-private user-read-email';
+
+    // was working
+    // const queryParams = `client_id=${CLIENT_ID}&response_type=code&redirect_uri=${REDIRECT_URI}`;
+    const queryParams = `client_id=${CLIENT_ID}&response_type=code&redirect_uri=${REDIRECT_URI}&state=${state}&scope=${scope}`;
+
+    // res.redirect(`https://accounts.spotify.com/authorize?client_id=${CLIENT_ID}&response_type=code&redirect_uri=${REDIRECT_URI}`);
+    console.log(`https://accounts.spotify.com/authorize?${queryParams}`);
+
+    // todo temporarily commented out
+    // res.redirect(`https://accounts.spotify.com/authorize?${queryParams}`);
+    res.redirect(`https://accounts.spotify.com/authorize?client_id=${CLIENT_ID}&response_type=code&redirect_uri=${REDIRECT_URI}`);
+});
+
+// router.get('/authorize', (req, res) => {
+//     // res.redirect('https://accounts.spotify.com/authorize');
+//     res.redirect(`https://accounts.spotify.com/authorize?client_id=${CLIENT_ID}&response_type=code&redirect_uri=${REDIRECT_URI}`);
+
+// });
+
 router.post('/login', async (req, res) => {
     let {username, password} = req.body;
     let loggedInUser = await User.logUserIn(username, password);
