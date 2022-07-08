@@ -20,8 +20,6 @@ router.get('/authorize', (req, res) => {
     const state = generateRandomString(16);
     // TODO temporarily commented out
     // res.cookie(stateKey, state);
-
-    // working before
     const scope = 'user-read-private user-read-email';
 
     const queryParams = `client_id=${CLIENT_ID}&response_type=code&redirect_uri=${REDIRECT_URI}&state=${state}&scope=${scope}&show_dialog=true`;
@@ -43,6 +41,32 @@ router.post('/register', async (req, res) => {
         res.status(400).send({errorMessage: registrationMessage});
     }
 });
+
+router.post('/post', async (req, res) => {
+    let { username, trackId } = req.body;
+    let result = await User.post(username, trackId);
+    if (result) {
+        res.send(201);
+    } else {
+        res.send(400);
+    }
+});
+
+// TODO - fix
+// change endpoint and add conditions for query
+router.get('/posts', async (req, res) => {
+    let result = await User.posts();
+    console.log('posts: ' + JSON.stringify(result));
+    res.send('posts: ' + JSON.stringify(result));
+});
+
+// TODO
+router.get('/timeline/:username', async (req, res) => {
+    const username = req.params.username;
+    const result = await User.timeline(username);
+    // TODO - fix and errors
+    res.send(result);
+})
 
 router.get('/', (req, res) => {
     try {

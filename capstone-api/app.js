@@ -11,7 +11,6 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(morgan('tiny'));
 
-// added
 const REDIRECT_URI = "http://localhost:3001/callback";
 const CLIENT_ID = "df31a108deeb4f8698d7936b772522bb";
 const CLIENT_SECRET = "4c7a1c1bec464bf0ad268409131e0c67";
@@ -35,7 +34,6 @@ app.get('/callback', (req, res) => {
                 },
             }
         ).then(function (response) {
-            // added expires in
             if (response.status === 200) {
                 const { access_token, refresh_token, expires_in } = response.data;
       
@@ -43,12 +41,9 @@ app.get('/callback', (req, res) => {
                 console.log('query params:');
                 console.log(queryParams);
         
-                // TODO THIS WAS WORKING
-                // res.redirect(`http://localhost:3000/?${queryParams}`);
                 res.redirect(`http://localhost:3000/feed/?${queryParams}`);
 
               } else {
-                  // TODO
                 res.redirect(`/?${querystring.stringify({ error: 'invalid_token' })}`);
               }
         }).catch(function (error) {

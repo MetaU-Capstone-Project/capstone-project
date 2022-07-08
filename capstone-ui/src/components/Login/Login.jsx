@@ -8,19 +8,10 @@ import axios from "axios";
 
 const Parse = require("parse");
 
-export default function Login({
-  view,
-  setView,
-  username,
-  password,
-  currentUser,
-  setUsername,
-  setPassword,
-  setCurrentUser,
-}) {
-  // const [username, setUsername] = useState("");
-  // const [password, setPassword] = useState("");
-  // const [currentUser, setCurrentUser] = useState(null);
+export default function Login({}) {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [currentUser, setCurrentUser] = useState(null);
 
   const getCurrentUser = async function () {
     axios.get("http://localhost:3001/user").then(function (response) {

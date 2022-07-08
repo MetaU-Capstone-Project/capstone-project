@@ -63,6 +63,7 @@ const hasTokenExpired = () => {
     // Navigate to homepage
     // before
     window.location = window.location.origin;
+    // https://accounts.spotify.com/en/status
     // window.location.href = '';
   };
 

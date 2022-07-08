@@ -15,27 +15,18 @@ const Parse = require("parse");
 const REDIRECT_URI = "http://localhost:3001/callback";
 const CLIENT_ID = "df31a108deeb4f8698d7936b772522bb";
 
-export default function Register() {
+export default function Register(
+  {
+    // username,
+    // password,
+    // currentUser,
+    // setUsername,
+    // setPassword,
+    // setCurrentUser,
+  }
+) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-
-  // const registerUser = async function () {
-  //   // Note that these values come from state variables that we've declared before
-  //   const usernameValue = username;
-  //   const passwordValue = password;
-  //   try {
-  //     // Since the signUp method returns a Promise, we need to call it using await
-  //     const createdUser = await Parse.User.signUp(usernameValue, passwordValue);
-  //     alert(
-  //       `Success! User ${createdUser.getUsername()} was successfully created!`
-  //     );
-  //     return true;
-  //   } catch (error) {
-  //     // signUp can fail if any parameter is blank or failed an uniqueness check on the server
-  //     alert(`Error! ${error}`);
-  //     return false;
-  //   }
-  // };
 
   const registerUser = async function () {
     const usernameValue = username;
@@ -48,9 +39,6 @@ export default function Register() {
     axios
       .post("http://localhost:3001/user/register", postRequest)
       .then(function (response) {
-        console.log("app.jsx");
-        console.log(response.data);
-
         alert(
           `Success! User ${response.data.username} was successfully created!`
         );
@@ -67,22 +55,6 @@ export default function Register() {
         setPassword("");
         return false;
       });
-
-    // // Note that these values come from state variables that we've declared before
-    // const usernameValue = username;
-    // const passwordValue = password;
-    // try {
-    //   // Since the signUp method returns a Promise, we need to call it using await
-    //   const createdUser = await Parse.User.signUp(usernameValue, passwordValue);
-    //   alert(
-    //     `Success! User ${createdUser.getUsername()} was successfully created!`
-    //   );
-    //   return true;
-    // } catch (error) {
-    //   // signUp can fail if any parameter is blank or failed an uniqueness check on the server
-    //   alert(`Error! ${error}`);
-    //   return false;
-    // }
   };
 
   return (
@@ -117,14 +89,14 @@ export default function Register() {
           {/* </a> */}
 
           {/* this was working 6/8/22 */}
-          <a
+          {/* <a
             href={`http://localhost:3001/user/authorize`}
             className="register-button"
-          >
-            {/* <button className="register-button" onClick={() => registerUser()}> */}
+          > */}
+          <button className="register-button" onClick={() => registerUser()}>
             Register
-            {/* </button>  */}
-          </a>
+          </button>
+          {/* </a> */}
         </div>
       </div>
     </div>

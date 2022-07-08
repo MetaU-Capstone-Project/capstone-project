@@ -41,24 +41,43 @@ function App() {
   const [token, setToken] = useState(null);
   const [profile, setProfile] = useState(null);
 
-  // TODO login stuff
+  // need app username for post requests
   const [username, setUsername] = useState("");
+    // TODO delete this
   const [password, setPassword] = useState("");
   const [currentUser, setCurrentUser] = useState(null);
 
-  // was working 
   useEffect(() => {
-    console.log('username in app');
-    console.log(username);
     setToken(accessToken);
 
-    // uncommented out
-    const fetchData = async () => {
+    const fetchSpotifyUser = async () => {
       const { data } = await getCurrentUserProfile();
       setProfile(data);
     };
-    catchErrors(fetchData());
+
+    catchErrors(fetchSpotifyUser());
+
+    // const fetchAppUser = async () => {
+    //   const { data } = await axios.get("http://localhost:3001/user");
+    //   setUsername(data.username);
+    // }
+
+    // catchErrors(fetchAppUser());
+
+    // console.log(username);
   }, []);
+
+  useEffect(() => {
+    const fetchAppUser = async () => {
+      const { data } = await axios.get("http://localhost:3001/user");
+      setUsername(data.username);
+    }
+
+    catchErrors(fetchAppUser());
+
+    console.log(username);
+  }, [username])
+
 
   // TODO initial 401 error 
 
@@ -68,17 +87,17 @@ function App() {
         <Routes>
           <Route exact path="/" element={<Login view={view} setView={setView} username={username} password={password} currentUser={currentUser} setUsername={setUsername} setPassword={setPassword} setCurrentUser={setCurrentUser}></Login>}
           />
-          <Route exact path="/register" element={<Register></Register>}
+          <Route exact path="/register" element={<Register username={username} password={password} currentUser={currentUser} setUsername={setUsername} setPassword={setPassword} setCurrentUser={setCurrentUser}></Register>}
           />
-          <Route exact path="/feed" element={<Home page={'feed'} profile={profile} token={token}></Home>}
+          <Route exact path="/feed" element={<Home page={'feed'} username={username} profile={profile} token={token}></Home>}
           />
-          <Route exact path="/search" element={<Home page={'search'} profile={profile} token={token}></Home>}
+          <Route exact path="/search" element={<Home page={'search'} username={username} profile={profile} token={token}></Home>}
           />
-          <Route exact path="/groups" element={<Home page={'groups'} profile={profile} token={token}></Home>}
+          <Route exact path="/groups" element={<Home page={'groups'} username={username} profile={profile} token={token}></Home>}
           />
-          <Route exact path="/profile" element={<Home page={'profile'} profile={profile} token={token}></Home>}
+          <Route exact path="/profile" element={<Home page={'profile'} username={username} profile={profile} token={token}></Home>}
           />
-          <Route exact path="/post/:songId" element={<Home page={'post'} profile={profile} token={token}></Home>}
+          <Route exact path="/post/:songId" element={<Home page={'post'} username={username} profile={profile} token={token}></Home>}
           />
         </Routes>
       </BrowserRouter>

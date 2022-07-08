@@ -10,17 +10,25 @@ import Post from "../Post/Post";
 import "./Home.css";
 
 // TODO props = {page}
-export default function Home({ page, token, profile }) {
+export default function Home({ username, page, token, profile }) {
   return (
     <div className="home-page">
       <Navbar></Navbar>
-      {page === "feed" && <Feed profile={profile} token={token}></Feed>}
-      {page === "search" && <Search profile={profile} token={token}></Search>}
-      {page === "groups" && <Groups profile={profile} token={token}></Groups>}
-      {page === "profile" && (
-        <Profile profile={profile} token={token}></Profile>
+      {page === "feed" && (
+        <Feed username={username} profile={profile} token={token}></Feed>
       )}
-      {page === "post" && <Post token={token} profile={profile}></Post>}
+      {page === "search" && (
+        <Search username={username} profile={profile} token={token}></Search>
+      )}
+      {page === "groups" && (
+        <Groups username={username} profile={profile} token={token}></Groups>
+      )}
+      {page === "profile" && (
+        <Profile username={username} profile={profile} token={token}></Profile>
+      )}
+      {page === "post" && (
+        <Post username={username} token={token} profile={profile}></Post>
+      )}
     </div>
   );
 }
