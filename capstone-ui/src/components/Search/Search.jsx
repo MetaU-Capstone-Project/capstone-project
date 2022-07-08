@@ -15,6 +15,8 @@ export default function Search({ token }) {
   const searchSongs = async (e) => {
     e.preventDefault();
 
+    console.log("token from search: " + token);
+
     const { data } = await axios
       .get(
         "https://api.spotify.com/v1/search",

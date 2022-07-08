@@ -26,6 +26,7 @@ export default function SongHeader({ song }) {
             <img src={song.album.images[0].url} alt="song-image"></img>
           )} */}
 
+        {/* 6/8/22 - kinda working */}
         <img src={song.album.images[0].url} alt="song-image"></img>
       </div>
       <div className="song-info-wrapper">

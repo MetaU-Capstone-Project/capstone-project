@@ -20,7 +20,7 @@ export default function Home({ page, token, profile }) {
       {page === "profile" && (
         <Profile token={token} profile={profile}></Profile>
       )}
-      {page === "post" && <Post></Post>}
+      {page === "post" && <Post token={token}></Post>}
     </div>
   );
 }

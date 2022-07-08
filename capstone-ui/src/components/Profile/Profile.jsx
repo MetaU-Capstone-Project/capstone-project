@@ -10,6 +10,8 @@ import Timeline from "../Timeline/Timeline";
 const Parse = require("parse");
 
 export default function Profile({ token, profile }) {
+  console.log("token in profile:" + token);
+
   return (
     <div className="profile-page">
       <div className="info-wrapper">

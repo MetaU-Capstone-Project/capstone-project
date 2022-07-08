@@ -41,6 +41,7 @@ function App() {
   const [token, setToken] = useState(null);
   const [profile, setProfile] = useState(null);
 
+  // was working 
   useEffect(() => {
     setToken(accessToken);
 
@@ -71,10 +72,16 @@ function App() {
           />
           <Route exact path="/groups" element={<Home page={'groups'}></Home>}
           />
-          <Route exact path="/profile" element={<Home page={'profile'} profile={profile}></Home>}
+          <Route exact path="/profile" element={<Home page={'profile'} profile={profile} token={token}></Home>}
           />
-          <Route exact path="/post" element={<Home page={'post'} profile={profile}></Home>}
+          <Route exact path="/post/:songId" element={<Home page={'post'} profile={profile} token={token}></Home>}
           />
+
+          {/* <Route exact path="/post/:songId" element={<Profile></Profile>}
+          /> */}
+
+          {/* <Route exact path="/post" element={<Home page={'post'} profile={profile}></Home>}
+          /> */}
         </Routes>
       </BrowserRouter>
       {/* {!token ? (
