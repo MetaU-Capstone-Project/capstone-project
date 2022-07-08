@@ -13,31 +13,50 @@ export default function Post({ token }) {
 
   const [songInfo, setSongInfo] = useState({});
 
-  const getTrack = async () => {
-    console.log("token: " + token);
+  // const getTrack = async () => {
+  //   console.log("token: " + token);
 
-    const { data } = await axios
+  //   const { data } = await axios
+  //     .get(`https://api.spotify.com/v1/tracks/${songId}`, {
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+
+  //   console.log("song info");
+  //   console.log(data);
+  //   setSongInfo(data);
+  // };
+
+  // useEffect(() => {
+  //   console.log("use effect");
+  //   // catchErrors(getTrack());
+  // }, []);
+
+  React.useEffect(() => {
+    console.log("hiewfawef");
+
+    axios
       .get(`https://api.spotify.com/v1/tracks/${songId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       })
+      .then(function (response) {
+        console.log("song info");
+        console.log(response);
+        setSongInfo(response);
+      })
       .catch((error) => {
         console.log(error);
       });
-
-    console.log("song info");
-    console.log(data);
-    setSongInfo(data);
-  };
-
-  useEffect(() => {
-    console.log("use effect");
-    catchErrors(getTrack());
-  });
+  }, []);
 
   return (
-    <div className="post-page">
+    <div className="post-page" key="post-page">
       <PostCard song={songInfo}></PostCard>
     </div>
   );

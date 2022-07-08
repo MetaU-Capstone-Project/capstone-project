@@ -15,8 +15,6 @@ export default function Login({ view, setView }) {
 
   const getCurrentUser = async function () {
     axios.get("http://localhost:3001/user").then(function (response) {
-      console.log("getting current user");
-      console.log(response.data);
       setCurrentUser(response.data);
       return response.data;
     });
@@ -42,7 +40,9 @@ export default function Login({ view, setView }) {
         setUsername("");
         setPassword("");
         getCurrentUser();
-        window.location.href = "http://localhost:3000/feed";
+        // window.location.href = "http://localhost:3000/feed";
+        // TODO still needs to authenticate
+        window.location.href = "http://localhost:3001/user/authorize";
       })
       .catch((error) => {
         alert(`Error! ${error.message}`);

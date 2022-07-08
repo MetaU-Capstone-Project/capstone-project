@@ -58,6 +58,7 @@ class User {
   
         try{
             await user.signUp();
+            console.log('created success');
             return "User created!";
         } catch (error) {
             return error.message;

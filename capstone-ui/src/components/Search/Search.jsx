@@ -48,7 +48,7 @@ export default function Search({ token }) {
         searchSongs={searchSongs}
         setSearchInput={setSearchInput}
       ></SearchBar>
-      <SearchResults results={songResults}></SearchResults>
+      <SearchResults results={songResults} token={token}></SearchResults>
       {/* TODO - search results */}
     </div>
   );

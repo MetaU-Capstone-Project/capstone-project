@@ -1,17 +1,19 @@
 // import * as React from "react";
+import React from "react";
 import "./SearchResults.css";
 
 import PostCard from "../PostCard/PostCard";
 import ProfileHeader from "../ProfileHeader/ProfileHeader";
 import PostHeader from "../PostHeader/PostHeader";
 import SongHeader from "../SongHeader/SongHeader";
+import axios from "axios";
 
 import { Link } from "react-router-dom";
 
 // TODO - temporarily use logo as profile picture
 import logo from "../../logo.svg";
 
-export default function SearchResults({ results }) {
+export default function SearchResults({ results, token }) {
   // working
   // console.log("results!!");
   // if (results && results.length > 0) {
@@ -37,9 +39,12 @@ export default function SearchResults({ results }) {
       {results &&
         results.length > 0 &&
         results.map((element) => (
-          <Link to={`/post/${element.id}`} key={element.id}>
-            <SongHeader key={element.id} song={element}></SongHeader>
-          </Link>
+          // kinda working
+          // <Link to={`/post/${element.id}`} key={element.id}>
+          //   <SongHeader key={element.id} song={element}></SongHeader>
+          // </Link>
+
+          <SongHeader key={element.id} song={element}></SongHeader>
         ))}
     </div>
   );

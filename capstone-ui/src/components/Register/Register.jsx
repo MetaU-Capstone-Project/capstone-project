@@ -57,7 +57,9 @@ export default function Register() {
 
         // TODO login user after registration
         // getCurrentUser();
-        window.location.href = "http://localhost:3000/feed";
+        // before
+        // window.location.href = "http://localhost:3000/feed";
+        window.location.href = "http://localhost:3001/user/authorize";
       })
       .catch((error) => {
         alert(`Error! ${error.message}`);
@@ -108,19 +110,20 @@ export default function Register() {
             <button className="go-back-button">Go Back</button>
           </Link>
           {/* originally working!!! */}
-          <a href={loginURL} className="register-button">
-            {/* <button className="register-button" onClick={() => registerUser()}> */}
-            Register
-            {/* </button> */}
-          </a>
+          {/* <a href={loginURL} className="register-button"> */}
+          {/* <button className="register-button" onClick={() => registerUser()}> */}
+          {/* Register */}
+          {/* </button> */}
+          {/* </a> */}
 
+          {/* this was working 6/8/22 */}
           <a
             href={`http://localhost:3001/user/authorize`}
             className="register-button"
           >
             {/* <button className="register-button" onClick={() => registerUser()}> */}
             Register
-            {/* </button> */}
+            {/* </button>  */}
           </a>
         </div>
       </div>
