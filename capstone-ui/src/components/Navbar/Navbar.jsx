@@ -24,9 +24,9 @@ export default function Navbar() {
       </Link>
       {/* TODO - profile */}
       {/* TODO profile icon */}
-      {/* <Link to={"/profile"} className="navbar-link">
+      <Link to={"/profile"} className="navbar-link">
         Profile
-      </Link> */}
+      </Link>
       <button onClick={logout}>Log Out</button>
     </div>
   );

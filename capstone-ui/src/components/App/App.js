@@ -15,7 +15,8 @@ import Profile from '../Profile/Profile';
 import ProfileCard from '../ProfileCard/ProfileCard';
 import React, {useState, useEffect} from 'react';
 
-import { accessToken } from '../../spotify';
+import { accessToken, getCurrentUserProfile, logout } from '../../spotify';
+import { catchErrors } from '../../utils';
 
 import axios from "axios";
 
@@ -37,30 +38,27 @@ Parse.serverURL = PARSE_HOST_URL;
 function App() {
   const [view, setView] = React.useState("");
 
-  // Spotify API stuff
   const [token, setToken] = useState(null);
-  // TODO pass token to everything
-
-  // was working
-  // useEffect(() => {
-  //   const queryString = window.location.search;
-  //   const urlParams = new URLSearchParams(queryString);
-  //   const accessToken = urlParams.get('access_token');
-  //   const refreshToken = urlParams.get('refresh_token');
-
-  //   console.log('in use effect');
-  //   console.log(accessToken);
-  //   console.log(refreshToken);
-  // }, []);
+  const [profile, setProfile] = useState(null);
 
   useEffect(() => {
     setToken(accessToken);
-    console.log('accessToken');
-    console.log(accessToken);
+
+    const fetchData = async () => {
+      const { data } = await getCurrentUserProfile();
+      setProfile(data);
+    };
+
+    catchErrors(fetchData());
   }, []);
+
+  // TODO initial 401 error 
+
+  // TODO pass in profile
 
   return (
     <div className="App">
+      {/* TODO was working - merge with new code */}
       <BrowserRouter>
         <Routes>
           <Route exact path="/" element={<Login view={view} setView={setView}></Login>}
@@ -73,58 +71,31 @@ function App() {
           />
           <Route exact path="/groups" element={<Home page={'groups'}></Home>}
           />
-          <Route exact path="/profile" element={<Home page={'profile'}></Home>}
+          <Route exact path="/profile" element={<Home page={'profile'} profile={profile}></Home>}
+          />
+          <Route exact path="/post" element={<Home page={'post'} profile={profile}></Home>}
           />
         </Routes>
       </BrowserRouter>
+      {/* {!token ? (
+        <a className="App-link" href="http://localhost:3001/user/authorize">
+          Log in to Spotify
+        </a>
+      ) : (
+        <>
+          <button onClick={logout}>Log Out</button>
 
-      {/* <span>SongHeader</span>
-      <SongHeader></SongHeader> */}
-
-      {/* <span>SongCard</span>
-      <SongCard></SongCard> */}
-
-      {/* <span>ProfileHeader</span>
-      <ProfileHeader></ProfileHeader> */}
-
-      {/* <span>PostHeader</span>
-      <PostHeader></PostHeader> */}
-
-      {/* <span>PostCard</span>
-      <PostCard></PostCard> */}
-
-      {/* <span>Search Bar</span>
-      <SearchBar></SearchBar> */}
-
-      {/* <span>Search</span>
-      <Search></Search> */}
-
-      {/* <span>Search Results</span>
-      <SearchResults></SearchResults> */}
-
-      {/* <span>Login</span>
-      <Login></Login> */}
-
-      {/* <span>Register</span>
-      <Register></Register> */}
-
-      {/* <span>Authorization</span>
-      <Authorization></Authorization> */}
-
-      {/* <span>Home</span> */}
-      {/* <Home></Home> */}
-
-      {/* Parse */}
-      {/* <PostComponent></PostComponent> */}
-
-      {/* 6/5/22 */}
-      {/* <Register></Register> */}
-
-      {/* <Profile></Profile> */}
-
-      {/* <ProfileCard></ProfileCard> */}
-
-      {/* <Profile></Profile> */}
+          {profile && (
+            <div>
+              <h1>{profile.display_name}</h1>
+              <p>{profile.followers.total} Followers</p>
+              {profile.images.length && profile.images[0].url && (
+                <img src={profile.images[0].url} alt="Avatar"/>
+              )}
+            </div>
+          )}
+        </>
+      )} */}
     </div>
   );
 }

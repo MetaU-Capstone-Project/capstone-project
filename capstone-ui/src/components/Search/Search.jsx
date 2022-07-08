@@ -14,17 +14,27 @@ export default function Search({ token }) {
 
   const searchSongs = async (e) => {
     e.preventDefault();
-    const { data } = await axios.get("https://api.spotify.com/v1/search", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      params: {
-        q: searchInput,
-        type: "track",
-        include_external: "audio",
-        limit: 50,
-      },
-    });
+
+    const { data } = await axios
+      .get(
+        "https://api.spotify.com/v1/search",
+        {
+          params: {
+            q: searchInput,
+            type: "track",
+            include_external: "audio",
+            limit: 50,
+          },
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .catch((error) => {
+        console.log(error);
+      });
 
     console.log(data.tracks.items);
     setSongResults(data.tracks.items);

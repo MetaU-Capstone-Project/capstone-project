@@ -9,15 +9,13 @@ import Timeline from "../Timeline/Timeline";
 
 const Parse = require("parse");
 
-export default function Profile() {
+export default function Profile({ token, profile }) {
   return (
     <div className="profile-page">
       <div className="info-wrapper">
-        <ProfileCard></ProfileCard>
+        <ProfileCard token={token} profile={profile}></ProfileCard>
       </div>
-      <div className="timeline-wrapper">
-        <Timeline></Timeline>
-      </div>
+      <div className="timeline-wrapper">{/* <Timeline></Timeline> */}</div>
     </div>
   );
 }

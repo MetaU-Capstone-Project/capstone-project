@@ -21,25 +21,13 @@ router.get('/authorize', (req, res) => {
     // TODO temporarily commented out
     // res.cookie(stateKey, state);
 
+    // working before
     const scope = 'user-read-private user-read-email';
+    // const scope = 'user-read-private user-read-email streaming user-modify-playback-state user-library-modify';
 
-    // was working
-    // const queryParams = `client_id=${CLIENT_ID}&response_type=code&redirect_uri=${REDIRECT_URI}`;
     const queryParams = `client_id=${CLIENT_ID}&response_type=code&redirect_uri=${REDIRECT_URI}&state=${state}&scope=${scope}`;
-
-    // res.redirect(`https://accounts.spotify.com/authorize?client_id=${CLIENT_ID}&response_type=code&redirect_uri=${REDIRECT_URI}`);
-    console.log(`https://accounts.spotify.com/authorize?${queryParams}`);
-
-    // todo temporarily commented out
-    // res.redirect(`https://accounts.spotify.com/authorize?${queryParams}`);
     res.redirect(`https://accounts.spotify.com/authorize?client_id=${CLIENT_ID}&response_type=code&redirect_uri=${REDIRECT_URI}`);
 });
-
-// router.get('/authorize', (req, res) => {
-//     // res.redirect('https://accounts.spotify.com/authorize');
-//     res.redirect(`https://accounts.spotify.com/authorize?client_id=${CLIENT_ID}&response_type=code&redirect_uri=${REDIRECT_URI}`);
-
-// });
 
 router.post('/login', async (req, res) => {
     let {username, password} = req.body;

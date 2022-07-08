@@ -5,6 +5,16 @@ import "./SongHeader.css";
 import logo from "../../logo.svg";
 
 export default function SongHeader({ song }) {
+  function getArtists(artists) {
+    let result = "";
+    for (let i = 0; i < artists.length; i++) {
+      result += artists[i].name;
+      result += ", ";
+    }
+
+    return result.substring(0, result.length - 2);
+  }
+
   return (
     <div className="songheader-component">
       <div className="play-song-wrapper">
@@ -23,7 +33,7 @@ export default function SongHeader({ song }) {
           <span className="song-info">{song.name}</span>
         </div>
         <div className="song-info-row">
-          <span className="song-info">Music artist</span>
+          <span className="song-info">{getArtists(song.artists)}</span>
         </div>
 
         {/* TODO - stretch feature? how much of song has played */}

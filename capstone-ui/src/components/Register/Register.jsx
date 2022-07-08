@@ -12,6 +12,9 @@ import logo from "../../logo.svg";
 
 const Parse = require("parse");
 
+const REDIRECT_URI = "http://localhost:3001/callback";
+const CLIENT_ID = "df31a108deeb4f8698d7936b772522bb";
+
 export default function Register() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -105,13 +108,16 @@ export default function Register() {
             <button className="go-back-button">Go Back</button>
           </Link>
           {/* originally working!!! */}
-          {/* <Link to={"/home"}>
-            <button className="register-button" onClick={() => registerUser()}>
-              Register
-            </button>
-          </Link> */}
-
           <a href={loginURL} className="register-button">
+            {/* <button className="register-button" onClick={() => registerUser()}> */}
+            Register
+            {/* </button> */}
+          </a>
+
+          <a
+            href={`http://localhost:3001/user/authorize`}
+            className="register-button"
+          >
             {/* <button className="register-button" onClick={() => registerUser()}> */}
             Register
             {/* </button> */}

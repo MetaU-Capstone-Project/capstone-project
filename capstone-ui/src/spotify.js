@@ -1,13 +1,11 @@
 import axios from 'axios';
 
-/**
- * Axios global request headers
- * https://github.com/axios/axios#global-axios-defaults
- */
-//  axios.defaults.baseURL = 'https://api.spotify.com/v1';
-//  axios.defaults.headers['Authorization'] = `Bearer ${accessToken}`;
-//  axios.defaults.headers['Content-Type'] = 'application/json';
-
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+  } from 'react-router-dom';
+  
 // was working previously
 
 export const authorizationEndpoint = "https://accounts.spotify.com/authorize";
@@ -63,7 +61,9 @@ const hasTokenExpired = () => {
       window.localStorage.removeItem(LOCALSTORAGE_KEYS[property]);
     }
     // Navigate to homepage
+    // before
     window.location = window.location.origin;
+    // window.location.href = '';
   };
 
   /**
@@ -96,15 +96,7 @@ const refreshToken = async () => {
       console.error(e);
     }
   };
-
-// was working
-// const getAccessToken = () => {
-//     const queryString = window.location.search;
-//     const urlParams = new URLSearchParams(queryString);
-//     const accessToken = urlParams.get('access_token');
-//     return accessToken;
-//   };
-
+  
 /**
  * Handles logic for retrieving the Spotify access token from localStorage
  * or URL query params
@@ -116,7 +108,7 @@ const refreshToken = async () => {
 
     console.log('in get access token function');
     console.log(urlParams);
-    console.log(urlParams.get('expires_in'));
+    console.log(urlParams.get('access_token'));
 
     const queryParams = {
       [LOCALSTORAGE_KEYS.accessToken]: urlParams.get('access_token'),
@@ -146,6 +138,7 @@ const refreshToken = async () => {
       for (const property in queryParams) {
         window.localStorage.setItem(property, queryParams[property]);
         console.log('setting: ' + property);
+        console.log(queryParams[property]);
       }
       // Set timestamp
       window.localStorage.setItem(LOCALSTORAGE_KEYS.timestamp, Date.now());
@@ -153,31 +146,19 @@ const refreshToken = async () => {
       return queryParams[LOCALSTORAGE_KEYS.accessToken];
     }
   
+    console.log('false');
     // We should never get here!
     return false;
   };
 
   export const accessToken = getAccessToken();
 
-//   // added 
-//   const refreshToken = () => {
-//     const queryString = window.location.search;
-//     const urlParams = new URLSearchParams(queryString);
-//     const refreshToken = urlParams.get('refresh_token');
-//     return refreshToken;
-//   };
+  /**
+ * Axios global request headers
+ * https://github.com/axios/axios#global-axios-defaults
+ */
+ axios.defaults.baseURL = 'https://api.spotify.com/v1';
+ axios.defaults.headers['Authorization'] = `Bearer ${accessToken}`;
+ axios.defaults.headers['Content-Type'] = 'application/json';
 
-//   export const getRefreshToken = refreshToken();
-
-  // TODO 
-// export const logout = () => {
-//     // Clear all localStorage items
-//     for (const property in LOCALSTORAGE_KEYS) {
-//       window.localStorage.removeItem(LOCALSTORAGE_KEYS[property]);
-//     }
-//     // Navigate to homepage
-//     window.location = window.location.origin;
-// };
-
-
-
+ export const getCurrentUserProfile = () => axios.get('/me');

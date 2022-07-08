@@ -19,6 +19,17 @@ export default function SearchResults({ results }) {
   //   return <img src={results[0].album.images[0].url}></img>;
   // }
 
+  // was working
+  // return (
+  //   <div className="searchresults-component">
+  //     {results &&
+  //       results.length > 0 &&
+  //       results.map((element) => (
+  //         <SongHeader key={element.id} song={element}></SongHeader>
+  //       ))}
+  //   </div>
+  // );
+
   return (
     <div className="searchresults-component">
       {results &&
