@@ -6,16 +6,18 @@ import SongCard from "../SongCard/SongCard";
 // TODO temporarily use logo as album picture
 import logo from "../../logo.svg";
 
-export default function PostCard({ song }) {
-  console.log("in post card: " + JSON.stringify(song));
+export default function PostCard({ profile, token, song }) {
+  if (song == {}) {
+    return <div>No song</div>;
+  }
 
   return (
     <div className="postcard-component">
       <div className="profileheader-wrapper">
-        <ProfileHeader></ProfileHeader>
+        <ProfileHeader profile={profile} token={token}></ProfileHeader>
       </div>
       <div className="songcard-wrapper">
-        <SongCard song={song}></SongCard>
+        <SongCard profile={profile} token={token} song={song}></SongCard>
       </div>
     </div>
   );

@@ -14,13 +14,13 @@ export default function Home({ page, token, profile }) {
   return (
     <div className="home-page">
       <Navbar></Navbar>
-      {page === "feed" && <Feed></Feed>}
-      {page === "search" && <Search token={token}></Search>}
-      {page === "groups" && <Groups></Groups>}
+      {page === "feed" && <Feed profile={profile} token={token}></Feed>}
+      {page === "search" && <Search profile={profile} token={token}></Search>}
+      {page === "groups" && <Groups profile={profile} token={token}></Groups>}
       {page === "profile" && (
-        <Profile token={token} profile={profile}></Profile>
+        <Profile profile={profile} token={token}></Profile>
       )}
-      {page === "post" && <Post token={token}></Post>}
+      {page === "post" && <Post token={token} profile={profile}></Post>}
     </div>
   );
 }

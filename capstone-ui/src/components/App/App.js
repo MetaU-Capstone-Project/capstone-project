@@ -41,68 +41,47 @@ function App() {
   const [token, setToken] = useState(null);
   const [profile, setProfile] = useState(null);
 
+  // TODO login stuff
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [currentUser, setCurrentUser] = useState(null);
+
   // was working 
   useEffect(() => {
+    console.log('username in app');
+    console.log(username);
     setToken(accessToken);
 
+    // uncommented out
     const fetchData = async () => {
       const { data } = await getCurrentUserProfile();
       setProfile(data);
     };
-
     catchErrors(fetchData());
   }, []);
 
   // TODO initial 401 error 
 
-  // TODO pass in profile
-
   return (
     <div className="App">
-      {/* TODO was working - merge with new code */}
       <BrowserRouter>
         <Routes>
-          <Route exact path="/" element={<Login view={view} setView={setView}></Login>}
+          <Route exact path="/" element={<Login view={view} setView={setView} username={username} password={password} currentUser={currentUser} setUsername={setUsername} setPassword={setPassword} setCurrentUser={setCurrentUser}></Login>}
           />
           <Route exact path="/register" element={<Register></Register>}
           />
-          <Route exact path="/feed" element={<Home page={'feed'}></Home>}
+          <Route exact path="/feed" element={<Home page={'feed'} profile={profile} token={token}></Home>}
           />
-          <Route exact path="/search" element={<Home page={'search'} token={token}></Home>}
+          <Route exact path="/search" element={<Home page={'search'} profile={profile} token={token}></Home>}
           />
-          <Route exact path="/groups" element={<Home page={'groups'}></Home>}
+          <Route exact path="/groups" element={<Home page={'groups'} profile={profile} token={token}></Home>}
           />
           <Route exact path="/profile" element={<Home page={'profile'} profile={profile} token={token}></Home>}
           />
           <Route exact path="/post/:songId" element={<Home page={'post'} profile={profile} token={token}></Home>}
           />
-
-          {/* <Route exact path="/post/:songId" element={<Profile></Profile>}
-          /> */}
-
-          {/* <Route exact path="/post" element={<Home page={'post'} profile={profile}></Home>}
-          /> */}
         </Routes>
       </BrowserRouter>
-      {/* {!token ? (
-        <a className="App-link" href="http://localhost:3001/user/authorize">
-          Log in to Spotify
-        </a>
-      ) : (
-        <>
-          <button onClick={logout}>Log Out</button>
-
-          {profile && (
-            <div>
-              <h1>{profile.display_name}</h1>
-              <p>{profile.followers.total} Followers</p>
-              {profile.images.length && profile.images[0].url && (
-                <img src={profile.images[0].url} alt="Avatar"/>
-              )}
-            </div>
-          )}
-        </>
-      )} */}
     </div>
   );
 }

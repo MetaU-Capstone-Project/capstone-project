@@ -23,13 +23,9 @@ router.get('/authorize', (req, res) => {
 
     // working before
     const scope = 'user-read-private user-read-email';
-    // const scope = 'user-read-private user-read-email streaming user-modify-playback-state user-library-modify';
 
-    // const queryParams = `client_id=${CLIENT_ID}&response_type=code&redirect_uri=${REDIRECT_URI}&state=${state}&scope=${scope}`;
     const queryParams = `client_id=${CLIENT_ID}&response_type=code&redirect_uri=${REDIRECT_URI}&state=${state}&scope=${scope}&show_dialog=true`;
     res.redirect(`https://accounts.spotify.com/authorize?${queryParams}`);
-
-    // res.redirect(`https://accounts.spotify.com/authorize?client_id=${CLIENT_ID}&response_type=code&redirect_uri=${REDIRECT_URI}&${queryParams}`);
 });
 
 router.post('/login', async (req, res) => {

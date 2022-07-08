@@ -8,10 +8,19 @@ import axios from "axios";
 
 const Parse = require("parse");
 
-export default function Login({ view, setView }) {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [currentUser, setCurrentUser] = useState(null);
+export default function Login({
+  view,
+  setView,
+  username,
+  password,
+  currentUser,
+  setUsername,
+  setPassword,
+  setCurrentUser,
+}) {
+  // const [username, setUsername] = useState("");
+  // const [password, setPassword] = useState("");
+  // const [currentUser, setCurrentUser] = useState(null);
 
   const getCurrentUser = async function () {
     axios.get("http://localhost:3001/user").then(function (response) {
@@ -31,23 +40,26 @@ export default function Login({ view, setView }) {
     axios
       .post("http://localhost:3001/user/login", postRequest)
       .then(function (response) {
-        console.log("app.jsx");
         console.log(response.data);
 
         alert(
           `Success! User ${response.data.username} has successfully signed in!`
         );
-        setUsername("");
-        setPassword("");
+        setUsername(response.data.username);
+        setPassword(response.data.password);
+
+        console.log(username);
+        console.log(password);
         getCurrentUser();
-        // window.location.href = "http://localhost:3000/feed";
-        // TODO still needs to authenticate
+
+        // TODO remove comment
         window.location.href = "http://localhost:3001/user/authorize";
       })
       .catch((error) => {
         alert(`Error! ${error.message}`);
-        setUsername("");
-        setPassword("");
+        // uncomment out
+        // setUsername("");
+        // setPassword("");
         return false;
       });
   };
