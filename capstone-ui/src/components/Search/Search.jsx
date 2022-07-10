@@ -36,7 +36,6 @@ export default function Search({ token }) {
         console.log(error);
       });
 
-    console.log(data.tracks.items);
     setSongResults(data.tracks.items);
   };
 

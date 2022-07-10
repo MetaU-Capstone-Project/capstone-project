@@ -22,4 +22,7 @@ img {
     display: flex;
     flex-direction: column;
     background-color: lightgray;
+    /* added */
+    align-items: center;
+    justify-content: center;
 }

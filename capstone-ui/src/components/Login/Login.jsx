@@ -31,16 +31,11 @@ export default function Login({}) {
     axios
       .post("http://localhost:3001/user/login", postRequest)
       .then(function (response) {
-        console.log(response.data);
-
         alert(
           `Success! User ${response.data.username} has successfully signed in!`
         );
         setUsername(response.data.username);
         setPassword(response.data.password);
-
-        console.log(username);
-        console.log(password);
         getCurrentUser();
 
         // TODO remove comment

@@ -7,13 +7,15 @@ import SongHeader from "../SongHeader/SongHeader";
 import logo from "../../logo.svg";
 
 export default function SongCard({ profile, token, song }) {
-  console.log("this is my song");
+  console.log("AHHHH");
   console.log(song);
 
   return (
     <div className="songcard-component">
       <div className="songheader-wrapper">
         {/* <SongHeader song={song}></SongHeader> */}
+
+        {/* was working way before */}
         <SongHeaderView song={song}></SongHeaderView>
       </div>
       <div className="album-picture-wrapper">

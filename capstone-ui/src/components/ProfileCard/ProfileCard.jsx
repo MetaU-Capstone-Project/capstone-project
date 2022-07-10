@@ -7,21 +7,58 @@ import "./ProfileCard.css";
 import logo from "../../logo.svg";
 
 // TODO props = {page}
-export default function ProfileCard({ token, profile }) {
-  console.log("profilecard");
-  console.log(profile);
+export default function ProfileCard({ token, profile, appProfile }) {
+  // const [songInfo, setSongInfo] = useState({});
+
+  // React.useEffect(() => {
+  //   async function getApp() {
+  //     const response = await axios.get(
+  //       `https://api.spotify.com/v1/tracks/${songId}`,
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //       }
+  //     );
+  //     console.log("hello");
+  //     console.log(response.data);
+  //     setSongInfo(response.data);
+  //   }
+
+  //   getTrack();
+  // }, [songId]);
 
   return (
     <div className="profilecard-component">
       <div className="profile-picture-wrapper">
-        <img className="profile-picture" src={logo} alt="profile-picture"></img>
+        {/* before */}
+        {/* <img className="profile-picture" src={logo} alt="profile-picture"></img> */}
+        {profile.images && (
+          <img
+            className="profile-picture"
+            src={profile.images[0].url}
+            alt="profile-picture"
+          ></img>
+        )}
+        {/* <img
+          className="profile-picture"
+          src={profile.images[0].url}
+          alt="profile-picture"
+        ></img> */}
       </div>
       <div className="profile-info-wrapper">
         <span className="profile-username">
           Spotify Username: {profile.display_name}
         </span>
         {/* TODO date */}
-        <span className="profile-join-date">Joined app July 6, 2022</span>
+        {appProfile && (
+          <span className="profile-join-date">
+            Joined app {appProfile.createdAt}
+          </span>
+        )}
+        {/* <span className="profile-join-date">
+          Joined app {appProfile.createdAt}
+        </span> */}
       </div>
       <div className="profile-buttons">
         {/* TODO username */}

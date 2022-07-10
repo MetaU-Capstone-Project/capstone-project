@@ -42,6 +42,16 @@ router.post('/register', async (req, res) => {
     }
 });
 
+// TODO
+// router.get('/post', async (req, res) => {
+//     const username = req.params.username;
+//     const trackId = req.params.trackId;
+//     const result = await User.getPost(username, trackId);
+//     console.log('result of getting post: ' + result);
+//     // TODO - fix and errors
+//     res.send(result);
+// })
+
 router.post('/post', async (req, res) => {
     let { username, trackId } = req.body;
     let result = await User.post(username, trackId);
@@ -56,7 +66,6 @@ router.post('/post', async (req, res) => {
 // change endpoint and add conditions for query
 router.get('/posts', async (req, res) => {
     let result = await User.posts();
-    console.log('posts: ' + JSON.stringify(result));
     res.send('posts: ' + JSON.stringify(result));
 });
 

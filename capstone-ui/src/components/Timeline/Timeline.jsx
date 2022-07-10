@@ -18,18 +18,17 @@ export default function Timeline({ username, token, profile }) {
     }
 
     getTimeline();
-  }, [timeline]);
+  }, []);
 
   return (
     <div className="timeline-component">
-      {/* TODO for now just hardcode timeline but eventually map props array into PostHeader components*/}
-      {/* <PostHeader token={token} profile={profile}></PostHeader>
-      <PostHeader token={token} profile={profile}></PostHeader>
-      <PostHeader token={token} profile={profile}></PostHeader>
-      <PostHeader token={token} profile={profile}></PostHeader> */}
-      {/* TODO set with timeline of posts */}
       {timeline.map((element) => (
-        <PostHeader post={element} key={element.objectId}></PostHeader>
+        <PostHeader
+          post={element}
+          key={element.objectId}
+          token={token}
+          profile={profile}
+        ></PostHeader>
       ))}
     </div>
   );

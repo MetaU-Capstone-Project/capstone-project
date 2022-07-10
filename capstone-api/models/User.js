@@ -82,9 +82,9 @@ class User {
     };
 
     static async timeline(username) {
-        // Reading parse objects is done by using Parse.Query
         const query = new Parse.Query('Post');
         query.equalTo("username", username);
+        query.descending("createdAt");
         try {
           let posts = await query.find();
           return posts;
@@ -92,6 +92,19 @@ class User {
           return {};
         };
     };
+
+    static async getPost(username, trackId) {
+      const query = new Parse.Query('Post');
+      query.equalTo("username", username);
+      query.equalTo("trackId", trackId);
+      try {
+        // TODO [0] since should only be one?
+        let posts = await query.find();
+        return posts[0];
+      } catch (error) {
+        return {};
+      };
+  };
 }
 
 module.exports = User;

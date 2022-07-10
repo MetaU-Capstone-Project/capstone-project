@@ -7,13 +7,16 @@ import logo from "../../logo.svg";
 
 export default function SongHeader({ song }) {
   function getArtists(artists) {
-    let result = "";
-    for (let i = 0; i < artists.length; i++) {
-      result += artists[i].name;
-      result += ", ";
-    }
+    if (artists) {
+      let result = "";
+      for (let i = 0; i < artists.length; i++) {
+        result += artists[i].name;
+        result += ", ";
+      }
 
-    return result.substring(0, result.length - 2);
+      return result.substring(0, result.length - 2);
+    }
+    return "";
   }
 
   return (

@@ -5,22 +5,19 @@ import "./ProfileHeader.css";
 import logo from "../../logo.svg";
 
 export default function ProfileHeader({ profile, token }) {
-  console.log("profile!");
-  console.log(profile);
-
   return (
     <div className="profileheader-component">
       <div className="profile-picture-wrapper">
         {/* TODO profile picture */}
         {/* <img className="profile-picture" src={logo} alt="profile-picture"></img> */}
-        {/* {profile.images && (
+        {profile.images && (
           <img
             className="profile-picture"
             src={profile.images[0].url}
             alt="profile-picture"
             id="profile-picture"
           ></img>
-        )} */}
+        )}
         {/* before */}
         {/* <img
           className="profile-picture"

@@ -12,7 +12,6 @@ export default function Post({ username, profile, token }) {
   const [songInfo, setSongInfo] = useState({});
 
   React.useEffect(() => {
-    console.log("hiewfawef");
     async function getTrack() {
       const response = await axios.get(
         `https://api.spotify.com/v1/tracks/${songId}`,
@@ -22,19 +21,17 @@ export default function Post({ username, profile, token }) {
           },
         }
       );
-      console.log("hello");
+
+      console.log("setting song info: ");
       console.log(response.data);
       setSongInfo(response.data);
     }
 
     getTrack();
-  }, [songId]);
+  }, []);
 
   // TODO
   const addPost = async function () {
-    console.log(username);
-    console.log("add post");
-
     let postRequest = {
       username: username,
       trackId: songId,

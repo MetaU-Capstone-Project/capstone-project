@@ -7,6 +7,9 @@ import SongCard from "../SongCard/SongCard";
 import logo from "../../logo.svg";
 
 export default function PostCard({ profile, token, song }) {
+  console.log("in post card");
+  console.log(song);
+
   if (song == {}) {
     return <div>No song</div>;
   }
