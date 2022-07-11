@@ -6,7 +6,7 @@ import SongCard from "../SongCard/SongCard";
 // TODO temporarily use logo as album picture
 import logo from "../../logo.svg";
 
-export default function PostCard({ profile, token, song }) {
+export default function PostCard({ username, profile, token, song }) {
   if (song == {}) {
     return <div>No song</div>;
   }
@@ -14,10 +14,21 @@ export default function PostCard({ profile, token, song }) {
   return (
     <div className="postcard-component">
       <div className="profileheader-wrapper">
-        <ProfileHeader profile={profile} token={token}></ProfileHeader>
+        <ProfileHeader
+          username={username}
+          profile={profile}
+          token={token}
+          // added 6/11
+          isSearchView={false}
+        ></ProfileHeader>
       </div>
       <div className="songcard-wrapper">
-        <SongCard profile={profile} token={token} song={song}></SongCard>
+        <SongCard
+          username={username}
+          profile={profile}
+          token={token}
+          song={song}
+        ></SongCard>
       </div>
     </div>
   );

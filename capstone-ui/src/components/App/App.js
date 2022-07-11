@@ -1,18 +1,7 @@
 import logo from '../../logo.svg';
-import SongCard from '../SongCard/SongCard';
-import SongHeader from '../SongHeader/SongHeader';
-import ProfileHeader from '../ProfileHeader/ProfileHeader';
-import PostHeader from '../PostHeader/PostHeader';
-import PostCard from '../PostCard/PostCard';
-import Search from '../Search/Search';
-import SearchBar from '../SearchBar/SearchBar';
-import SearchResults from '../SearchResults/SearchResults';
 import Login from '../Login/Login';
 import Register from '../Register/Register';
-import Authorization from '../Authorization/Authorization';
 import Home from '../Home/Home';
-import Profile from '../Profile/Profile';
-import ProfileCard from '../ProfileCard/ProfileCard';
 import React, {useState, useEffect} from 'react';
 
 import { accessToken, getCurrentUserProfile, logout } from '../../spotify';
@@ -23,7 +12,6 @@ import axios from "axios";
 import './App.css';
 
 // Parse
-import PostComponent from "../../api/PostComponent";
 
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 

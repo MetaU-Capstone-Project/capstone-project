@@ -1,6 +1,21 @@
-.searchresults-component {
+.load-more-button {
+    font-size: 1.5rem;
+}
+
+.searchresults-grid {
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;
-    justify-content: center;;
+    justify-content: center;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.load-more-button-wrapper {
+    margin: 2rem;
+}
+
+.searchresults-component {
+    display: flex;
+    flex-direction: column;
 }

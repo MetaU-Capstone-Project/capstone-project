@@ -1,4 +1,3 @@
-// import * as React from "react";
 import React, { useState } from "react";
 import SearchBar from "../SearchBar/SearchBar";
 import SearchResults from "../SearchResults/SearchResults";
@@ -12,10 +11,19 @@ export default function Search({ username, token }) {
   const [songResults, setSongResults] = useState([]);
   const [profileResults, setProfileResults] = useState([]);
   const [isSongResults, setIsSongResults] = useState(true);
+  const [offset, setOffset] = useState(0);
 
   const searchSongs = async (e) => {
+    setProfileResults([]);
     e.preventDefault();
+    // first time loading song results
+    if (!isSongResults) {
+      setOffset(0);
+      // TODO need to clear grid
+      // setSongResults([]);
+    }
 
+    let oldResults = songResults;
     const { data } = await axios
       .get(
         "https://api.spotify.com/v1/search",
@@ -24,7 +32,8 @@ export default function Search({ username, token }) {
             q: searchInput,
             type: "track",
             include_external: "audio",
-            limit: 50,
+            limit: 5,
+            offset: offset,
           },
         },
         {
@@ -37,12 +46,24 @@ export default function Search({ username, token }) {
         console.log(error);
       });
 
-    setSongResults(data.tracks.items);
+    let newResults = data.tracks.items;
+    let addedResults = oldResults.concat(newResults);
+    setSongResults(addedResults);
     setIsSongResults(true);
+    setOffset((previousValue) => previousValue + 5);
+    // added
+    // setSearchInput("");
   };
 
   const searchProfiles = async (e) => {
+    setSongResults([]);
     e.preventDefault();
+    // first time loading song results
+    if (!isSongResults) {
+      setOffset(0);
+      // added
+      // setProfileResults([]);
+    }
 
     const results = await axios
       .get("http://localhost:3001/user/users")
@@ -50,12 +71,32 @@ export default function Search({ username, token }) {
         console.log(error);
       });
 
-    let newArray = results.data.filter(
+    let tempArray = results.data.filter(
       (element) => element.username !== username
     );
 
+    // TODO offset
+    // 5 for each new set of profiles returned
+    let min = Math.min(offset + 5, tempArray.length);
+    let newArray = tempArray.slice(offset, min);
+
+    console.log("new array");
+    console.log(newArray);
+
     setProfileResults(newArray);
     setIsSongResults(false);
+  };
+
+  // TODO modify
+
+  const loadMore = (e) => {
+    // TODO remove
+    setOffset((previousValue) => previousValue + 5);
+    if (isSongResults) {
+      searchSongs(e);
+    } else {
+      searchProfiles(e);
+    }
   };
 
   return (
@@ -66,15 +107,19 @@ export default function Search({ username, token }) {
         searchProfiles={searchProfiles}
       ></SearchBar>
       <SearchResults
-        // added
         username={username}
-        // added
         songResults={songResults}
         profileResults={profileResults}
         token={token}
         isSongResults={isSongResults}
       ></SearchResults>
-      {/* TODO - search results */}
+      {(songResults.length != 0 || profileResults.length != 0) && (
+        <div className="load-more-button-wrapper">
+          <button className="load-more-button" onClick={loadMore}>
+            Load More
+          </button>
+        </div>
+      )}
     </div>
   );
 }

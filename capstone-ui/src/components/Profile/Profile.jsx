@@ -27,6 +27,8 @@ export default function Profile({ username, token, profile }) {
     const fetchAppUser = async () => {
       const { data } = await axios.get("http://localhost:3001/user");
       setAppProfile(data);
+      console.log("apple pie");
+      console.log(data);
     };
 
     catchErrors(fetchAppUser());

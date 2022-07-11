@@ -47,7 +47,12 @@ export default function Post({ username, profile, token }) {
   return (
     <div className="post-page" key="post-page">
       <div className="postcard-wrapper">
-        <PostCard profile={profile} token={token} song={songInfo}></PostCard>
+        <PostCard
+          username={username}
+          profile={profile}
+          token={token}
+          song={songInfo}
+        ></PostCard>
       </div>
       <div className="post-button-wrapper">
         <button className="post-button" onClick={addPost}>

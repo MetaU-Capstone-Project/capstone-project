@@ -6,28 +6,7 @@ import "./ProfileCard.css";
 // TODO - temporarily use logo as profile picture
 import logo from "../../logo.svg";
 
-// TODO props = {page}
 export default function ProfileCard({ username, token, profile, appProfile }) {
-  // const [songInfo, setSongInfo] = useState({});
-
-  // React.useEffect(() => {
-  //   async function getApp() {
-  //     const response = await axios.get(
-  //       `https://api.spotify.com/v1/tracks/${songId}`,
-  //       {
-  //         headers: {
-  //           Authorization: `Bearer ${token}`,
-  //         },
-  //       }
-  //     );
-  //     console.log("hello");
-  //     console.log(response.data);
-  //     setSongInfo(response.data);
-  //   }
-
-  //   getTrack();
-  // }, [songId]);
-
   return (
     <div className="profilecard-component">
       <div className="profile-picture-wrapper">
