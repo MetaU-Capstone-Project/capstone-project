@@ -3,57 +3,55 @@ import Select from "react-select";
 import "./Settings.css";
 import axios from "axios";
 import { catchErrors } from "../../utils";
+import { getTopArtists, getGenres } from "../../spotify";
 
 export default function Settings({ username, token, profile }) {
-  console.log("token in settings");
-  console.log(token);
-
   const [genres, setGenres] = useState([]);
-  // TODO temp - delete later
-  const colourOptions = [
-    { value: "chocolate", label: "Chocolate" },
-    { value: "strawberry", label: "Strawberry" },
-    { value: "vanilla", label: "Vanilla" },
-  ];
+  const [artists, setArtists] = useState([]);
 
   React.useEffect(() => {
-    const getGenres = async () => {
-      const { data } = await axios
-        .get(
-          "https://api.spotify.com/v1/recommendations/available-genre-seeds",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        )
-        .catch((error) => {
-          console.log(error.message);
-        });
+    const fetchData = async () => {
+      const usersTopArtists = await getTopArtists();
+      console.log("top artists");
+      console.log(usersTopArtists.data.items);
+      let artistsResult = usersTopArtists.data.items.map((element) => {
+        return { value: element.name, label: element.name };
+      });
+      setArtists(artistsResult);
 
-      // format genres to be options
-      let result = data.genres.map((element) => {
-        console.log("element: " + element);
+      const allGenres = await getGenres();
+      let genreResults = allGenres.data.genres.map((element) => {
         return { value: element, label: element };
       });
-
-      setGenres(result);
-      console.log("genres!!!");
-      console.log(result);
+      setGenres(genreResults);
     };
 
-    catchErrors(getGenres());
+    catchErrors(fetchData());
   }, []);
 
   return (
     <div className="settings-component">
       {genres.length !== 0 && (
-        <Select
-          closeMenuOnSelect={false}
-          defaultValue={[]}
-          isMulti
-          options={genres}
-        />
+        <div className="preferences">
+          <span className="preference-heading">Your Favorite Genres</span>
+          <Select
+            closeMenuOnSelect={false}
+            defaultValue={[]}
+            isMulti
+            options={genres}
+          />
+        </div>
+      )}
+      {artists.length !== 0 && (
+        <div className="preferences">
+          <span className="preference-heading">Your Favorite Artists</span>
+          <Select
+            closeMenuOnSelect={false}
+            defaultValue={[]}
+            isMulti
+            options={artists}
+          />
+        </div>
       )}
     </div>
   );

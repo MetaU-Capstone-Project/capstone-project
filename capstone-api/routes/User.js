@@ -20,7 +20,7 @@ router.get('/authorize', (req, res) => {
     const state = generateRandomString(16);
     // TODO temporarily commented out
     // res.cookie(stateKey, state);
-    const scope = 'user-read-private user-read-email';
+    const scope = 'user-read-private user-read-email user-top-read';
 
     const queryParams = `client_id=${CLIENT_ID}&response_type=code&redirect_uri=${REDIRECT_URI}&state=${state}&scope=${scope}&show_dialog=true`;
     res.redirect(`https://accounts.spotify.com/authorize?${queryParams}`);

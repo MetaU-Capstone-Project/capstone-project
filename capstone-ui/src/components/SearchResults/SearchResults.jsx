@@ -4,10 +4,6 @@ import "./SearchResults.css";
 
 import ProfileHeader from "../ProfileHeader/ProfileHeader";
 import SongHeader from "../SongHeader/SongHeader";
-import axios from "axios";
-
-// TODO - temporarily use logo as profile picture
-import logo from "../../logo.svg";
 
 export default function SearchResults({
   username,
@@ -44,11 +40,6 @@ export default function SearchResults({
             ></ProfileHeader>
           ))}
       </div>
-      {/* <div className="load-more-button-wrapper">
-        <button className="load-more-button" onClick={loadMore}>
-          Load More
-        </button>
-      </div> */}
     </div>
   );
 }
