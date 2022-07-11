@@ -28,13 +28,18 @@ export default function Register(
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
+  // added
+  const [spotifyUsername, setSpotifyUsername] = useState("");
+
   const registerUser = async function () {
     const usernameValue = username;
     const passwordValue = password;
+    const spotifyUsernameValue = spotifyUsername;
 
     let postRequest = {
       username: usernameValue,
       password: passwordValue,
+      spotifyUsername: spotifyUsernameValue,
     };
     axios
       .post("http://localhost:3001/user/register", postRequest)
@@ -53,6 +58,7 @@ export default function Register(
         alert(`Error! ${error.message}`);
         setUsername("");
         setPassword("");
+        setSpotifyUsername("");
         return false;
       });
   };
@@ -76,6 +82,12 @@ export default function Register(
           onChange={(event) => setPassword(event.target.value)}
           value={password}
           type="password"
+        ></input>
+        <input
+          className="username-input"
+          placeholder="@Spotify"
+          onChange={(event) => setSpotifyUsername(event.target.value)}
+          value={spotifyUsername}
         ></input>
         <div className="register-buttons">
           <Link to={"/"}>

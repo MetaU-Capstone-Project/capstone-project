@@ -3,6 +3,7 @@ import Login from '../Login/Login';
 import Register from '../Register/Register';
 import Home from '../Home/Home';
 import React, {useState, useEffect} from 'react';
+import Preferences from '../Preferences/Preferences';
 
 import { accessToken, getCurrentUserProfile, logout } from '../../spotify';
 import { catchErrors } from '../../utils';
@@ -69,6 +70,7 @@ function App() {
 
   return (
     <div className="App">
+      {/* temporarily commented out */}
       <BrowserRouter>
         <Routes>
           <Route exact path="/" element={<Login view={view} setView={setView} username={username} password={password} currentUser={currentUser} setUsername={setUsername} setPassword={setPassword} setCurrentUser={setCurrentUser}></Login>}
@@ -84,6 +86,11 @@ function App() {
           <Route exact path="/profile" element={<Home page={'profile'} username={username} profile={profile} token={token}></Home>}
           />
           <Route exact path="/post/:songId" element={<Home page={'post'} username={username} profile={profile} token={token}></Home>}
+          />
+          {/* <Route exact path="/preferences" element={<Home page={'preferences'} username={username} profile={profile} token={token}></Home>}
+          /> */}
+          {/* TODO preferences should lead to no navbar yet?  */}
+          <Route exact path="/preferences" element={<Home page={'preferences'} username={username} profile={profile} token={token}></Home>}
           />
         </Routes>
       </BrowserRouter>

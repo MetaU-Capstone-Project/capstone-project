@@ -1,7 +1,7 @@
-.timeline-component {
+.settings-component {
     display: flex;
     flex-direction: column;
     gap: 1rem;
     margin: 2rem;
-    overflow-y: scroll;
+    background-color: lavender;
 }

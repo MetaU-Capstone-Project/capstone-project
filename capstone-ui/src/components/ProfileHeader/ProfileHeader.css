@@ -18,13 +18,22 @@ img {
     flex-direction: column;
 }
 
+.search-view-profileheader-component {
+    width: 12rem;
+    height: 12rem;
+    display: flex;
+    flex-direction: column;
+    background-color: lightgray;
+    align-items: center;
+    justify-content: center;
+}
+
 .profileheader-component {
     width: 6rem; 
     height: 6rem;
     display: flex;
     flex-direction: column;
     background-color: lightgray;
-    /* added */
     align-items: center;
     justify-content: center;
 }

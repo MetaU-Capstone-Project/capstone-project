@@ -42,6 +42,7 @@ export default function Profile({ username, token, profile }) {
           token={token}
           profile={profile}
           appProfile={appProfile}
+          isPreferencesView={false}
         ></ProfileCard>
       </div>
       <div className="timeline-wrapper">

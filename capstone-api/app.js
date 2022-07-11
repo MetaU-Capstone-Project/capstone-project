@@ -44,10 +44,14 @@ app.get('/callback', (req, res) => {
                 res.redirect(`http://localhost:3000/feed/?${queryParams}`);
 
               } else {
-                res.redirect(`/?${querystring.stringify({ error: 'invalid_token' })}`);
+                // before
+                // res.redirect(`/?${querystring.stringify({ error: 'invalid_token' })}`);
+                res.redirect(`http://localhost:3000`);
               }
         }).catch(function (error) {
-            res.send(error);
+            res.redirect("http://localhost:3000");
+            console.log('julia');
+            // res.send(error);
         });
 });
 

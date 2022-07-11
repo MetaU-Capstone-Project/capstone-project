@@ -7,9 +7,6 @@ import SongHeader from "../SongHeader/SongHeader";
 import logo from "../../logo.svg";
 
 export default function SongCard({ profile, token, song }) {
-  console.log("AHHHH");
-  console.log(song);
-
   return (
     <div className="songcard-component">
       <div className="songheader-wrapper">

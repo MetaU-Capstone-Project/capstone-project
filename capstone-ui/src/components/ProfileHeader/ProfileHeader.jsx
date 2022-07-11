@@ -1,4 +1,5 @@
 // import * as React from "react";
+import React, { useState, useEffect } from "react";
 import "./ProfileHeader.css";
 
 // TODO - temporarily use logo as profile picture
@@ -10,8 +11,20 @@ export default function ProfileHeader({
   token,
   isSearchView,
 }) {
-  console.log("profile header search view");
-  console.log(profile);
+  // added
+  React.useEffect(() => {
+    async function getAppProfile() {
+      // const response = await axios.get(
+      //   `http://localhost:3001/user/timeline/${username}`
+      // );
+      // console.log("timeline");
+      // console.log(response.data);
+      // setTimeline(response.data);
+    }
+    if (isSearchView) {
+      getAppProfile();
+    }
+  }, []);
 
   // TODO add button and retrieve other people's usernames and Spotify usernames
   if (isSearchView) {
@@ -19,22 +32,24 @@ export default function ProfileHeader({
     let username = profile.username;
 
     return (
-      <div className="profileheader-component search-view">
+      <div className="search-view-profileheader-component ">
         <div className="profile-picture-wrapper">
-          {profile.images && (
+          <img src={logo}></img>
+          {/* TODO uncomment both out */}
+          {/* {profile.images && (
             <img
               className="profile-picture"
               src={profile.images[0].url}
               alt="profile-picture"
               id="profile-picture"
             ></img>
-          )}
+          )} */}
         </div>
         <div className="profile-username-wrapper">
           <span className="profile-username">{username}</span>
-          <span className="profile-username">
+          {/* <span className="profile-username">
             Spotify @{profile.display_name}
-          </span>
+          </span> */}
         </div>
       </div>
     );
@@ -43,14 +58,15 @@ export default function ProfileHeader({
   return (
     <div className="profileheader-component">
       <div className="profile-picture-wrapper">
-        {profile.images && (
+        {/* {profile.images && (
           <img
             className="profile-picture"
             src={profile.images[0].url}
             alt="profile-picture"
             id="profile-picture"
           ></img>
-        )}
+        )} */}
+        <img src={logo}></img>
       </div>
       <div className="profile-username-wrapper">
         <span className="profile-username">{username}</span>

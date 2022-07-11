@@ -6,6 +6,7 @@ import Feed from "../Feed/Feed";
 import Groups from "../Groups/Groups";
 import Profile from "../Profile/Profile";
 import Post from "../Post/Post";
+import Preferences from "../Preferences/Preferences";
 
 import "./Home.css";
 
@@ -28,6 +29,13 @@ export default function Home({ username, page, token, profile }) {
       )}
       {page === "post" && (
         <Post username={username} token={token} profile={profile}></Post>
+      )}
+      {page === "preferences" && (
+        <Preferences
+          username={username}
+          token={token}
+          profile={profile}
+        ></Preferences>
       )}
     </div>
   );

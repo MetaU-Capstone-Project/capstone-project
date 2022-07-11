@@ -28,15 +28,20 @@ class User {
     }
 
     static async registerUser(userValue) {
-        let {username, password} = userValue;
+        let {username, password, spotifyUsername} = userValue;
         let user = new Parse.User();
   
+        console.log('spotify username: ');
+        console.log(spotifyUsername);
         user.set("username", username);
         user.set("password", password);
+        user.set("spotifyUsername", spotifyUsername);
         try {
             await user.signUp();
             return "User created!";
         } catch (error) {
+            console.log('error');
+            console.log(error);
             return error.message;
         }
     }
