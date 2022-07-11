@@ -104,7 +104,19 @@ class User {
       } catch (error) {
         return {};
       };
-  };
+    };
+
+    // TODO
+    static async getUsers() {
+      const query = new Parse.Query('User');
+      // TODO sort somehow and weigh how to recommend users? 
+      try {
+        let users = await query.find();
+        return users;
+      } catch (error) {
+        return {};
+      };
+    }
 }
 
 module.exports = User;

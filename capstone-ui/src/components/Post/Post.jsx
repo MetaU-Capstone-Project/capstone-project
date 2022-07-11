@@ -21,9 +21,6 @@ export default function Post({ username, profile, token }) {
           },
         }
       );
-
-      console.log("setting song info: ");
-      console.log(response.data);
       setSongInfo(response.data);
     }
 

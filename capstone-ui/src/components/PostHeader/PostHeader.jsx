@@ -13,6 +13,9 @@ import logo from "../../logo.svg";
 export default function PostHeader({ post, token, profile }) {
   const [songInfo, setSongInfo] = useState({});
 
+  console.log("post date");
+  console.log(post);
+
   React.useEffect(() => {
     async function getTrack() {
       const response = await axios.get(
@@ -33,7 +36,7 @@ export default function PostHeader({ post, token, profile }) {
     <div className="postheader-component">
       <div className="post-info-wrapper">
         <ProfileHeader token={token} profile={profile}></ProfileHeader>
-        <div className="post-datetime-wrapper"></div>
+        <span>{post.createdAt}</span>
       </div>
       <SongHeaderView id="songcard-component" song={songInfo}></SongHeaderView>
 

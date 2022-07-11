@@ -43,6 +43,7 @@ export default function Profile({ username, token, profile }) {
         ></ProfileCard>
       </div>
       <div className="timeline-wrapper">
+        <span className="timeline-heading">Timeline</span>
         <Timeline
           username={username}
           token={token}

@@ -32,4 +32,20 @@ export default function Timeline({ username, token, profile }) {
       ))}
     </div>
   );
+
+  // return (
+  //   <div className="timeline-component">
+  //     {/* <span className="timeline-heading">Timeline</span> */}
+  //     <div className="timeline-wrapper">
+  //       {timeline.map((element) => (
+  //         <PostHeader
+  //           post={element}
+  //           key={element.objectId}
+  //           token={token}
+  //           profile={profile}
+  //         ></PostHeader>
+  //       ))}
+  //     </div>
+  //   </div>
+  // );
 }

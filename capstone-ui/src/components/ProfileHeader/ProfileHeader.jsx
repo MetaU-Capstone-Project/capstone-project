@@ -5,6 +5,9 @@ import "./ProfileHeader.css";
 import logo from "../../logo.svg";
 
 export default function ProfileHeader({ profile, token }) {
+  console.log("profile");
+  console.log(profile);
+
   return (
     <div className="profileheader-component">
       <div className="profile-picture-wrapper">
@@ -27,6 +30,11 @@ export default function ProfileHeader({ profile, token }) {
         ></img> */}
       </div>
       <div className="profile-username-wrapper">
+        {/* added */}
+        {/* <span className="profile-username">
+         Username: {profile.display_name}
+        </span> */}
+        {/* added */}
         <span className="profile-username">{profile.display_name}</span>
       </div>
     </div>

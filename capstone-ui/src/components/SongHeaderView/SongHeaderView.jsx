@@ -7,10 +7,6 @@ import logo from "../../logo.svg";
 
 export default function SongHeaderView({ song }) {
   function getArtists(artists) {
-    console.log("song " + JSON.stringify(song));
-    console.log("artists fwefwae ");
-    console.log(artists);
-
     if (artists) {
       let result = "";
       for (let i = 0; i < artists.length; i++) {

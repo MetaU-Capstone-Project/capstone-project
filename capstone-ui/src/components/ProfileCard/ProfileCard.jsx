@@ -7,7 +7,7 @@ import "./ProfileCard.css";
 import logo from "../../logo.svg";
 
 // TODO props = {page}
-export default function ProfileCard({ token, profile, appProfile }) {
+export default function ProfileCard({ username, token, profile, appProfile }) {
   // const [songInfo, setSongInfo] = useState({});
 
   // React.useEffect(() => {
@@ -47,6 +47,9 @@ export default function ProfileCard({ token, profile, appProfile }) {
         ></img> */}
       </div>
       <div className="profile-info-wrapper">
+        {/* added */}
+        <span className="profile-username">Username: {username}</span>
+        {/* added */}
         <span className="profile-username">
           Spotify Username: {profile.display_name}
         </span>

@@ -13,22 +13,32 @@ import { Link } from "react-router-dom";
 // TODO - temporarily use logo as profile picture
 import logo from "../../logo.svg";
 
-export default function SearchResults({ results, token }) {
-  // working
-  // console.log("results!!");
-  // if (results && results.length > 0) {
-  //   console.log("0 element");
-  //   console.log(results[0]);
-  //   console.log("album: " + results[0].album.images[0].url);
-  //   return <img src={results[0].album.images[0].url}></img>;
-  // }
+export default function SearchResults({
+  username,
+  songResults,
+  profileResults,
+  token,
+  isSongResults,
+}) {
+  let results;
+  if (isSongResults) {
+    results = songResults;
+  } else {
+    console.log("coffee");
+    results = profileResults;
+    console.log(profileResults);
+  }
 
-  // was working
   // return (
   //   <div className="searchresults-component">
   //     {results &&
   //       results.length > 0 &&
   //       results.map((element) => (
+  //         // kinda working
+  //         // <Link to={`/post/${element.id}`} key={element.id}>
+  //         //   <SongHeader key={element.id} song={element}></SongHeader>
+  //         // </Link>
+
   //         <SongHeader key={element.id} song={element}></SongHeader>
   //       ))}
   //   </div>
@@ -36,16 +46,18 @@ export default function SearchResults({ results, token }) {
 
   return (
     <div className="searchresults-component">
-      {results &&
+      {isSongResults &&
+        results &&
         results.length > 0 &&
         results.map((element) => (
-          // kinda working
-          // <Link to={`/post/${element.id}`} key={element.id}>
-          //   <SongHeader key={element.id} song={element}></SongHeader>
-          // </Link>
-
           <SongHeader key={element.id} song={element}></SongHeader>
         ))}
+      {/* {!isSongResults &&
+        results &&
+        results.length > 0 &&
+        results.map((element) => (
+          <ProfileHeader key={element.id} song={element}></ProfileHeader>
+        ))} */}
     </div>
   );
 }

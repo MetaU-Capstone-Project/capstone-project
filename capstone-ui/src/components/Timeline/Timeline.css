@@ -1,3 +1,13 @@
+/* original */
+
+/* .timeline-component {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin: 2rem;
+    overflow-y: scroll;
+} */
+
 .timeline-component {
     display: flex;
     flex-direction: column;
@@ -5,3 +15,18 @@
     margin: 2rem;
     overflow-y: scroll;
 }
+
+/* .timeline-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin: 2rem;
+    overflow-y: scroll;
+}
+
+.timeline-component {
+    display: flex;
+    flex-direction: column;
+    width: auto;
+    height: auto;
+} */

@@ -7,10 +7,11 @@ import axios from "axios";
 
 import "./Search.css";
 
-export default function Search({ token }) {
+export default function Search({ username, token }) {
   const [searchInput, setSearchInput] = useState("");
   const [songResults, setSongResults] = useState([]);
   const [profileResults, setProfileResults] = useState([]);
+  const [isSongResults, setIsSongResults] = useState(true);
 
   const searchSongs = async (e) => {
     e.preventDefault();
@@ -37,6 +38,24 @@ export default function Search({ token }) {
       });
 
     setSongResults(data.tracks.items);
+    setIsSongResults(true);
+  };
+
+  const searchProfiles = async (e) => {
+    e.preventDefault();
+
+    const results = await axios
+      .get("http://localhost:3001/user/users")
+      .catch((error) => {
+        console.log(error);
+      });
+
+    let newArray = results.data.filter(
+      (element) => element.username !== username
+    );
+
+    setProfileResults(newArray);
+    setIsSongResults(false);
   };
 
   return (
@@ -44,8 +63,17 @@ export default function Search({ token }) {
       <SearchBar
         searchSongs={searchSongs}
         setSearchInput={setSearchInput}
+        searchProfiles={searchProfiles}
       ></SearchBar>
-      <SearchResults results={songResults} token={token}></SearchResults>
+      <SearchResults
+        // added
+        username={username}
+        // added
+        songResults={songResults}
+        profileResults={profileResults}
+        token={token}
+        isSongResults={isSongResults}
+      ></SearchResults>
       {/* TODO - search results */}
     </div>
   );

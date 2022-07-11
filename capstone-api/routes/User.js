@@ -77,6 +77,12 @@ router.get('/timeline/:username', async (req, res) => {
     res.send(result);
 })
 
+// TODO
+router.get('/users', async (req, res) => {
+    let result = await User.getUsers();
+    res.send(result);
+});
+
 router.get('/', (req, res) => {
     try {
         let currUser = User.getCurrentUser();
