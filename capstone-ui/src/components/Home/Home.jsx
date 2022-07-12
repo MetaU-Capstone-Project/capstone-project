@@ -25,7 +25,14 @@ export default function Home({ username, page, token, profile }) {
         <Groups username={username} profile={profile} token={token}></Groups>
       )}
       {page === "profile" && (
-        <Profile username={username} profile={profile} token={token}></Profile>
+        <Profile
+          username={username}
+          profile={profile}
+          token={token}
+          followers={false}
+          timeline={true}
+          settings={false}
+        ></Profile>
       )}
       {page === "post" && (
         <Post username={username} token={token} profile={profile}></Post>
@@ -36,6 +43,16 @@ export default function Home({ username, page, token, profile }) {
           token={token}
           profile={profile}
         ></Preferences>
+      )}
+      {page === "followers" && (
+        <Profile
+          username={username}
+          profile={profile}
+          token={token}
+          followers={true}
+          timeline={false}
+          settings={false}
+        ></Profile>
       )}
     </div>
   );

@@ -8,10 +8,18 @@ import { catchErrors } from "../../utils";
 import logo from "../../logo.svg";
 import ProfileCard from "../ProfileCard/ProfileCard";
 import Timeline from "../Timeline/Timeline";
+import Followers from "../Followers/Followers";
 
 const Parse = require("parse");
 
-export default function Profile({ username, token, profile }) {
+export default function Profile({
+  username,
+  token,
+  profile,
+  timeline,
+  settings,
+  followers,
+}) {
   const [appProfile, setAppProfile] = React.useState();
 
   // React.useEffect(() => {
@@ -32,6 +40,28 @@ export default function Profile({ username, token, profile }) {
     catchErrors(fetchAppUser());
   }, []);
 
+  // return (
+  //   <div className="profile-page">
+  //     <div className="info-wrapper">
+  //       <ProfileCard
+  //         username={username}
+  //         token={token}
+  //         profile={profile}
+  //         appProfile={appProfile}
+  //         isPreferencesView={false}
+  //       ></ProfileCard>
+  //     </div>
+  //     <div className="timeline-wrapper">
+  //       <span className="timeline-heading">Timeline</span>
+  //       <Timeline
+  //         username={username}
+  //         token={token}
+  //         profile={profile}
+  //       ></Timeline>
+  //     </div>
+  //   </div>
+  // );
+
   return (
     <div className="profile-page">
       <div className="info-wrapper">
@@ -43,14 +73,27 @@ export default function Profile({ username, token, profile }) {
           isPreferencesView={false}
         ></ProfileCard>
       </div>
-      <div className="timeline-wrapper">
-        <span className="timeline-heading">Timeline</span>
-        <Timeline
-          username={username}
-          token={token}
-          profile={profile}
-        ></Timeline>
-      </div>
+      {timeline && (
+        <div className="timeline-wrapper">
+          <span className="timeline-heading">Timeline</span>
+          <Timeline
+            username={username}
+            token={token}
+            profile={profile}
+          ></Timeline>
+        </div>
+      )}
+      {followers && (
+        <div className="followers-wrapper">
+          <span className="followers-heading">Friends</span>
+          {/* TODO followers */}
+          <Followers
+            username={username}
+            token={token}
+            profile={profile}
+          ></Followers>
+        </div>
+      )}
     </div>
   );
 }

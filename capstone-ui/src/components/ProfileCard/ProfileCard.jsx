@@ -41,7 +41,12 @@ export default function ProfileCard({
       </div>
       <div className="profile-buttons">
         {/* TODO username */}
-        <button className="profile-friends-button">Your Friends</button>
+        <Link to={"/followers"} className="profile-friends">
+          <button className="profile-friends-button">Your Friends</button>
+        </Link>
+        {/* TODO 6/12 commented out */}
+        {/* <button className="profile-friends-button">Your Friends</button> */}
+
         {/* TODO added 6/11 */}
         {/* {!isPreferencesView && (
           <button className="profile-friends-button">Your Settings</button>

@@ -11,7 +11,11 @@ export default function ProfileHeader({
   profile,
   token,
   isSearchView,
+  isFollowersView,
 }) {
+  const [isFollowing, setIsFollowing] = useState(false);
+  const [followers, setFollowers] = useState([]);
+
   // added
   React.useEffect(() => {
     async function getAppProfile() {
@@ -25,6 +29,22 @@ export default function ProfileHeader({
     if (isSearchView) {
       getAppProfile();
     }
+  }, []);
+
+  // TODO toggle follow button - add dependency?
+  React.useEffect(() => {
+    console.log("my profile");
+    console.log(profile);
+    console.log("my username: ");
+    console.log(username);
+
+    async function getFollowers() {
+      const response = await axios.get(
+        `http://localhost:3001/user/followers/${username}`
+      );
+      setFollowers(response);
+    }
+    getFollowers();
   }, []);
 
   const followUser = async (e) => {
@@ -46,24 +66,23 @@ export default function ProfileHeader({
   };
 
   // TODO
-  // const unfollowUser = async (e) => {
-  // FIX
-  //   let followUsername =
-  //     e.target.parentNode.childNodes[1].childNodes[0].innerText;
+  const unfollowUser = async (e) => {
+    let unfollowUsername =
+      e.target.parentNode.childNodes[1].childNodes[0].innerText;
 
-  //   e.preventDefault();
-  //   axios
-  //     .post("http://localhost:3001/user/unfollowUser", {
-  //       currUsername: username,
-  //       unfollowUsername: followUsername,
-  //     })
-  //     .then(function (response) {
-  //       alert(`You have unfollowed ${followUsername}.`);
-  //     })
-  //     .catch(function (error) {
-  //       alert(`Error! ${error.message}`);
-  //     });
-  // };
+    e.preventDefault();
+    axios
+      .post("http://localhost:3001/user/unfollowUser", {
+        currUsername: username,
+        unfollowUsername: unfollowUsername,
+      })
+      .then(function (response) {
+        alert(`You have unfollowed ${unfollowUsername}.`);
+      })
+      .catch(function (error) {
+        alert(`Error! ${error.message}`);
+      });
+  };
 
   // TODO add button and retrieve other people's usernames and Spotify usernames
   if (isSearchView) {
@@ -90,10 +109,42 @@ export default function ProfileHeader({
             Spotify @{profile.display_name}
           </span> */}
         </div>
-        {/* TODO onclick */}
+        {/* TODO toggle */}
+
         <button className="follow-button" onClick={followUser}>
           Follow
         </button>
+        <button className="unfollow-button" onClick={unfollowUser}>
+          Unfollow
+        </button>
+      </div>
+    );
+  }
+
+  if (isFollowersView) {
+    console.log("i wanna go home");
+
+    // TODO add link so clickable and can view follower's profile
+    return (
+      <div className="profileheader-component">
+        <div className="profile-picture-wrapper">
+          {/* {profile.images && (
+            <img
+              className="profile-picture"
+              src={profile.images[0].url}
+              alt="profile-picture"
+              id="profile-picture"
+            ></img>
+          )} */}
+          <img src={logo}></img>
+        </div>
+        <div className="profile-username-wrapper">
+          <span className="profile-username">{profile}</span>
+          {/* can't retrieve display name */}
+          {/* <span className="profile-username">
+            Spotify @{profile.display_name}
+          </span> */}
+        </div>
       </div>
     );
   }

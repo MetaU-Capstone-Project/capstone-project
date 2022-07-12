@@ -73,8 +73,8 @@ router.get('/users', async (req, res) => {
     res.send(result);
 });
 
-// TODO
-// router.get('/followUser/:username', async (req, res) => {
+// was working!!
+// router.post('/followUser', async (req, res) => {
 //     let { currUsername, followUsername } = req.body;
 //     let result = await User.followUser(currUsername, followUsername);
 //     if (result) {
@@ -84,45 +84,44 @@ router.get('/users', async (req, res) => {
 //     }
 // });
 
-// was working!!
-router.post('/followUser', async (req, res) => {
-    let { currUsername, followUsername } = req.body;
-    let result = await User.followUser(currUsername, followUsername);
-    if (result) {
-        res.send(201);
-    } else {
-        res.send(400);
-    }
-});
-
-router.post('/unfollowUser', async (req, res) => {
-    let { currUsername, followUsername } = req.body;
-    let result = await User.unfollowUser(currUsername, followUsername);
-    if (result) {
-        res.send(200);
-    } else {
-        res.send(400);
-    }
-});
-
-// router.post('/followUser', async (req, res) => {
-//     let { currUsername, followUsername } = req.body;
-//     let result = await User.followUser(currUsername, followUsername);
-//     console.log(result);
-//     if (result === "Success") {
-//         res.send(201);
+// router.post('/unfollowUser', async (req, res) => {
+//     let { currUsername, unfollowUsername } = req.body;
+//     let result = await User.unfollowUser(currUsername, unfollowUsername);
+//     if (result) {
+//         res.send(200);
 //     } else {
-//         res.status(400).send(result);
+//         res.send(400);
 //     }
 // });
 
-// router.get('/followers/:username', async (req, res) => {
-//     const username = req.params.username;
-//     const result = await User.getFo(username);
-//     // TODO - fix and errors
-//     res.send(result);
-// });
+router.post('/followUser', async (req, res) => {
+    let { currUsername, followUsername } = req.body;
+    let result = await User.followUser(currUsername, followUsername);
+    res.send(result);
+    // if (result === false) {
+    //     res.send(400);
+    // } else {
+    //     res.send(201);
+    // }
+});
 
+router.post('/unfollowUser', async (req, res) => {
+    let { currUsername, unfollowUsername } = req.body;
+    let result = await User.unfollowUser(currUsername, unfollowUsername);
+    res.send(result);
+    // if (result === false) {
+    //     res.send(401);
+    // } else {
+    //     res.send(200);
+    // }
+});
+
+router.get('/followers/:username', async (req, res) => {
+    const username = req.params.username;
+    const result = await User.getFollowers(username);
+    // TODO - fix and errors
+    res.send(result);
+});
 
 router.get('/', (req, res) => {
     try {

@@ -23,6 +23,7 @@ export default function Timeline({ username, token, profile }) {
     <div className="timeline-component">
       {timeline.map((element) => (
         <PostHeader
+          username={username}
           post={element}
           key={element.objectId}
           token={token}

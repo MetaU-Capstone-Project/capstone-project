@@ -8,7 +8,7 @@ import axios from "axios";
 // TODO - temporarily use logo as profile picture
 import logo from "../../logo.svg";
 
-export default function PostHeader({ post, token, profile }) {
+export default function PostHeader({ username, post, token, profile }) {
   const [songInfo, setSongInfo] = useState({});
 
   React.useEffect(() => {
@@ -35,6 +35,7 @@ export default function PostHeader({ post, token, profile }) {
           token={token}
           profile={profile}
           isSearchView={false}
+          username={username}
         ></ProfileHeader>
         <span>{post.createdAt}</span>
       </div>

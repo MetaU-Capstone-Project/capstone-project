@@ -38,9 +38,6 @@ app.get('/callback', (req, res) => {
                 const { access_token, refresh_token, expires_in } = response.data;
       
                 const queryParams = `access_token=${access_token}&refresh_token=${refresh_token}&expires_in=${expires_in}`;
-                console.log('query params:');
-                console.log(queryParams);
-        
                 res.redirect(`http://localhost:3000/feed/?${queryParams}`);
 
               } else {
@@ -50,7 +47,6 @@ app.get('/callback', (req, res) => {
               }
         }).catch(function (error) {
             res.redirect("http://localhost:3000");
-            console.log('julia');
             // res.send(error);
         });
 });
