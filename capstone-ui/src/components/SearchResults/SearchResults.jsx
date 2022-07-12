@@ -34,7 +34,7 @@ export default function SearchResults({
           results.map((element) => (
             <ProfileHeader
               username={username}
-              key={element.id}
+              key={element.username}
               profile={element}
               isSearchView={true}
             ></ProfileHeader>

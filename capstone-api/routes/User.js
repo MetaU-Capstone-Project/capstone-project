@@ -42,16 +42,6 @@ router.post('/register', async (req, res) => {
     }
 });
 
-// TODO
-// router.get('/post', async (req, res) => {
-//     const username = req.params.username;
-//     const trackId = req.params.trackId;
-//     const result = await User.getPost(username, trackId);
-//     console.log('result of getting post: ' + result);
-//     // TODO - fix and errors
-//     res.send(result);
-// })
-
 router.post('/post', async (req, res) => {
     let { username, trackId } = req.body;
     let result = await User.post(username, trackId);
@@ -82,6 +72,57 @@ router.get('/users', async (req, res) => {
     let result = await User.getUsers();
     res.send(result);
 });
+
+// TODO
+// router.get('/followUser/:username', async (req, res) => {
+//     let { currUsername, followUsername } = req.body;
+//     let result = await User.followUser(currUsername, followUsername);
+//     if (result) {
+//         res.send(201);
+//     } else {
+//         res.send(400);
+//     }
+// });
+
+// was working!!
+router.post('/followUser', async (req, res) => {
+    let { currUsername, followUsername } = req.body;
+    let result = await User.followUser(currUsername, followUsername);
+    if (result) {
+        res.send(201);
+    } else {
+        res.send(400);
+    }
+});
+
+router.post('/unfollowUser', async (req, res) => {
+    let { currUsername, followUsername } = req.body;
+    let result = await User.unfollowUser(currUsername, followUsername);
+    if (result) {
+        res.send(200);
+    } else {
+        res.send(400);
+    }
+});
+
+// router.post('/followUser', async (req, res) => {
+//     let { currUsername, followUsername } = req.body;
+//     let result = await User.followUser(currUsername, followUsername);
+//     console.log(result);
+//     if (result === "Success") {
+//         res.send(201);
+//     } else {
+//         res.status(400).send(result);
+//     }
+// });
+
+// router.get('/followers/:username', async (req, res) => {
+//     const username = req.params.username;
+//     const result = await User.getFo(username);
+//     // TODO - fix and errors
+//     res.send(result);
+// });
+
 
 router.get('/', (req, res) => {
     try {

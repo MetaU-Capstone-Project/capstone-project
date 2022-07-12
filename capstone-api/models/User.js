@@ -2,9 +2,12 @@
 var Parse = require('parse/node');
 const PARSE_APPLICATION_ID = 'tW3HTz0fUSdMPmk1hE4qA8c9FbZqcerL3iY1kejp';
 const PARSE_JAVASCRIPT_KEY = '1wbQ5EOY8c7z8jTSyfXVNblyphvMEvvXVLfXXOTq';
+const PARSE_MASTER_KEY = 'xNXyklOY15pcUMU1RsKqfxwUTG48I40fxGX80plA';
 
-Parse.initialize(PARSE_APPLICATION_ID, PARSE_JAVASCRIPT_KEY); 
+// Parse.initialize(PARSE_APPLICATION_ID, PARSE_JAVASCRIPT_KEY); 
+Parse.initialize(PARSE_APPLICATION_ID, PARSE_JAVASCRIPT_KEY, PARSE_MASTER_KEY); 
 Parse.serverURL = 'https://parseapi.back4app.com/';
+Parse.Cloud.useMasterKey();
 
 // TODO 
 // const {BadRequestError} = require('../utils/errors')
@@ -121,6 +124,82 @@ class User {
       } catch (error) {
         return {};
       };
+    }
+
+    // static async followUser(currUsername, followUsername) {
+    //   const query = new Parse.Query('User');
+    //   query.equalTo("username", currUsername);
+
+    //   query.first({
+    //       success: function(user) {
+    //       },
+    //       error: function(error) {
+    //       }
+    //   }).then(function (response) {
+    //     let res = response.get('followers');
+    //     console.log('in then');
+    //     console.log(res);
+    //     console.log(followUsername);
+    //     if (res.includes(followUsername)) {
+    //       return "Already following";
+    //     } else {
+    //       res.push(followUsername);
+    //       response.set('followers', res);
+    //       response.save();
+    //       return "Success";
+    //     }
+    //   }).catch(function (err) {
+    //     console.log('in catch');
+    //     return err.message;
+    //   });
+    // }
+
+    static async followUser(currUsername, followUsername) {
+      const query = new Parse.Query('User');
+      query.equalTo("username", currUsername);
+
+      query.first({
+          success: function(user) {
+          },
+          error: function(error) {
+            // TODO
+            console.log(error.message);
+            // return false;
+          }
+      }).then(function (response) {
+        let res = response.get('followers');
+        res.push(followUsername);
+        response.set('followers', res);
+        response.save();
+        return true;
+      }).catch(function (err) {
+        console.log(err.message);
+        return false;
+      });
+    }
+
+    static async unfollowUser(currUsername, followUsername) {
+      const query = new Parse.Query('User');
+      query.equalTo("username", currUsername);
+
+      query.first({
+          success: function(user) {
+          },
+          error: function(error) {
+            // TODO
+            console.log(error.message);
+            // return false;
+          }
+      }).then(function (response) {
+        let res = response.get('followers');
+        res.push(followUsername);
+        response.set('followers', res);
+        response.save();
+        return true;
+      }).catch(function (err) {
+        console.log(err.message);
+        return false;
+      });
     }
 }
 

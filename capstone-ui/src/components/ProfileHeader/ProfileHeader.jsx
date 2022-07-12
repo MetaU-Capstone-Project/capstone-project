@@ -1,5 +1,6 @@
 // import * as React from "react";
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import "./ProfileHeader.css";
 
 // TODO - temporarily use logo as profile picture
@@ -26,13 +27,51 @@ export default function ProfileHeader({
     }
   }, []);
 
+  const followUser = async (e) => {
+    let followUsername =
+      e.target.parentNode.childNodes[1].childNodes[0].innerText;
+
+    e.preventDefault();
+    axios
+      .post("http://localhost:3001/user/followUser", {
+        currUsername: username,
+        followUsername: followUsername,
+      })
+      .then(function (response) {
+        alert(`You are now following ${followUsername}!`);
+      })
+      .catch(function (error) {
+        alert(`Error! ${error.message}`);
+      });
+  };
+
+  // TODO
+  // const unfollowUser = async (e) => {
+  // FIX
+  //   let followUsername =
+  //     e.target.parentNode.childNodes[1].childNodes[0].innerText;
+
+  //   e.preventDefault();
+  //   axios
+  //     .post("http://localhost:3001/user/unfollowUser", {
+  //       currUsername: username,
+  //       unfollowUsername: followUsername,
+  //     })
+  //     .then(function (response) {
+  //       alert(`You have unfollowed ${followUsername}.`);
+  //     })
+  //     .catch(function (error) {
+  //       alert(`Error! ${error.message}`);
+  //     });
+  // };
+
   // TODO add button and retrieve other people's usernames and Spotify usernames
   if (isSearchView) {
     // username prop was passed in as undefined
     let username = profile.username;
 
     return (
-      <div className="search-view-profileheader-component ">
+      <div className="search-view-profileheader-component">
         <div className="profile-picture-wrapper">
           <img src={logo}></img>
           {/* TODO uncomment both out */}
@@ -51,6 +90,10 @@ export default function ProfileHeader({
             Spotify @{profile.display_name}
           </span> */}
         </div>
+        {/* TODO onclick */}
+        <button className="follow-button" onClick={followUser}>
+          Follow
+        </button>
       </div>
     );
   }
