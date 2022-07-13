@@ -16,15 +16,15 @@ export default function FeedResults({ username, feed, token }) {
     <div className="feed-results-component">
       {feed && username ? (
         feed.map((element) => (
-          // <span key={element.objectId}>{element.username}</span>
-          <PostCard
-            username={username}
-            post={element}
-            key={element.objectId}
-            token={token}
-            song={{ trackId: element.objectId }}
-            // profile={profile}
-          ></PostCard>
+          <span key={element.objectId}>{element.username}</span>
+          // <PostCard
+          //   username={username}
+          //   post={element}
+          //   key={element.objectId}
+          //   token={token}
+          //   song={{ trackId: element.objectId }}
+          //   // profile={profile}
+          // ></PostCard>
         ))
       ) : (
         <LoadingSpinner />

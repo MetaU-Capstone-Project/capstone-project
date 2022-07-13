@@ -8,12 +8,14 @@ export default function SearchBar({
   searchSongs,
   setSearchInput,
   searchProfiles,
+  searchInput,
 }) {
   return (
     <div className="searchbar-component">
       <input
         className="search-input"
         onChange={(e) => setSearchInput(e.target.value)}
+        value={searchInput}
       ></input>
       <button className="search-button" onClick={searchSongs}>
         Search Songs

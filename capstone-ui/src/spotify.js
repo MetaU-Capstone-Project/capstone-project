@@ -159,3 +159,5 @@ export const getTopArtists = (time_range = 'short_term') => {
 export const getGenres = () => {
   return axios.get(`/recommendations/available-genre-seeds`);
 };
+
+// TODO put search here

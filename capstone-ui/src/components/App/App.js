@@ -41,25 +41,25 @@ function App() {
 
     catchErrors(fetchSpotifyUser());
 
-    // const fetchAppUser = async () => {
-    //   const { data } = await axios.get("http://localhost:3001/user");
-    //   setUsername(data.username);
-    // }
-
-    // catchErrors(fetchAppUser());
-
-    // console.log(username);
-  }, []);
-
-  useEffect(() => {
     const fetchAppUser = async () => {
       const { data } = await axios.get("http://localhost:3001/user");
       setUsername(data.username);
     }
 
-    console.log('fetching username');
     catchErrors(fetchAppUser());
-  }, [username])
+
+    // console.log(username);
+  }, []);
+
+  // useEffect(() => {
+  //   const fetchAppUser = async () => {
+  //     const { data } = await axios.get("http://localhost:3001/user");
+  //     setUsername(data.username);
+  //   }
+
+  //   console.log('fetching username');
+  //   catchErrors(fetchAppUser());
+  // }, [username])
 
 
   // TODO initial 401 error 

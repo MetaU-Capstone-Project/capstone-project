@@ -87,19 +87,7 @@ class User {
           return {};
         };
     };
-
-    // static async timeline(username) {
-    //     const query = new Parse.Query('Post');
-    //     query.equalTo("username", username);
-    //     query.descending("createdAt");
-    //     try {
-    //       let posts = await query.find();
-    //       return posts;
-    //     } catch (error) {
-    //       return {};
-    //     };
-    // };
-
+    
     static async timeline(username) {
       const query = new Parse.Query('Post');
       query.equalTo("username", username);
@@ -133,116 +121,19 @@ class User {
       };
     }
 
-    // static async followUser(currUsername, followUsername) {
-    //   const query = new Parse.Query('User');
-    //   query.equalTo("username", currUsername);
-
-    //   query.first({
-    //       success: function(user) {
-    //       },
-    //       error: function(error) {
-    //         // TODO
-    //         console.log(error.message);
-    //         // return false;
-    //       }
-    //   }).then(function (response) {
-    //     let res = response.get('followers');
-    //     res.push(followUsername);
-    //     response.set('followers', res);
-    //     response.save();
-    //     return true;
-    //   }).catch(function (err) {
-    //     console.log(err.message);
-    //     return false;
-    //   });
-    // }
-
-    // static async unfollowUser(currUsername, unfollowUsername) {
-    //   const query = new Parse.Query('User');
-    //   query.equalTo("username", currUsername);
-    //   query.first({
-    //       success: function(user) {
-    //       },
-    //       error: function(error) {
-    //         // TODO
-    //         console.log(error.message);
-    //         // return false;
-    //       }
-    //   }).then(function (response) {
-    //     let res = response.get('followers');
-    //     let res2 = res.filter((element) => element !== unfollowUsername);
-    //     response.set('followers', res2);
-    //     response.save();
-    //     return true;
-    //   }).catch(function (err) {
-    //     console.log(err.message);
-    //     return false;
-    //   });
-    // }
-
     static async followUser(currUsername, followUsername) {
-      const query = new Parse.Query('User');
-      query.equalTo("username", currUsername);
-      let user = await query.first({});
-      let followers = user.get('followers');
-      followers.push(followUsername);
-      user.set('followers', followers);
-      user.save();
-
-      console.log('updated after follow');
-      console.log(user.get('followers'));
-      return user.get('followers');
-      // query.first({
-      //     success: function(user) {
-      //     },
-      //     error: function(error) {
-      //       // TODO
-      //       console.log(error.message);
-      //       // return false;
-      //     }
-      // }).then(function (response) {
-      //   let res = response.get('followers');
-      //   res.push(followUsername);
-      //   response.set('followers', res);
-      //   response.save();
-      //   return response.get('followers');
-      // }).catch(function (err) {
-      //   console.log(err.message);
-      //   return false;
-      // });
+      let user = Parse.User.current();
+      user.addUnique('followers', followUsername);
+      await user.save();
+      return true;
     }
 
     // TODO errors
     static async unfollowUser(currUsername, unfollowUsername) {
-      const query = new Parse.Query('User');
-      query.equalTo("username", currUsername);
-      let user = await query.first({});
-      let followers = user.get('followers');
-      let temp = followers.filter((element) => element !== unfollowUsername);
-      user.set('followers', temp);
-      user.save();
-
-      console.log('updated after unfollow');
-      console.log(user.get('followers'));
-      return user.get('followers');
-      // query.first({
-      //     success: function(user) {
-      //     },
-      //     error: function(error) {
-      //       // TODO
-      //       console.log(error.message);
-      //       // return false;
-      //     }
-      // }).then(function (response) {
-      //   let res = response.get('followers');
-      //   let res2 = res.filter((element) => element !== unfollowUsername);
-      //   response.set('followers', res2);
-      //   response.save();
-      //   return response.get('followers');
-      // }).catch(function (err) {
-      //   console.log(err.message);
-      //   return false;
-      // });
+      let user = Parse.User.current();
+      user.remove('followers', unfollowUsername);
+      await user.save();
+      return true;
     }
 
   static async getFollowers(username) {
@@ -272,16 +163,9 @@ class User {
   static async delete(username) {
     const query = new Parse.Query('User');
     query.equalTo("username", username);
-    let result = await query.first({
-      success: function(yourObj) {
-        yourObj.destroy({});
-        return true;
-      },
-      error: function(object, error) {
-        return false;
-      }
-    }); 
-    return result;
+    let result = await query.first({}); 
+    result.destroy({});
+    return true;
   };
 }
 

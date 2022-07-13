@@ -53,6 +53,9 @@ export default function ProfileHeader({
         response.data.includes(profile)
       ) {
         setIsFollowing(true);
+      } else {
+        // added
+        setIsFollowing(false);
       }
     }
     getFollowers();

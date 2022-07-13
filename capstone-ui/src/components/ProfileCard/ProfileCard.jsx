@@ -28,7 +28,6 @@ export default function ProfileCard({
     axios
       .get(`http://localhost:3001/user/delete/${username}`)
       .then(function (response) {
-        console.log(response);
         logout();
         window.location.href = "http://localhost:3000";
       });
