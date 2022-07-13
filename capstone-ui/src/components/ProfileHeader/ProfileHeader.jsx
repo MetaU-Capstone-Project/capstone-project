@@ -17,27 +17,39 @@ export default function ProfileHeader({
   const [followers, setFollowers] = useState([]);
 
   // added
-  React.useEffect(() => {
-    async function getAppProfile() {
-      // const response = await axios.get(
-      //   `http://localhost:3001/user/timeline/${username}`
-      // );
-      // console.log("timeline");
-      // console.log(response.data);
-      // setTimeline(response.data);
-    }
-    if (isSearchView) {
-      getAppProfile();
-    }
-  }, []);
+  // React.useEffect(() => {
+  //   async function getAppProfile() {
+  //     // const response = await axios.get(
+  //     //   `http://localhost:3001/user/timeline/${username}`
+  //     // );
+  //     // console.log("timeline");
+  //     // console.log(response.data);
+  //     // setTimeline(response.data);
+  //   }
+  //   if (isSearchView) {
+  //     getAppProfile();
+  //   }
 
-  // TODO toggle follow button - add dependency?
+  //   // TODO added for toggle button
+  //   console.log("profile header");
+  //   console.log(profile);
+
+  //   let viewUsername = profile.username;
+  //   if
+
+  // }, []);
+
   React.useEffect(() => {
     async function getFollowers() {
       const response = await axios.get(
         `http://localhost:3001/user/followers/${username}`
       );
-      setFollowers(response);
+      setFollowers(response.data);
+
+      let viewUsername = profile.username;
+      if (response.data.includes(viewUsername)) {
+        setIsFollowing(true);
+      }
     }
     getFollowers();
   }, []);
@@ -54,13 +66,13 @@ export default function ProfileHeader({
       })
       .then(function (response) {
         alert(`You are now following ${followUsername}!`);
+        setIsFollowing(true);
       })
       .catch(function (error) {
         alert(`Error! ${error.message}`);
       });
   };
 
-  // TODO
   const unfollowUser = async (e) => {
     let unfollowUsername =
       e.target.parentNode.childNodes[1].childNodes[0].innerText;
@@ -73,6 +85,7 @@ export default function ProfileHeader({
       })
       .then(function (response) {
         alert(`You have unfollowed ${unfollowUsername}.`);
+        setIsFollowing(false);
       })
       .catch(function (error) {
         alert(`Error! ${error.message}`);
@@ -104,14 +117,15 @@ export default function ProfileHeader({
             Spotify @{profile.display_name}
           </span> */}
         </div>
-        {/* TODO toggle */}
-
-        <button className="follow-button" onClick={followUser}>
-          Follow
-        </button>
-        <button className="unfollow-button" onClick={unfollowUser}>
-          Unfollow
-        </button>
+        {isFollowing ? (
+          <button className="unfollow-button" onClick={unfollowUser}>
+            Unfollow
+          </button>
+        ) : (
+          <button className="follow-button" onClick={followUser}>
+            Follow
+          </button>
+        )}
       </div>
     );
   }

@@ -26,6 +26,17 @@ router.get('/authorize', (req, res) => {
     res.redirect(`https://accounts.spotify.com/authorize?${queryParams}`);
 });
 
+// TODO add different routes for authorizing after login and registration
+router.get('/authorize/register', (req, res) => {
+    const state = generateRandomString(16);
+    // TODO temporarily commented out
+    // res.cookie(stateKey, state);
+    const scope = 'user-read-private user-read-email user-top-read';
+
+    const queryParams = `client_id=${CLIENT_ID}&response_type=code&redirect_uri=${REDIRECT_URI}&state=${state}&scope=${scope}&show_dialog=true&register=true`;
+    res.redirect(`https://accounts.spotify.com/authorize?${queryParams}`);
+});
+
 router.post('/login', async (req, res) => {
     let {username, password} = req.body;
     let loggedInUser = await User.logUserIn(username, password);

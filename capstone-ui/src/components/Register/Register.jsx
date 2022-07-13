@@ -52,7 +52,9 @@ export default function Register(
         // getCurrentUser();
         // before
         // window.location.href = "http://localhost:3000/feed";
-        window.location.href = "http://localhost:3001/user/authorize";
+        // was working prev but adding registration preferences page
+        // window.location.href = "http://localhost:3001/user/authorize";
+        window.location.href = "http://localhost:3001/user/authorize/register";
       })
       .catch((error) => {
         alert(`Error! ${error.message}`);
