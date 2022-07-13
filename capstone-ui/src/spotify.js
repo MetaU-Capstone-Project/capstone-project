@@ -9,7 +9,7 @@ import {
 // was working previously
 
 export const authorizationEndpoint = "https://accounts.spotify.com/authorize";
-const redirectURI = "http://localhost:3000/feed/";
+const redirectURI = "http://localhost:3000/home/";
 // this was working
 // const redirectURI = "http://localhost:3001/callback";
 const clientId = "df31a108deeb4f8698d7936b772522bb";

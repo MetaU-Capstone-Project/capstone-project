@@ -1,0 +1,15 @@
+.feed-heading {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.feed-heading-wrapper {
+    margin-top: 4rem;
+    text-align: start;
+    margin-left: 4rem;
+}
+
+.feed-page {
+    display: flex;
+    flex-direction: column;
+}

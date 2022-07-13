@@ -13,8 +13,8 @@ import { HashLink } from "react-router-hash-link";
 export default function Navbar() {
   return (
     <div className="navbar-component">
-      <Link to={"/feed"} className="navbar-link">
-        Feed
+      <Link to={"/home"} className="navbar-link">
+        Home
       </Link>
       <Link to={"/search"} className="navbar-link">
         Search

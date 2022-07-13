@@ -123,6 +123,13 @@ router.get('/followers/:username', async (req, res) => {
     res.send(result);
 });
 
+router.get('/feed/:username', async (req, res) => {
+    const username = req.params.username;
+    const result = await User.getFeed(username);
+    // TODO - fix and errors
+    res.send(result);
+});
+
 router.get('/', (req, res) => {
     try {
         let currUser = User.getCurrentUser();

@@ -25,7 +25,8 @@ function App() {
   const [profile, setProfile] = useState(null);
 
   // need app username for post requests
-  const [username, setUsername] = useState("");
+  // TODO changed from empty string for the feedd
+  const [username, setUsername] = useState(null);
     // TODO delete this
   const [password, setPassword] = useState("");
   const [currentUser, setCurrentUser] = useState(null);
@@ -56,6 +57,7 @@ function App() {
       setUsername(data.username);
     }
 
+    console.log('fetching username');
     catchErrors(fetchAppUser());
   }, [username])
 
@@ -70,7 +72,7 @@ function App() {
           />
           <Route exact path="/register" element={<Register username={username} password={password} currentUser={currentUser} setUsername={setUsername} setPassword={setPassword} setCurrentUser={setCurrentUser}></Register>}
           />
-          <Route exact path="/feed" element={<Home page={'feed'} username={username} profile={profile} token={token}></Home>}
+          <Route exact path="/home" element={<Home page={'home'} username={username} profile={profile} token={token}></Home>}
           />
           <Route exact path="/search" element={<Home page={'search'} username={username} profile={profile} token={token}></Home>}
           />

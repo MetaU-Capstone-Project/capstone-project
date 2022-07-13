@@ -12,8 +12,6 @@ export default function Timeline({ username, token, profile }) {
       const response = await axios.get(
         `http://localhost:3001/user/timeline/${username}`
       );
-      console.log("timeline");
-      console.log(response.data);
       setTimeline(response.data);
     }
 

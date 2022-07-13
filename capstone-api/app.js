@@ -38,7 +38,7 @@ app.get('/callback', (req, res) => {
                 const { access_token, refresh_token, expires_in } = response.data;
       
                 const queryParams = `access_token=${access_token}&refresh_token=${refresh_token}&expires_in=${expires_in}`;
-                res.redirect(`http://localhost:3000/feed/?${queryParams}`);
+                res.redirect(`http://localhost:3000/home/?${queryParams}`);
 
               } else {
                 // before

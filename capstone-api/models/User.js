@@ -37,6 +37,7 @@ class User {
         user.set("username", username);
         user.set("password", password);
         user.set("spotifyUsername", spotifyUsername);
+        user.set('followers', []);
         try {
             await user.signUp();
             return "User created!";
@@ -87,17 +88,25 @@ class User {
         };
     };
 
+    // static async timeline(username) {
+    //     const query = new Parse.Query('Post');
+    //     query.equalTo("username", username);
+    //     query.descending("createdAt");
+    //     try {
+    //       let posts = await query.find();
+    //       return posts;
+    //     } catch (error) {
+    //       return {};
+    //     };
+    // };
+
     static async timeline(username) {
-        const query = new Parse.Query('Post');
-        query.equalTo("username", username);
-        query.descending("createdAt");
-        try {
-          let posts = await query.find();
-          return posts;
-        } catch (error) {
-          return {};
-        };
-    };
+      const query = new Parse.Query('Post');
+      query.equalTo("username", username);
+      query.descending("createdAt");
+      let result = await query.find();
+      return result;
+  };
 
     static async getPost(username, trackId) {
       const query = new Parse.Query('Post');
@@ -236,6 +245,22 @@ class User {
     let user = await query.first({});
     // TODO handle errors
     return user.get('followers');
+  };
+
+  static async getFeed(username) {
+    console.log('ahhh');
+    console.log(username);
+
+    let followers = await this.getFollowers(username);
+    let result = [];
+    for (let i = 0; i < followers.length; i++) {
+      let userPosts = await this.timeline(followers[i]);
+      result = result.concat(userPosts);
+    }
+    // TODO handle errors
+    // return user.get('followers');
+    console.log(result);
+    return result;
   };
 }
 

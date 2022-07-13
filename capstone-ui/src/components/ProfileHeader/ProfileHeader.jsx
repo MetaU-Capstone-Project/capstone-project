@@ -117,8 +117,6 @@ export default function ProfileHeader({
   }
 
   if (isFollowersView) {
-    console.log("i wanna go home");
-
     // TODO add link so clickable and can view follower's profile
     return (
       <div className="profileheader-component">
