@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import ProfileHeader from "../ProfileHeader/ProfileHeader";
 import "./ProfileCard.css";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import { logout } from "../../spotify";
 
 // TODO - temporarily use logo as profile picture
 import logo from "../../logo.svg";
@@ -19,6 +21,24 @@ export default function ProfileCard({
     setTab(e.target.id);
     e.target.className = "is-active";
   }
+
+  const deleteAccount = async (e) => {
+    console.log("deleting account");
+    console.log(username);
+    axios
+      .get(`http://localhost:3001/user/delete/${username}`)
+      .then(function (response) {
+        console.log(response);
+        logout();
+        window.location.href = "http://localhost:3000";
+      });
+  };
+
+  const confirmDelete = async (e) => {
+    if (window.confirm("Are you sure you want to delete your account?")) {
+      deleteAccount();
+    }
+  };
 
   return (
     <div className="profilecard-component">
@@ -72,6 +92,11 @@ export default function ProfileCard({
           onClick={handleTabChange}
         >
           Your Settings
+        </button>
+      </div>
+      <div className="delete-account-wrapper">
+        <button className="delete-account-button" onClick={confirmDelete}>
+          Delete Account
         </button>
       </div>
     </div>

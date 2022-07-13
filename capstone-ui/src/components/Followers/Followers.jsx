@@ -17,6 +17,8 @@ export default function Followers({ username, token, profile }) {
       );
 
       setFollowers(response.data);
+      console.log("response.data");
+      console.log(response.data);
       // setIsFetching(false);
     }
     getFollowers();

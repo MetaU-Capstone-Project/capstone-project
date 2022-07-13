@@ -141,6 +141,13 @@ router.get('/feed/:username', async (req, res) => {
     res.send(result);
 });
 
+router.get('/delete/:username', async (req, res) => {
+    const username = req.params.username;
+    const result = await User.delete(username);
+    // TODO - fix and errors
+    res.send(result);
+});
+
 router.get('/', (req, res) => {
     try {
         let currUser = User.getCurrentUser();

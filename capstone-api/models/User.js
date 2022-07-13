@@ -188,6 +188,9 @@ class User {
       followers.push(followUsername);
       user.set('followers', followers);
       user.save();
+
+      console.log('updated after follow');
+      console.log(user.get('followers'));
       return user.get('followers');
       // query.first({
       //     success: function(user) {
@@ -218,6 +221,9 @@ class User {
       let temp = followers.filter((element) => element !== unfollowUsername);
       user.set('followers', temp);
       user.save();
+
+      console.log('updated after unfollow');
+      console.log(user.get('followers'));
       return user.get('followers');
       // query.first({
       //     success: function(user) {
@@ -260,6 +266,21 @@ class User {
     // TODO handle errors
     // return user.get('followers');
     console.log(result);
+    return result;
+  };
+
+  static async delete(username) {
+    const query = new Parse.Query('User');
+    query.equalTo("username", username);
+    let result = await query.first({
+      success: function(yourObj) {
+        yourObj.destroy({});
+        return true;
+      },
+      error: function(object, error) {
+        return false;
+      }
+    }); 
     return result;
   };
 }

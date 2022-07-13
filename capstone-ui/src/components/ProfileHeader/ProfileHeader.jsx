@@ -47,12 +47,35 @@ export default function ProfileHeader({
       setFollowers(response.data);
 
       let viewUsername = profile.username;
-      if (response.data.includes(viewUsername)) {
+      // TODO first condition is for search view, second condition is for profile view - refactor
+      if (
+        response.data.includes(viewUsername) ||
+        response.data.includes(profile)
+      ) {
         setIsFollowing(true);
       }
     }
     getFollowers();
   }, []);
+
+  // React.useEffect(() => {
+  //   async function getFollowers() {
+  //     const response = await axios.get(
+  //       `http://localhost:3001/user/followers/${username}`
+  //     );
+  //     setFollowers(response.data);
+
+  //     let viewUsername = profile.username;
+  //     // TODO first condition is for search view, second condition is for profile view - refactor
+  //     if (
+  //       response.data.includes(viewUsername) ||
+  //       response.data.includes(profile)
+  //     ) {
+  //       setIsFollowing(true);
+  //     }
+  //   }
+  //   getFollowers();
+  // }, [isFollowing]);
 
   const followUser = async (e) => {
     let followUsername =
@@ -152,6 +175,15 @@ export default function ProfileHeader({
             Spotify @{profile.display_name}
           </span> */}
         </div>
+        {/* {isFollowing ? (
+          <button className="unfollow-button" onClick={unfollowUser}>
+            Unfollow
+          </button>
+        ) : (
+          <button className="follow-button" onClick={followUser}>
+            Follow
+          </button>
+        )} */}
       </div>
     );
   }
