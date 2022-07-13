@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import PostHeader from "../PostHeader/PostHeader";
 import "./Timeline.css";
 import axios from "axios";
+import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 
 export default function Timeline({ username, token, profile }) {
-  const [timeline, setTimeline] = useState([]);
+  const [timeline, setTimeline] = useState(null);
 
   React.useEffect(() => {
     async function getTimeline() {
@@ -21,15 +22,19 @@ export default function Timeline({ username, token, profile }) {
 
   return (
     <div className="timeline-component">
-      {timeline.map((element) => (
-        <PostHeader
-          username={username}
-          post={element}
-          key={element.objectId}
-          token={token}
-          profile={profile}
-        ></PostHeader>
-      ))}
+      {timeline ? (
+        timeline.map((element) => (
+          <PostHeader
+            username={username}
+            post={element}
+            key={element.objectId}
+            token={token}
+            profile={profile}
+          ></PostHeader>
+        ))
+      ) : (
+        <LoadingSpinner />
+      )}
     </div>
   );
 }

@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import ProfileHeader from "../ProfileHeader/ProfileHeader";
 import "./Followers.css";
 import axios from "axios";
-import Loader from "../Loader";
+import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 
 export default function Followers({ username, token, profile }) {
-  const [followers, setFollowers] = useState([]);
-  const [isFetching, setIsFetching] = useState(false);
+  const [followers, setFollowers] = useState(null);
+  // const [isFetching, setIsFetching] = useState(false);
 
   React.useEffect(() => {
     // setIsFetching(true);
@@ -24,15 +24,19 @@ export default function Followers({ username, token, profile }) {
 
   return (
     <div className="followers-component">
-      {followers.map((element) => (
-        <ProfileHeader
-          profile={element}
-          key={element}
-          token={token}
-          isFollowersView={true}
-          username={username}
-        ></ProfileHeader>
-      ))}
+      {followers ? (
+        followers.map((element) => (
+          <ProfileHeader
+            profile={element}
+            key={element}
+            token={token}
+            isFollowersView={true}
+            username={username}
+          ></ProfileHeader>
+        ))
+      ) : (
+        <LoadingSpinner />
+      )}
     </div>
   );
 }

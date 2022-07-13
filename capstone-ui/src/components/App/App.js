@@ -3,18 +3,12 @@ import Login from '../Login/Login';
 import Register from '../Register/Register';
 import Home from '../Home/Home';
 import React, {useState, useEffect} from 'react';
-import Preferences from '../Preferences/Preferences';
-
+import { Routes, Route, BrowserRouter } from "react-router-dom";
 import { accessToken, getCurrentUserProfile, logout } from '../../spotify';
 import { catchErrors } from '../../utils';
 
 import axios from "axios";
-
 import './App.css';
-
-// Parse
-
-import { Routes, Route, BrowserRouter } from "react-router-dom";
 
 // Parse initialization
 const Parse = require('parse');
@@ -70,7 +64,6 @@ function App() {
 
   return (
     <div className="App">
-      {/* temporarily commented out */}
       <BrowserRouter>
         <Routes>
           <Route exact path="/" element={<Login view={view} setView={setView} username={username} password={password} currentUser={currentUser} setUsername={setUsername} setPassword={setPassword} setCurrentUser={setCurrentUser}></Login>}
@@ -87,12 +80,6 @@ function App() {
           />
           <Route exact path="/post/:songId" element={<Home page={'post'} username={username} profile={profile} token={token}></Home>}
           />
-          {/* <Route exact path="/timeline" element={<Home page={'timeline'} username={username} profile={profile} token={token}></Home>}
-          />
-          <Route exact path="/preferences" element={<Home page={'preferences'} username={username} profile={profile} token={token}></Home>}
-          />
-          <Route exact path="/followers" element={<Home page={'followers'} username={username} profile={profile} token={token}></Home>}
-          /> */}
         </Routes>
       </BrowserRouter>
     </div>
