@@ -87,12 +87,12 @@ function App() {
           />
           <Route exact path="/post/:songId" element={<Home page={'post'} username={username} profile={profile} token={token}></Home>}
           />
-          <Route exact path="/timeline" element={<Home page={'timeline'} username={username} profile={profile} token={token}></Home>}
+          {/* <Route exact path="/timeline" element={<Home page={'timeline'} username={username} profile={profile} token={token}></Home>}
           />
           <Route exact path="/preferences" element={<Home page={'preferences'} username={username} profile={profile} token={token}></Home>}
           />
           <Route exact path="/followers" element={<Home page={'followers'} username={username} profile={profile} token={token}></Home>}
-          />
+          /> */}
         </Routes>
       </BrowserRouter>
     </div>

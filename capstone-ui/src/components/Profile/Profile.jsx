@@ -17,11 +17,12 @@ export default function Profile({
   username,
   token,
   profile,
-  timeline,
-  settings,
-  followers,
+  // timeline,
+  // settings,
+  // followers,
 }) {
   const [appProfile, setAppProfile] = React.useState();
+  const [tab, setTab] = React.useState("");
 
   // React.useEffect(() => {
   //   const fetchAppUser = async () => {
@@ -72,9 +73,12 @@ export default function Profile({
           profile={profile}
           appProfile={appProfile}
           isPreferencesView={false}
+          // added
+          tab={tab}
+          setTab={setTab}
         ></ProfileCard>
       </div>
-      {timeline && (
+      {/* {timeline && (
         <div className="timeline-wrapper">
           <span className="timeline-heading">Timeline</span>
           <Timeline
@@ -87,7 +91,6 @@ export default function Profile({
       {settings && (
         <div className="settings-wrapper">
           <span className="settings-heading">Settings</span>
-          {/* TODO followers */}
           <Settings
             username={username}
             token={token}
@@ -96,6 +99,36 @@ export default function Profile({
         </div>
       )}
       {followers && (
+        <div className="followers-wrapper">
+          <span className="followers-heading">Friends</span>
+          <Followers
+            username={username}
+            token={token}
+            profile={profile}
+          ></Followers>
+        </div>
+      )} */}
+      {tab == "timeline" && (
+        <div className="timeline-wrapper">
+          <span className="timeline-heading">Timeline</span>
+          <Timeline
+            username={username}
+            token={token}
+            profile={profile}
+          ></Timeline>
+        </div>
+      )}
+      {tab == "settings" && (
+        <div className="settings-wrapper">
+          <span className="settings-heading">Settings</span>
+          <Settings
+            username={username}
+            token={token}
+            profile={profile}
+          ></Settings>
+        </div>
+      )}
+      {tab == "followers" && (
         <div className="followers-wrapper">
           <span className="followers-heading">Friends</span>
           <Followers
