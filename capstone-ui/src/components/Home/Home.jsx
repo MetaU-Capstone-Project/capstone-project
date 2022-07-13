@@ -37,12 +37,32 @@ export default function Home({ username, page, token, profile }) {
       {page === "post" && (
         <Post username={username} token={token} profile={profile}></Post>
       )}
-      {page === "preferences" && (
+      {page === "timeline" && (
+        <Profile
+          username={username}
+          profile={profile}
+          token={token}
+          followers={false}
+          timeline={true}
+          settings={false}
+        ></Profile>
+      )}
+      {/* {page === "preferences" && (
         <Preferences
           username={username}
           token={token}
           profile={profile}
         ></Preferences>
+      )} */}
+      {page === "preferences" && (
+        <Profile
+          username={username}
+          profile={profile}
+          token={token}
+          followers={false}
+          timeline={false}
+          settings={true}
+        ></Profile>
       )}
       {page === "followers" && (
         <Profile

@@ -14,6 +14,13 @@ export default function ProfileCard({
   appProfile,
   isPreferencesView,
 }) {
+  const [tab, setTab] = React.useState("");
+
+  function handleTabChange(e) {
+    setTab(e.target.id);
+    e.target.className = "is-active";
+  }
+
   return (
     <div className="profilecard-component">
       <div className="profile-picture-wrapper">
@@ -39,26 +46,110 @@ export default function ProfileCard({
           </span>
         )}
       </div>
+      {/* was working */}
       <div className="profile-buttons">
-        {/* TODO username */}
-        <Link to={"/followers"} className="profile-friends">
-          <button className="profile-friends-button">Your Friends</button>
+        <Link to={"/timeline"}>
+          <button
+            id="timeline"
+            className={
+              tab === "timeline" ? "is-active" : "profile-friends-button"
+            }
+            onClick={handleTabChange}
+          >
+            Your Timeline
+          </button>
         </Link>
-        {/* TODO 6/12 commented out */}
-        {/* <button className="profile-friends-button">Your Friends</button> */}
-
-        {/* TODO added 6/11 */}
-        {/* {!isPreferencesView && (
-          <button className="profile-friends-button">Your Settings</button>
-        )} */}
-        {!isPreferencesView && (
-          <Link to={"/preferences"} className="profile-friends">
-            <button>Your Settings</button>
-          </Link>
-        )}
-        {/* TODO Recommended songs? */}
-        {/* <button className="profile-friends"></button> */}
+        <Link to={"/followers"} className="profile-friends">
+          <button
+            id="friends"
+            className={
+              tab === "friends" ? "is-active" : "profile-friends-button"
+            }
+            onClick={handleTabChange}
+          >
+            Your Friends
+          </button>
+        </Link>
+        <Link to={"/preferences"} className="profile-friends">
+          <button
+            id="preferences"
+            className={
+              tab === "preferences" ? "is-active" : "profile-friends-button"
+            }
+            onClick={handleTabChange}
+          >
+            Your Settings
+          </button>
+        </Link>
       </div>
+      {/* <div className="profile-buttons">
+        <Link
+          to={"/timeline"}
+          id="timeline"
+          className={
+            tab === "timeline" ? "is-active" : "profile-friends-button"
+          }
+          onClick={handleTabChange}
+        >
+          Your Timeline
+        </Link>
+        <Link
+          to={"/followers"}
+          id="friends"
+          className={tab === "friends" ? "is-active" : "profile-friends-button"}
+          onClick={handleTabChange}
+        >
+          Your Friends
+        </Link>
+        <Link
+          to={"/preferences"}
+          id="preferences"
+          className={
+            tab === "preferences" ? "is-active" : "profile-friends-button"
+          }
+          onClick={handleTabChange}
+        >
+          Your Settings
+        </Link>
+      </div> */}
+
+      {/* not working */}
+      {/* <div className="profile-buttons">
+        <div className="tab">
+          <Link
+            to={"/timeline"}
+            id="timeline"
+            className={
+              tab === "timeline" ? "is-active" : "profile-friends-button"
+            }
+            onClick={handleTabChange}
+          >
+            Your Timeline
+          </Link>
+        </div>
+        <Link to={"/followers"} className="profile-friends">
+          <button
+            id="friends"
+            className={
+              tab === "friends" ? "is-active" : "profile-friends-button"
+            }
+            onClick={handleTabChange}
+          >
+            Your Friends
+          </button>
+        </Link>
+        <Link to={"/preferences"} className="profile-friends">
+          <button
+            id="preferences"
+            className={
+              tab === "preferences" ? "is-active" : "profile-friends-button"
+            }
+            onClick={handleTabChange}
+          >
+            Your Settings
+          </button>
+        </Link>
+      </div> */}
     </div>
   );
 }

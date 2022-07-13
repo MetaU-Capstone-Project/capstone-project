@@ -33,11 +33,6 @@ export default function ProfileHeader({
 
   // TODO toggle follow button - add dependency?
   React.useEffect(() => {
-    console.log("my profile");
-    console.log(profile);
-    console.log("my username: ");
-    console.log(username);
-
     async function getFollowers() {
       const response = await axios.get(
         `http://localhost:3001/user/followers/${username}`

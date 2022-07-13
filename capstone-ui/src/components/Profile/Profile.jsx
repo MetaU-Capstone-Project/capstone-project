@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import "./Profile.css";
 import axios from "axios";
 import { catchErrors } from "../../utils";
+import Settings from "../Settings/Settings";
 
 // TODO - temporarily use logo as profile picture
 import logo from "../../logo.svg";
@@ -83,10 +84,20 @@ export default function Profile({
           ></Timeline>
         </div>
       )}
+      {settings && (
+        <div className="settings-wrapper">
+          <span className="settings-heading">Settings</span>
+          {/* TODO followers */}
+          <Settings
+            username={username}
+            token={token}
+            profile={profile}
+          ></Settings>
+        </div>
+      )}
       {followers && (
         <div className="followers-wrapper">
           <span className="followers-heading">Friends</span>
-          {/* TODO followers */}
           <Followers
             username={username}
             token={token}
