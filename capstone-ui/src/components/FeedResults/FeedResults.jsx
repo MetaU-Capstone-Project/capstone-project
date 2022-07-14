@@ -1,4 +1,3 @@
-// import * as React from "react";
 import React, { useState } from "react";
 import FeedPost from "../FeedPost/FeedPost";
 import "./FeedResults.css";
@@ -9,8 +8,6 @@ export default function FeedResults({ username, feed, token }) {
     <div className="feed-results-component">
       {feed && username ? (
         feed.map((element) => {
-          console.log("element");
-          console.log(element);
           return (
             <FeedPost
               username={username}

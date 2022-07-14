@@ -1,14 +1,9 @@
-// import * as React from "react";
 import React, { useState } from "react";
 import FeedResults from "../FeedResults/FeedResults";
 import "./Feed.css";
 import axios from "axios";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 
-// TODO - temporarily use logo as profile picture
-import logo from "../../logo.svg";
-
-// TODO props = {page}
 export default function Feed({ username, profile, token }) {
   const [feed, setFeed] = useState(null);
 

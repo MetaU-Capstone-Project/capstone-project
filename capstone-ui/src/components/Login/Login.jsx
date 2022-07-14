@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "./Login.css";
-
-// TODO - temporarily use logo as profile picture
 import logo from "../../logo.svg";
 import axios from "axios";
 
@@ -38,7 +36,6 @@ export default function Login({}) {
         setPassword(response.data.password);
         getCurrentUser();
 
-        // TODO remove comment
         window.location.href = "http://localhost:3001/user/authorize";
       })
       .catch((error) => {

@@ -232,18 +232,19 @@ export default function ProfileHeader({
         >
           {username}
         </span>
-        <span
+        {/* remove spotify username */}
+        {/* <span
           className={
             isTimelineView
               ? "timeline-view-profile-username"
               : "profile-username"
           }
         >
-          Spotify @
+          Spotify
           {profile.display_name
             ? profile.display_name
             : profile.spotifyUsername}
-        </span>
+        </span> */}
       </div>
     </div>
   );

@@ -3,7 +3,6 @@ import "./Profile.css";
 import axios from "axios";
 import { catchErrors } from "../../utils";
 import Settings from "../Settings/Settings";
-
 import ProfileCard from "../ProfileCard/ProfileCard";
 import Timeline from "../Timeline/Timeline";
 import Followers from "../Followers/Followers";

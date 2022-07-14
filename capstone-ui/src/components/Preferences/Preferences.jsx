@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import "./Preferences.css";
-import logo from "../../logo.svg";
 import axios from "axios";
-import { Link } from "react-router-dom";
 import ProfileCard from "../ProfileCard/ProfileCard";
 import Settings from "../Settings/Settings";
 
@@ -23,7 +21,6 @@ export default function Preferences({ username, token, profile }) {
   return (
     <div className="preferences-page">
       <div className="info-wrapper">
-        {/* TODO uncomment out */}
         <ProfileCard
           username={username}
           token={token}

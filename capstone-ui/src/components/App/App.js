@@ -47,8 +47,6 @@ function App() {
     }
 
     catchErrors(fetchAppUser());
-
-    // console.log(username);
   }, []);
 
   // useEffect(() => {

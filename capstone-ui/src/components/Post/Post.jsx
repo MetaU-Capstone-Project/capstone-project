@@ -1,9 +1,7 @@
-// import * as React from "react";
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import PostCard from "../PostCard/PostCard";
-
 import "./Post.css";
 import { catchErrors } from "../../utils";
 
@@ -27,7 +25,6 @@ export default function Post({ username, profile, token }) {
     getTrack();
   }, []);
 
-  // TODO
   const addPost = async function () {
     let postRequest = {
       username: username,

@@ -1,12 +1,8 @@
 import React, { useState } from "react";
 import "./PostHeader.css";
-
 import ProfileHeader from "../ProfileHeader/ProfileHeader";
 import SongHeaderView from "../SongHeaderView/SongHeaderView";
 import axios from "axios";
-
-// TODO - temporarily use logo as profile picture
-import logo from "../../logo.svg";
 
 export default function PostHeader({
   username,
@@ -40,7 +36,6 @@ export default function PostHeader({
           isTimelineView ? "timeline-post-info-wrapper" : "post-info-wrapper"
         }
       >
-        {/* TODO modified 6/11 */}
         <ProfileHeader
           token={token}
           profile={profile}
@@ -51,9 +46,6 @@ export default function PostHeader({
         <span className="timeline-view-date">{post.createdAt}</span>
       </div>
       <SongHeaderView id="songcard-component" song={songInfo}></SongHeaderView>
-
-      {/* before */}
-      {/* <SongHeader id="songcard-component"></SongHeader> */}
     </div>
   );
 }

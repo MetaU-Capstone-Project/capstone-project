@@ -3,7 +3,6 @@ import "./FeedPost.css";
 import axios from "axios";
 import { getTrack } from "../../spotify";
 import { catchErrors } from "../../utils";
-
 import ProfileHeader from "../ProfileHeader/ProfileHeader";
 import SongCard from "../SongCard/SongCard";
 
@@ -35,11 +34,10 @@ export default function FeedPost({ username, token, post }) {
         <>
           <ProfileHeader
             className="feedpost-songheader"
-            username={username}
+            username={profile.username}
             profile={profile}
             token={token}
             isFeedView={true}
-            // added 6/11
             isSearchView={false}
           ></ProfileHeader>
           <div className="songcard-wrapper">

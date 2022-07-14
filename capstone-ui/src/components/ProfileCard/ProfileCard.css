@@ -46,18 +46,11 @@ img {
 .profile-buttons {
     margin-top: 2rem;
     margin-bottom: 2rem;
-    /* display: flex;
-    flex-direction: column; */
 }
-
-/* .profile-friends {
-    background-color: darkseagreen;
-} */
 
 .profilecard-component {
     display: flex;
     flex-direction: column;
-    /* modify? 6/11 since not centered */
     max-width: 30rem;
     max-height: 30rem;
 }
@@ -65,7 +58,6 @@ img {
 .profilecard-component {
     display: flex;
     flex-direction: column;
-    /* modify? 6/11 since not centered */
     max-width: 30rem;
     max-height: 30rem;
 }

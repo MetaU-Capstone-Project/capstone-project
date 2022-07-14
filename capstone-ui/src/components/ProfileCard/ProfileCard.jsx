@@ -97,6 +97,10 @@ export default function ProfileCard({
         <button className="delete-account-button" onClick={confirmDelete}>
           Delete Account
         </button>
+        {/* added */}
+        <button className="logout-account-button" onClick={logout}>
+          Logout
+        </button>
       </div>
     </div>
   );
