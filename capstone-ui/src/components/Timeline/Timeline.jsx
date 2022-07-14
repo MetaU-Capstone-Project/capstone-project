@@ -28,6 +28,7 @@ export default function Timeline({ username, token, profile }) {
             key={element.objectId}
             token={token}
             profile={profile}
+            isTimelineView={true}
           ></PostHeader>
         ))
       ) : (

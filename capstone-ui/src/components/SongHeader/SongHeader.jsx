@@ -20,7 +20,7 @@ export default function SongHeader({ song }) {
   }
 
   return (
-    <Link to={`/post/${song.id}`} key={song.id}>
+    <Link to={`/post/${song.id}`} key={song.id} className="songheader-border">
       <div className="songheader-component">
         <div className="play-song-wrapper">
           {/* TODO - play song icon */}

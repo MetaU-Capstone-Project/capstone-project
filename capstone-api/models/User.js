@@ -161,10 +161,23 @@ class User {
   };
 
   static async delete(username) {
-    const query = new Parse.Query('User');
-    query.equalTo("username", username);
-    let result = await query.first({}); 
+    const userQuery = new Parse.Query('User');
+    userQuery.equalTo("username", username);
+    let result = await userQuery.first({}); 
     result.destroy({});
+
+    const postsQuery = new Parse.Query('Post');
+    postsQuery.equalTo("username", username);
+    postsQuery.find().then(function (results) {
+      return Parse.Object.destroyAll(results);
+    }).then(function() {
+      // Done
+      console.log('Deleted all posts asscoiated with ' + username);
+    }, function(error) {
+      // Error
+      console.log('Error deleting all posts asscoiated with ' + username);
+    });
+
     return true;
   };
 

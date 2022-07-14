@@ -11,6 +11,8 @@ export default function ProfileHeader({
   token,
   isSearchView,
   isFollowersView,
+  isFeedView,
+  isTimelineView,
 }) {
   const [isFollowing, setIsFollowing] = useState(false);
   const [followers, setFollowers] = useState([]);
@@ -147,9 +149,53 @@ export default function ProfileHeader({
     );
   }
 
+  // return (
+  //   <div
+  //     className={
+  //       isFeedView
+  //         ? "feedview-profileheader-component"
+  //         : "profileheader-component"
+  //     }
+  //   >
+  //     <div className="profile-picture-wrapper">
+  //       {/* {profile.images && (
+  //         <img
+  //           className="profile-picture"
+  //           src={profile.images[0].url}
+  //           alt="profile-picture"
+  //           id="profile-picture"
+  //         ></img>
+  //       )} */}
+  //       <img src={logo}></img>
+  //     </div>
+  //     <div className="profile-username-wrapper">
+  //       <span className="profile-username">{username}</span>
+  //       {/* profile.display name for normal and spotifyUsername for feed */}
+  //       <span className="profile-username">
+  //         Spotify @
+  //         {profile.display_name
+  //           ? profile.display_name
+  //           : profile.spotifyUsername}
+  //       </span>
+  //     </div>
+  //   </div>
+  // );
+
   return (
-    <div className="profileheader-component">
-      <div className="profile-picture-wrapper">
+    <div
+      className={
+        isFeedView
+          ? "feedview-profileheader-component"
+          : "profileheader-component"
+      }
+    >
+      <div
+        className={
+          isFeedView
+            ? "feedview-profile-picture-wrapper"
+            : "profile-picture-wrapper"
+        }
+      >
         {/* {profile.images && (
           <img
             className="profile-picture"
@@ -160,10 +206,39 @@ export default function ProfileHeader({
         )} */}
         <img src={logo}></img>
       </div>
-      <div className="profile-username-wrapper">
-        <span className="profile-username">{username}</span>
+      <div
+        className={
+          isFeedView
+            ? "feedview-profile-username-wrapper"
+            : "profile-username-wrapper"
+        }
+      >
+        {/* originally working */}
         {/* profile.display name for normal and spotifyUsername for feed */}
+        {/* <span className="profile-username">{username}</span>
         <span className="profile-username">
+          Spotify @
+          {profile.display_name
+            ? profile.display_name
+            : profile.spotifyUsername}
+        </span> */}
+
+        <span
+          className={
+            isTimelineView
+              ? "timeline-view-profile-username"
+              : "profile-username"
+          }
+        >
+          {username}
+        </span>
+        <span
+          className={
+            isTimelineView
+              ? "timeline-view-profile-username"
+              : "profile-username"
+          }
+        >
           Spotify @
           {profile.display_name
             ? profile.display_name

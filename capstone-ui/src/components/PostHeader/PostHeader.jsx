@@ -8,7 +8,13 @@ import axios from "axios";
 // TODO - temporarily use logo as profile picture
 import logo from "../../logo.svg";
 
-export default function PostHeader({ username, post, token, profile }) {
+export default function PostHeader({
+  username,
+  post,
+  token,
+  profile,
+  isTimelineView,
+}) {
   const [songInfo, setSongInfo] = useState({});
 
   React.useEffect(() => {
@@ -29,15 +35,20 @@ export default function PostHeader({ username, post, token, profile }) {
 
   return (
     <div className="postheader-component">
-      <div className="post-info-wrapper">
+      <div
+        className={
+          isTimelineView ? "timeline-post-info-wrapper" : "post-info-wrapper"
+        }
+      >
         {/* TODO modified 6/11 */}
         <ProfileHeader
           token={token}
           profile={profile}
           isSearchView={false}
           username={username}
+          isTimelineView={isTimelineView}
         ></ProfileHeader>
-        <span>{post.createdAt}</span>
+        <span className="timeline-view-date">{post.createdAt}</span>
       </div>
       <SongHeaderView id="songcard-component" song={songInfo}></SongHeaderView>
 

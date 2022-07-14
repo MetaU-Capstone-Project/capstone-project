@@ -6,16 +6,27 @@ import SongHeader from "../SongHeader/SongHeader";
 // TODO temporarily use logo as album picture
 import logo from "../../logo.svg";
 
-export default function SongCard({ profile, token, song }) {
+export default function SongCard({ profile, token, song, isFeedView }) {
   return (
-    <div className="songcard-component">
+    // <div className="songcard-component">
+    <div
+      className={
+        isFeedView ? "feedview-songcard-component" : "songcard-component"
+      }
+    >
       <div className="songheader-wrapper">
         {/* <SongHeader song={song}></SongHeader> */}
 
         {/* was working way before */}
         <SongHeaderView song={song}></SongHeaderView>
       </div>
-      <div className="album-picture-wrapper">
+      <div
+        className={
+          isFeedView
+            ? "feedview-album-picture-wrapper"
+            : "album-picture-wrapper"
+        }
+      >
         {/* <img src={logo} alt="album picture"></img> */}
 
         {song.album && song.album.images && (

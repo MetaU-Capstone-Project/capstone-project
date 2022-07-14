@@ -14,9 +14,8 @@
 
 .postcard-component {
     display: flex;
-    /* width: auto;
-    height: auto; */
     background-color: lightgray;
-    width: 20%;
-    height: 20%;
+    /* added */
+    border: solid #000;
+    border-width: 0.3rem;
 }

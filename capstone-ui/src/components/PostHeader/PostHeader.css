@@ -1,9 +1,22 @@
+.timeline-view-date {
+    font-size: 1rem;
+}
+
 #songcard-component {
     flex: 0.7;
 }
 
 .postheader-component .songcard-component {
     flex: 0.7;
+}
+
+.timeline-post-info-wrapper {
+    margin-left: 0.5rem;
+    display: flex;
+    align-items: center;
+    flex: 0.3;
+    justify-content: center;
+    flex-direction: column;
 }
 
 .post-info-wrapper {
@@ -17,6 +30,5 @@
 .postheader-component {
     display: flex;
     background-color: lightgray;
-    /* width: 10%;
-    height: 10%; */
+    border: solid black 0.3rem;
 }

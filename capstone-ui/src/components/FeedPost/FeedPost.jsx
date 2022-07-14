@@ -34,9 +34,11 @@ export default function FeedPost({ username, token, post }) {
       {songInfo && profile && (
         <>
           <ProfileHeader
+            className="feedpost-songheader"
             username={username}
             profile={profile}
             token={token}
+            isFeedView={true}
             // added 6/11
             isSearchView={false}
           ></ProfileHeader>
@@ -46,6 +48,7 @@ export default function FeedPost({ username, token, post }) {
               profile={profile}
               token={token}
               song={songInfo}
+              isFeedView={true}
             ></SongCard>
           </div>
         </>

@@ -2,8 +2,18 @@
     flex: 0.3;
 }
 
+.feedview-album-picture-wrapper {
+    border-top: solid black 0.3rem;
+    flex: 0.7;
+}
+
 .album-picture-wrapper {
     flex: 0.7;
+    border-top: solid black 0.3rem;
+}
+
+.feedview-songcard-component {
+    border-left: solid black 0.3rem
 }
 
 .songcard-component {
@@ -12,4 +22,5 @@
     width: auto;
     height: auto;
     background-color: lightgray;
+    border-left: solid black 0.3rem
 }

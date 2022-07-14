@@ -1,5 +1,6 @@
 .song-info {
     font-size: 2rem;
+    text-align: start;
 }
 
 .song-info-row {
@@ -29,4 +30,9 @@
     width: auto;
     height: auto;
     background-color: lightgray;
+}
+
+.songheader-border {
+    border: solid #000;
+    border-width: 0.3rem;
 }

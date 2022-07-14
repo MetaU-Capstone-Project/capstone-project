@@ -5,11 +5,14 @@
 .post-button-wrapper {
     display: flex;
     justify-content: center;
+    margin-bottom: 5rem;
 }
 
 .postcard-wrapper {
     display: flex;
     justify-content: center;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
 }
 
 .post-page {
