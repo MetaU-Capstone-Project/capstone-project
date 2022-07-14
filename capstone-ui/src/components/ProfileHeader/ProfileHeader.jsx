@@ -77,13 +77,12 @@ export default function ProfileHeader({
   };
 
   // TODO add button and retrieve other people's usernames and Spotify usernames
-  if (isSearchView) {
-    // username prop was passed in as undefined
-    let username = profile.username;
+  if (isSearchView || isFollowersView) {
+    let username = profile.username || profile;
 
     return (
       <div className="search-view-profileheader-component">
-        <div className="profile-picture-wrapper">
+        <div className="search-view-profile-picture-wrapper">
           <img src={logo}></img>
           {/* TODO uncomment both out */}
           {/* {profile.images && (
@@ -113,73 +112,6 @@ export default function ProfileHeader({
       </div>
     );
   }
-
-  if (isFollowersView) {
-    // TODO add link so clickable and can view follower's profile
-    return (
-      <div className="profileheader-component">
-        <div className="profile-picture-wrapper">
-          {/* {profile.images && (
-            <img
-              className="profile-picture"
-              src={profile.images[0].url}
-              alt="profile-picture"
-              id="profile-picture"
-            ></img>
-          )} */}
-          <img src={logo}></img>
-        </div>
-        <div className="profile-username-wrapper">
-          <span className="profile-username">{profile}</span>
-          {/* can't retrieve display name */}
-          {/* <span className="profile-username">
-            Spotify @{profile.display_name}
-          </span> */}
-        </div>
-        {/* {isFollowing ? (
-          <button className="unfollow-button" onClick={unfollowUser}>
-            Unfollow
-          </button>
-        ) : (
-          <button className="follow-button" onClick={followUser}>
-            Follow
-          </button>
-        )} */}
-      </div>
-    );
-  }
-
-  // return (
-  //   <div
-  //     className={
-  //       isFeedView
-  //         ? "feedview-profileheader-component"
-  //         : "profileheader-component"
-  //     }
-  //   >
-  //     <div className="profile-picture-wrapper">
-  //       {/* {profile.images && (
-  //         <img
-  //           className="profile-picture"
-  //           src={profile.images[0].url}
-  //           alt="profile-picture"
-  //           id="profile-picture"
-  //         ></img>
-  //       )} */}
-  //       <img src={logo}></img>
-  //     </div>
-  //     <div className="profile-username-wrapper">
-  //       <span className="profile-username">{username}</span>
-  //       {/* profile.display name for normal and spotifyUsername for feed */}
-  //       <span className="profile-username">
-  //         Spotify @
-  //         {profile.display_name
-  //           ? profile.display_name
-  //           : profile.spotifyUsername}
-  //       </span>
-  //     </div>
-  //   </div>
-  // );
 
   return (
     <div
@@ -232,19 +164,6 @@ export default function ProfileHeader({
         >
           {username}
         </span>
-        {/* remove spotify username */}
-        {/* <span
-          className={
-            isTimelineView
-              ? "timeline-view-profile-username"
-              : "profile-username"
-          }
-        >
-          Spotify
-          {profile.display_name
-            ? profile.display_name
-            : profile.spotifyUsername}
-        </span> */}
       </div>
     </div>
   );

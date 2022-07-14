@@ -18,10 +18,6 @@ export default function FeedPost({ username, token, post }) {
       );
       setSongInfo(songResponse.data);
       setProfile(data);
-
-      console.log("feed post:");
-      console.log("profile:");
-      console.log(data);
     };
 
     catchErrors(fetchData());
@@ -32,14 +28,17 @@ export default function FeedPost({ username, token, post }) {
       {/* TODO loader change to conditional rendering ? : */}
       {songInfo && profile && (
         <>
-          <ProfileHeader
-            className="feedpost-songheader"
-            username={profile.username}
-            profile={profile}
-            token={token}
-            isFeedView={true}
-            isSearchView={false}
-          ></ProfileHeader>
+          <div className="profileheader-wrapper">
+            <ProfileHeader
+              className="feedpost-songheader"
+              username={profile.username}
+              profile={profile}
+              token={token}
+              isFeedView={true}
+              isSearchView={false}
+            ></ProfileHeader>
+            <span className="timeline-view-date">{post.createdAt}</span>
+          </div>
           <div className="songcard-wrapper">
             <SongCard
               username={username}

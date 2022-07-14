@@ -1,3 +1,9 @@
+.profileheader-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+
 .feedpost-component {
     display: flex;
     background-color: lightgray;

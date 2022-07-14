@@ -4,10 +4,11 @@ import axios from "axios";
 import PostCard from "../PostCard/PostCard";
 import "./Post.css";
 import { catchErrors } from "../../utils";
+import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 
 export default function Post({ username, profile, token }) {
   let { songId } = useParams();
-  const [songInfo, setSongInfo] = useState({});
+  const [songInfo, setSongInfo] = useState(null);
 
   React.useEffect(() => {
     async function getTrack() {
@@ -43,19 +44,46 @@ export default function Post({ username, profile, token }) {
 
   return (
     <div className="post-page" key="post-page">
-      <div className="postcard-wrapper">
-        <PostCard
-          username={username}
-          profile={profile}
-          token={token}
-          song={songInfo}
-        ></PostCard>
-      </div>
-      <div className="post-button-wrapper">
-        <button className="post-button" onClick={addPost}>
-          Post
-        </button>
-      </div>
+      {songInfo ? (
+        <div className="loading-wrapper">
+          <div className="postcard-wrapper">
+            <PostCard
+              username={username}
+              profile={profile}
+              token={token}
+              song={songInfo}
+            ></PostCard>
+          </div>
+          <div className="post-button-wrapper">
+            <button className="post-button" onClick={addPost}>
+              Post
+            </button>
+          </div>
+        </div>
+      ) : (
+        <LoadingSpinner />
+      )}
+      {/* {songInfo ? (
+        <div className="loading-wrapper">
+          <div className="postcard-wrapper">
+            <PostCard
+              username={username}
+              profile={profile}
+              token={token}
+              song={songInfo}
+            ></PostCard>
+          </div>
+          <div className="post-button-wrapper">
+            <button className="post-button" onClick={addPost}>
+              Post
+            </button>
+          </div>
+        </div>
+      ) : (
+        <div className="loading-wrapper">
+          <LoadingSpinner />
+        </div>
+      )} */}
     </div>
   );
 }
