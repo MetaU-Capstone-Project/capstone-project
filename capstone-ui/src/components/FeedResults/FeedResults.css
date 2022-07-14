@@ -1,0 +1,10 @@
+.feed-results-component {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    align-items: center;
+
+}

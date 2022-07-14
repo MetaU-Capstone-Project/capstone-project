@@ -103,57 +103,59 @@ export default function Search({ username, token }) {
 
   // 6/13 attemp
   const searchSongs = async (e) => {
-    let temp = searchInput;
-    if (searchInput === "") {
-      temp = searchInputValue;
-    }
-    // setSearchInputValue(searchInput);
-    setSearchInputValue(temp);
-    // let temp = searchInput === "" ? searchInputValue : searchInput;
+    if (searchInput != "") {
+      let temp = searchInput;
+      if (searchInput === "") {
+        temp = searchInputValue;
+      }
+      // setSearchInputValue(searchInput);
+      setSearchInputValue(temp);
+      // let temp = searchInput === "" ? searchInputValue : searchInput;
 
-    setProfileResults([]);
+      setProfileResults([]);
 
-    e.preventDefault();
-    // first time loading song results
-    if (!isSongResults) {
-      setOffset(0);
-      // TODO need to clear grid
-      // setSongResults([]);
-    }
+      e.preventDefault();
+      // first time loading song results
+      if (!isSongResults) {
+        setOffset(0);
+        // TODO need to clear grid
+        // setSongResults([]);
+      }
 
-    let oldResults = songResults;
-    const { data } = await axios
-      .get(
-        "https://api.spotify.com/v1/search",
-        {
-          params: {
-            q: temp,
-            type: "track",
-            include_external: "audio",
-            limit: 5,
-            offset: offset,
+      let oldResults = songResults;
+      const { data } = await axios
+        .get(
+          "https://api.spotify.com/v1/search",
+          {
+            params: {
+              q: temp,
+              type: "track",
+              include_external: "audio",
+              limit: 5,
+              offset: offset,
+            },
           },
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
-      .catch((error) => {
-        console.log(error);
-      });
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
+        .catch((error) => {
+          console.log(error);
+        });
 
-    console.log("searching");
-    console.log(data);
+      console.log("searching");
+      console.log(data);
 
-    let newResults = data.tracks.items;
-    let addedResults = oldResults.concat(newResults);
-    setSongResults(addedResults);
-    setIsSongResults(true);
-    setOffset((previousValue) => previousValue + 5);
-    // added
-    setSearchInput("");
+      let newResults = data.tracks.items;
+      let addedResults = oldResults.concat(newResults);
+      setSongResults(addedResults);
+      setIsSongResults(true);
+      setOffset((previousValue) => previousValue + 5);
+      // added
+      setSearchInput("");
+    }
   };
 
   const searchProfiles = async (e) => {
@@ -178,13 +180,16 @@ export default function Search({ username, token }) {
 
     // TODO offset
     // 5 for each new set of profiles returned
-    let min = Math.min(offset + 5, tempArray.length);
-    let newArray = tempArray.slice(offset, min);
+    // let min = Math.min(offset + 5, tempArray.length);
+    // let newArray = tempArray.slice(offset, min);
 
-    console.log("new array");
-    console.log(newArray);
+    // console.log("new array");
+    // console.log(newArray);
 
-    setProfileResults(newArray);
+    // setProfileResults(newArray);
+    // setIsSongResults(false);
+
+    setProfileResults(tempArray);
     setIsSongResults(false);
   };
 

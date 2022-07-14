@@ -1,4 +1,3 @@
-// import * as React from "react";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./ProfileHeader.css";
@@ -16,29 +15,6 @@ export default function ProfileHeader({
   const [isFollowing, setIsFollowing] = useState(false);
   const [followers, setFollowers] = useState([]);
 
-  // added
-  // React.useEffect(() => {
-  //   async function getAppProfile() {
-  //     // const response = await axios.get(
-  //     //   `http://localhost:3001/user/timeline/${username}`
-  //     // );
-  //     // console.log("timeline");
-  //     // console.log(response.data);
-  //     // setTimeline(response.data);
-  //   }
-  //   if (isSearchView) {
-  //     getAppProfile();
-  //   }
-
-  //   // TODO added for toggle button
-  //   console.log("profile header");
-  //   console.log(profile);
-
-  //   let viewUsername = profile.username;
-  //   if
-
-  // }, []);
-
   React.useEffect(() => {
     async function getFollowers() {
       const response = await axios.get(
@@ -54,31 +30,11 @@ export default function ProfileHeader({
       ) {
         setIsFollowing(true);
       } else {
-        // added
         setIsFollowing(false);
       }
     }
     getFollowers();
   }, []);
-
-  // React.useEffect(() => {
-  //   async function getFollowers() {
-  //     const response = await axios.get(
-  //       `http://localhost:3001/user/followers/${username}`
-  //     );
-  //     setFollowers(response.data);
-
-  //     let viewUsername = profile.username;
-  //     // TODO first condition is for search view, second condition is for profile view - refactor
-  //     if (
-  //       response.data.includes(viewUsername) ||
-  //       response.data.includes(profile)
-  //     ) {
-  //       setIsFollowing(true);
-  //     }
-  //   }
-  //   getFollowers();
-  // }, [isFollowing]);
 
   const followUser = async (e) => {
     let followUsername =
@@ -206,8 +162,12 @@ export default function ProfileHeader({
       </div>
       <div className="profile-username-wrapper">
         <span className="profile-username">{username}</span>
+        {/* profile.display name for normal and spotifyUsername for feed */}
         <span className="profile-username">
-          Spotify @{profile.display_name}
+          Spotify @
+          {profile.display_name
+            ? profile.display_name
+            : profile.spotifyUsername}
         </span>
       </div>
     </div>

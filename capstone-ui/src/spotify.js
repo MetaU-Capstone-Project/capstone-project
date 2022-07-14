@@ -160,4 +160,7 @@ export const getGenres = () => {
   return axios.get(`/recommendations/available-genre-seeds`);
 };
 
+export const getTrack = (trackId) => {
+  return axios.get(`/tracks/${trackId}`);
+};
 // TODO put search here

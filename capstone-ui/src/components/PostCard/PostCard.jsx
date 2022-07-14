@@ -49,7 +49,7 @@ export default function PostCard({ username, profile, token, song }) {
 
   return (
     <div className="postcard-component">
-      {/* <div className="profileheader-wrapper">
+      <div className="profileheader-wrapper">
         <ProfileHeader
           username={username}
           profile={profile}
@@ -65,7 +65,7 @@ export default function PostCard({ username, profile, token, song }) {
           token={token}
           song={song}
         ></SongCard>
-      </div> */}
+      </div>
     </div>
   );
 }

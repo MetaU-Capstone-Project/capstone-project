@@ -148,6 +148,12 @@ router.get('/delete/:username', async (req, res) => {
     res.send(result);
 });
 
+router.get('/:username', async (req, res) => {
+    const username = req.params.username;
+    const result = await User.getAppProfile(username);
+    res.send(result);
+});
+
 router.get('/', (req, res) => {
     try {
         let currUser = User.getCurrentUser();

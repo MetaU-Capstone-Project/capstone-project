@@ -1,0 +1,8 @@
+.feedpost-component {
+    display: flex;
+    /* width: auto;
+    height: auto; */
+    background-color: lightgray;
+    width: 20%;
+    height: 20%;
+}

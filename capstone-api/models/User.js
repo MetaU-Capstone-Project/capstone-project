@@ -167,6 +167,13 @@ class User {
     result.destroy({});
     return true;
   };
+
+  static async getAppProfile(username) {
+    const query = new Parse.Query('User');
+    query.equalTo("username", username);
+    let result = await query.first({}); 
+    return result;
+  }
 }
 
 module.exports = User;
