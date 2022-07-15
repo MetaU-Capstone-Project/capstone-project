@@ -7,9 +7,6 @@ import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 export default function Feed({ username, profile, token }) {
   const [feed, setFeed] = useState(null);
 
-  console.log("feed username");
-  console.log(username);
-
   React.useEffect(() => {
     async function getFeed() {
       const response = await axios.get(

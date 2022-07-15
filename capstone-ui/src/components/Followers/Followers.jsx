@@ -6,20 +6,14 @@ import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 
 export default function Followers({ username, token, profile }) {
   const [followers, setFollowers] = useState(null);
-  // const [isFetching, setIsFetching] = useState(false);
 
   React.useEffect(() => {
-    // setIsFetching(true);
-
     async function getFollowers() {
       const response = await axios.get(
         `http://localhost:3001/user/followers/${username}`
       );
 
       setFollowers(response.data);
-      console.log("response.data");
-      console.log(response.data);
-      // setIsFetching(false);
     }
     getFollowers();
   }, []);

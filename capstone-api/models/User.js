@@ -1,16 +1,11 @@
-// const {storage} = require('../data/storage');
 var Parse = require('parse/node');
 const PARSE_APPLICATION_ID = 'tW3HTz0fUSdMPmk1hE4qA8c9FbZqcerL3iY1kejp';
 const PARSE_JAVASCRIPT_KEY = '1wbQ5EOY8c7z8jTSyfXVNblyphvMEvvXVLfXXOTq';
 const PARSE_MASTER_KEY = 'xNXyklOY15pcUMU1RsKqfxwUTG48I40fxGX80plA';
 
-// Parse.initialize(PARSE_APPLICATION_ID, PARSE_JAVASCRIPT_KEY); 
 Parse.initialize(PARSE_APPLICATION_ID, PARSE_JAVASCRIPT_KEY, PARSE_MASTER_KEY); 
 Parse.serverURL = 'https://parseapi.back4app.com/';
 Parse.Cloud.useMasterKey();
-
-// TODO 
-// const {BadRequestError} = require('../utils/errors')
 
 class User {
 
@@ -18,40 +13,17 @@ class User {
         this.super();
     }
 
-    // TODO modify and call local storage
     static getCurrentUser() {
         Parse.User.enableUnsafeCurrentUser();
         let currentUser = Parse.User.current();
         return currentUser;
     }
 
-    // original
     static async logUserIn(usernameValue, passwordValue) {
         Parse.User.enableUnsafeCurrentUser();
         const loggedInUser = await Parse.User.logIn(usernameValue, passwordValue);
-        console.log('login');
-        console.log(loggedInUser);
         return loggedInUser;
     }
-
-    // originally working
-    // static async registerUser(userValue) {
-    //     let {username, password, spotifyUsername} = userValue;
-    //     let user = new Parse.User();
-
-    //     user.set("username", username);
-    //     user.set("password", password);
-    //     user.set("spotifyUsername", spotifyUsername);
-    //     user.set('followers', []);
-    //     try {
-    //         await user.signUp();
-    //         return "User created!";
-    //     } catch (error) {
-    //         console.log('error');
-    //         console.log(error);
-    //         return error.message;
-    //     }
-    // }
 
     static async registerUser(userValue) {
       let {username, password, email} = userValue;
@@ -61,15 +33,19 @@ class User {
       user.set("password", password);
       user.set("email", email);
       user.set('followers', []);
-      // added
       user.set("appPassword", password);
+
+      let userPreferences = new Parse.Object('Preferences');
+      userPreferences.set('topGenres', []);
+      userPreferences.set('topArtists', []);
+      userPreferences.set('username', username);
 
       try {
           await user.signUp();
+          await userPreferences.save();
           return "User created!";
       } catch (error) {
           console.log('error');
-          console.log(error);
           return error.message;
       }
   }
@@ -82,34 +58,19 @@ class User {
         Post.set('trackId', trackId);
         try {
           await Post.save();
-          // TODO front end stuff;
-          // Success
-          // alert('Success! To-do created!');
-          // Refresh to-dos list to show the new one (you will create this function later)
-          // readTodos();
           return true;
         } catch (error) {
-          // Error can be caused by lack of Internet connection
-          // TODO
-          // alert(`Error! ${error.message}`);
           console.log(error.message);
           return false;
         };
     };
 
     static async posts() {
-        // Reading parse objects is done by using Parse.Query
         const query = new Parse.Query('Post');
         try {
           let todos = await query.find();
-          // Be aware that empty or invalid queries return as an empty array
-          // Set results to state variable
-        //   setReadResults(todos);
-        //   return true;
             return todos;
         } catch (error) {
-          // Error can be caused by lack of Internet connection
-        //   alert(`Error! ${error.message}`);
           return {};
         };
     };
@@ -151,8 +112,6 @@ class User {
       let user = Parse.User.current();
       user.addUnique('followers', followUsername);
       await user.save();
-      console.log('after following:');
-      console.log(user.get('followers'));
       return true;
     }
 
@@ -161,8 +120,6 @@ class User {
       let user = Parse.User.current();
       user.remove('followers', unfollowUsername);
       await user.save();
-      console.log('after unfollowing:');
-      console.log(user.get('followers'));
       return true;
     }
 
@@ -175,9 +132,6 @@ class User {
   };
 
   static async getFeed(username) {
-    console.log('ahhh');
-    console.log(username);
-
     let followers = await this.getFollowers(username);
     let result = [];
     for (let i = 0; i < followers.length; i++) {
@@ -230,18 +184,6 @@ class User {
     return result;
   }
 
-  // static async getUserExists(spotifyUsername) {
-  //   let appUsers = await this.getUsers();
-  //   let found = false;
-  //   for (let i = 0; i < appUsers.length; i++) {
-  //       if (appUsers[i].get('spotifyUsername') == spotifyUsername) {
-  //         found = true;
-  //         break;
-  //     }
-  //   }
-  //   return found;
-  // }
-
   static async getUserExists(email) {
     let appUsers = await this.getUsers();
     let found = false;
@@ -273,6 +215,24 @@ class User {
     query.equalTo("username", username);
     let result = await query.first({}); 
     return result.get('appPassword');
+  }
+
+  static async setTopGenres(username, genres) {
+    const query = new Parse.Query('Preferences');
+    query.equalTo("username", username);
+    let result = await query.first({}); 
+    result.set('topGenres', genres);
+    await result.save();
+    return result.get('topGenres');
+  }
+
+  static async setTopArtists(username, artists) {
+    const query = new Parse.Query('Preferences');
+    query.equalTo("username", username);
+    let result = await query.first({}); 
+    result.set('topArtists', artists);
+    await result.save();
+    return result.get('topArtists');
   }
 
 }

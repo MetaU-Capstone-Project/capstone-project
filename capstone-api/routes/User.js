@@ -185,6 +185,18 @@ router.get('/password/:username', async (req, res) => {
     res.send(result);
 });
 
+router.post('/topgenres', async (req, res) => {
+    let { username, genres } = req.body;
+    let result = await User.setTopGenres(username, genres);
+    res.send(result);
+});
+
+router.post('/topartists', async (req, res) => {
+    let { username, artists } = req.body;
+    let result = await User.setTopArtists(username, artists);
+    res.send(result);
+});
+
 router.get('/', (req, res) => {
     try {
         let currUser = User.getCurrentUser();

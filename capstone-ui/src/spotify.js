@@ -116,13 +116,11 @@ const refreshToken = async () => {
   
     // If there's an error OR the token in localStorage has expired, refresh the token
     if (hasError || hasTokenExpired() || LOCALSTORAGE_VALUES.accessToken === 'undefined') {
-      console.log('refresh');
       refreshToken();
     }
   
     // If there is a valid access token in localStorage, use that
     if (LOCALSTORAGE_VALUES.accessToken && LOCALSTORAGE_VALUES.accessToken !== 'undefined') {
-      console.log('valid');
       return LOCALSTORAGE_VALUES.accessToken;
     }
   
@@ -157,8 +155,6 @@ const refreshToken = async () => {
 
 //  export const getCurrentUserProfile = () => axios.get('/me');
 export const getCurrentUserProfile = () => {
-  console.log('accessToken');
-  console.log(accessToken);
   return axios.get('/me')
 };
 
