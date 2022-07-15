@@ -7,8 +7,8 @@ import { getTopArtists, getGenres } from "../../spotify";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 
 export default function Settings({ username, token, profile }) {
-  const [genres, setGenres] = useState([]);
-  const [artists, setArtists] = useState([]);
+  const [genres, setGenres] = useState(null);
+  const [artists, setArtists] = useState(null);
 
   React.useEffect(() => {
     const fetchData = async () => {
@@ -30,7 +30,7 @@ export default function Settings({ username, token, profile }) {
 
   return (
     <div className="settings-component">
-      {genres.length !== 0 && artists.length !== 0 ? (
+      {genres && artists ? (
         <>
           <div className="preferences">
             <span className="preference-heading">Your Favorite Genres</span>

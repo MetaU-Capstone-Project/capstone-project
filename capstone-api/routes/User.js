@@ -154,9 +154,36 @@ router.get('/:username', async (req, res) => {
     res.send(result);
 });
 
+// router.get('/exists/:username', async (req, res) => {
+//     const spotifyUsername = req.params.username;
+//     const result = await User.getUserExists(spotifyUsername);
+//     res.send(result);
+// });
+
+router.get('/exists/:email', async (req, res) => {
+    const email = req.params.email;
+    const result = await User.getUserExists(email);
+    res.send(result);
+});
+
+// TODO delete? 
+router.get('/profileBySpotifyUsername/:username', async (req, res) => {
+    const spotifyUsername = req.params.username;
+    const result = await User.getProfileBySpotifyUsername(spotifyUsername);
+    res.send(result);
+});
+
+router.get('/profileByEmail/:email', async (req, res) => {
+    const email = req.params.email;
+    const result = await User.getProfileByEmail(email);
+    res.send(result);
+});
+
 router.get('/', (req, res) => {
     try {
         let currUser = User.getCurrentUser();
+        console.log('current user');
+        console.log(currUser);
         res.send(currUser);
     } catch {
         res.status(400).send();

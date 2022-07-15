@@ -116,11 +116,13 @@ const refreshToken = async () => {
   
     // If there's an error OR the token in localStorage has expired, refresh the token
     if (hasError || hasTokenExpired() || LOCALSTORAGE_VALUES.accessToken === 'undefined') {
+      console.log('refresh');
       refreshToken();
     }
   
     // If there is a valid access token in localStorage, use that
     if (LOCALSTORAGE_VALUES.accessToken && LOCALSTORAGE_VALUES.accessToken !== 'undefined') {
+      console.log('valid');
       return LOCALSTORAGE_VALUES.accessToken;
     }
   
@@ -142,6 +144,9 @@ const refreshToken = async () => {
 
   export const accessToken = getAccessToken();
 
+//added temporarily
+// const tempToken = 'BQDT8D12Sq1xSdmciJcYeKAAapnnPycKs1s6-zhz8IHFuVTGaOKdjxGzN1Qyf9O5_kwKWQ2WLVWIpWmoZ1J2AFlQUp3er6oX_GEi4xWa9E7OxRhbxU9KvJxRcBHZzrzYJEfSVLTAVil4IkjzQ4mi4wDTqmeXO9Ju0i2NPzZToWibRng8xKdx9A0te9S-tENQ9TIYLI7JO6AFPWKX4qA';
+
   /**
  * Axios global request headers
  * https://github.com/axios/axios#global-axios-defaults
@@ -150,7 +155,12 @@ const refreshToken = async () => {
  axios.defaults.headers['Authorization'] = `Bearer ${accessToken}`;
  axios.defaults.headers['Content-Type'] = 'application/json';
 
- export const getCurrentUserProfile = () => axios.get('/me');
+//  export const getCurrentUserProfile = () => axios.get('/me');
+export const getCurrentUserProfile = () => {
+  console.log('accessToken');
+  console.log(accessToken);
+  return axios.get('/me')
+};
 
 export const getTopArtists = (time_range = 'short_term') => {
   return axios.get(`/me/top/artists?time_range=${time_range}`);

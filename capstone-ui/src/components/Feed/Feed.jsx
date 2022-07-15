@@ -7,6 +7,9 @@ import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 export default function Feed({ username, profile, token }) {
   const [feed, setFeed] = useState(null);
 
+  console.log("feed username");
+  console.log(username);
+
   React.useEffect(() => {
     async function getFeed() {
       const response = await axios.get(
@@ -17,18 +20,27 @@ export default function Feed({ username, profile, token }) {
     getFeed();
   }, []);
 
+  // TODO style the loader to be in center
   return (
-    <div className="feed-page">
-      <div className="feed-heading-wrapper">
-        <span className="feed-heading">Your Feed</span>
-      </div>
-      <div className="feed-results-wrapper">
-        <FeedResults
-          feed={feed}
-          username={username}
-          token={token}
-        ></FeedResults>
-      </div>
-    </div>
+    <>
+      {feed ? (
+        <>
+          <div className="feed-page">
+            <div className="feed-heading-wrapper">
+              <span className="feed-heading">Your Feed</span>
+            </div>
+            <div className="feed-results-wrapper">
+              <FeedResults
+                feed={feed}
+                username={username}
+                token={token}
+              ></FeedResults>
+            </div>
+          </div>
+        </>
+      ) : (
+        <LoadingSpinner />
+      )}
+    </>
   );
 }

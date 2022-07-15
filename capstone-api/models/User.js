@@ -30,23 +30,42 @@ class User {
         return loggedInUser;
     }
 
-    static async registerUser(userValue) {
-        let {username, password, spotifyUsername} = userValue;
-        let user = new Parse.User();
+    // originally working
+    // static async registerUser(userValue) {
+    //     let {username, password, spotifyUsername} = userValue;
+    //     let user = new Parse.User();
 
-        user.set("username", username);
-        user.set("password", password);
-        user.set("spotifyUsername", spotifyUsername);
-        user.set('followers', []);
-        try {
-            await user.signUp();
-            return "User created!";
-        } catch (error) {
-            console.log('error');
-            console.log(error);
-            return error.message;
-        }
-    }
+    //     user.set("username", username);
+    //     user.set("password", password);
+    //     user.set("spotifyUsername", spotifyUsername);
+    //     user.set('followers', []);
+    //     try {
+    //         await user.signUp();
+    //         return "User created!";
+    //     } catch (error) {
+    //         console.log('error');
+    //         console.log(error);
+    //         return error.message;
+    //     }
+    // }
+
+    static async registerUser(userValue) {
+      let {username, password, email} = userValue;
+      let user = new Parse.User();
+
+      user.set("username", username);
+      user.set("password", password);
+      user.set("email", email);
+      user.set('followers', []);
+      try {
+          await user.signUp();
+          return "User created!";
+      } catch (error) {
+          console.log('error');
+          console.log(error);
+          return error.message;
+      }
+  }
 
     // added
     // TODO add parameters - username, postInfo
@@ -125,6 +144,8 @@ class User {
       let user = Parse.User.current();
       user.addUnique('followers', followUsername);
       await user.save();
+      console.log('after following:');
+      console.log(user.get('followers'));
       return true;
     }
 
@@ -133,6 +154,8 @@ class User {
       let user = Parse.User.current();
       user.remove('followers', unfollowUsername);
       await user.save();
+      console.log('after unfollowing:');
+      console.log(user.get('followers'));
       return true;
     }
 
@@ -184,6 +207,44 @@ class User {
   static async getAppProfile(username) {
     const query = new Parse.Query('User');
     query.equalTo("username", username);
+    let result = await query.first({}); 
+    return result;
+  }
+
+  // static async getUserExists(spotifyUsername) {
+  //   let appUsers = await this.getUsers();
+  //   let found = false;
+  //   for (let i = 0; i < appUsers.length; i++) {
+  //       if (appUsers[i].get('spotifyUsername') == spotifyUsername) {
+  //         found = true;
+  //         break;
+  //     }
+  //   }
+  //   return found;
+  // }
+
+  static async getUserExists(email) {
+    let appUsers = await this.getUsers();
+    let found = false;
+    for (let i = 0; i < appUsers.length; i++) {
+        if (appUsers[i].get('email') == email) {
+          found = true;
+          break;
+      }
+    }
+    return found;
+  }
+
+  static async getProfileBySpotifyUsername(spotifyUsername) {
+    const query = new Parse.Query('User');
+    query.equalTo("spotifyUsername", spotifyUsername);
+    let result = await query.first({}); 
+    return result;
+  }
+
+  static async getProfileByEmail(email) {
+    const query = new Parse.Query('User');
+    query.equalTo("email", email);
     let result = await query.first({}); 
     return result;
   }

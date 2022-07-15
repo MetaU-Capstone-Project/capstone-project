@@ -55,7 +55,7 @@ export default function ProfileCard({
         <span className="profile-username">Username: {username}</span>
         {profile && (
           <span className="profile-username">
-            Spotify Username: {profile.display_name}
+            Spotify Name: {profile.display_name}
           </span>
         )}
         {appProfile && (

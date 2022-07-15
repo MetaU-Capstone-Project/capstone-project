@@ -28,18 +28,57 @@ export default function Register(
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  // added
+  // added - delete spotify username
   const [spotifyUsername, setSpotifyUsername] = useState("");
+  // addded
+  const [email, setEmail] = useState("");
+
+  // const registerUser = async function () {
+  //   const usernameValue = username;
+  //   const passwordValue = password;
+  //   const spotifyUsernameValue = spotifyUsername;
+
+  //   let postRequest = {
+  //     username: usernameValue,
+  //     password: passwordValue,
+  //     spotifyUsername: spotifyUsernameValue,
+  //   };
+  //   axios
+  //     .post("http://localhost:3001/user/register", postRequest)
+  //     .then(function (response) {
+  //       alert(
+  //         `Success! User ${response.data.username} was successfully created!`
+  //       );
+
+  //       // TODO login user after registration
+  //       // getCurrentUser();
+  //       // before
+  //       // window.location.href = "http://localhost:3000/feed";
+  //       // was working prev but adding registration preferences page
+  //       // window.location.href = "http://localhost:3001/user/authorize";
+  //       // 6/14 original
+  //       // window.location.href = "http://localhost:3001/user/authorize/register";
+  //       // TODO pass query params?
+  //       window.location.href = "http://localhost:3000/main";
+  //     })
+  //     .catch((error) => {
+  //       alert(`Error! ${error.message}`);
+  //       setUsername("");
+  //       setPassword("");
+  //       setSpotifyUsername("");
+  //       return false;
+  //     });
+  // };
 
   const registerUser = async function () {
     const usernameValue = username;
     const passwordValue = password;
-    const spotifyUsernameValue = spotifyUsername;
+    const emailValue = email;
 
     let postRequest = {
       username: usernameValue,
       password: passwordValue,
-      spotifyUsername: spotifyUsernameValue,
+      email: emailValue,
     };
     axios
       .post("http://localhost:3001/user/register", postRequest)
@@ -54,13 +93,18 @@ export default function Register(
         // window.location.href = "http://localhost:3000/feed";
         // was working prev but adding registration preferences page
         // window.location.href = "http://localhost:3001/user/authorize";
-        window.location.href = "http://localhost:3001/user/authorize/register";
+        // 6/14 original
+        // window.location.href = "http://localhost:3001/user/authorize/register";
+        // TODO pass query params?
+        window.location.href = "http://localhost:3000/main";
       })
       .catch((error) => {
         alert(`Error! ${error.message}`);
         setUsername("");
         setPassword("");
         setSpotifyUsername("");
+        // added
+        setEmail("");
         return false;
       });
   };
@@ -87,9 +131,9 @@ export default function Register(
         ></input>
         <input
           className="username-input"
-          placeholder="@Spotify"
-          onChange={(event) => setSpotifyUsername(event.target.value)}
-          value={spotifyUsername}
+          placeholder="Email"
+          onChange={(event) => setEmail(event.target.value)}
+          value={email}
         ></input>
         <div className="register-buttons">
           <Link to={"/"}>

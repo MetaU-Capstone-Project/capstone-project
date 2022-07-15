@@ -4,8 +4,11 @@ import Register from '../Register/Register';
 import Home from '../Home/Home';
 import React, {useState, useEffect} from 'react';
 import { Routes, Route, BrowserRouter } from "react-router-dom";
+import { Navigate } from 'react-router-dom';
 import { accessToken, getCurrentUserProfile, logout } from '../../spotify';
 import { catchErrors } from '../../utils';
+import Authorization from "../Authorization/Authorization";
+import Main from "../Main/Main";
 
 import axios from "axios";
 import './App.css';
@@ -19,66 +22,39 @@ Parse.initialize(PARSE_APPLICATION_ID, PARSE_JAVASCRIPT_KEY);
 Parse.serverURL = PARSE_HOST_URL;
 
 function App() {
-  const [view, setView] = React.useState("");
-
-  const [token, setToken] = useState(null);
-  const [profile, setProfile] = useState(null);
-
-  // need app username for post requests
-  // TODO changed from empty string for the feedd
-  const [username, setUsername] = useState(null);
-    // TODO delete this
-  const [password, setPassword] = useState("");
-  const [currentUser, setCurrentUser] = useState(null);
-
-  useEffect(() => {
-    setToken(accessToken);
-
-    const fetchSpotifyUser = async () => {
-      const { data } = await getCurrentUserProfile();
-      setProfile(data);
-    };
-
-    catchErrors(fetchSpotifyUser());
-
-    const fetchAppUser = async () => {
-      const { data } = await axios.get("http://localhost:3001/user");
-      setUsername(data.username);
-    }
-
-    catchErrors(fetchAppUser());
-  }, []);
-
-  // useEffect(() => {
-  //   const fetchAppUser = async () => {
-  //     const { data } = await axios.get("http://localhost:3001/user");
-  //     setUsername(data.username);
-  //   }
-
-  //   console.log('fetching username');
-  //   catchErrors(fetchAppUser());
-  // }, [username])
-
-
-  // TODO initial 401 error 
+    const [userExists, setUserExists] = useState(null);
+    const [spotifyProfile, setSpotifyProfile] = useState(null);
+    const [username, setUsername] = useState(null);
+    const [appProfile, setAppProfile] = useState(null);
+    const [token, setToken] = useState(null);
 
   return (
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route exact path="/" element={<Login view={view} setView={setView} username={username} password={password} currentUser={currentUser} setUsername={setUsername} setPassword={setPassword} setCurrentUser={setCurrentUser}></Login>}
+          {/* modified */}
+          {/* uncomment out again */}
+          {/* <Route exact path="/" element={<Login view={view} setView={setView} username={username} password={password} currentUser={currentUser} setUsername={setUsername} setPassword={setPassword} setCurrentUser={setCurrentUser}></Login>}
+          /> */}
+          <Route exact path="/" element={<Navigate replace to="/authorization" />}
           />
-          <Route exact path="/register" element={<Register username={username} password={password} currentUser={currentUser} setUsername={setUsername} setPassword={setPassword} setCurrentUser={setCurrentUser}></Register>}
+          <Route exact path="/authorization" element={<Authorization></Authorization>}
           />
-          <Route exact path="/home" element={<Home page={'home'} username={username} profile={profile} token={token}></Home>}
+          <Route exact path="/main" element={<Main userExists={userExists} setUserExists={setUserExists} spotifyProfile={spotifyProfile} setSpotifyProfile={setSpotifyProfile} username={username} setUsername={setUsername} appProfile={appProfile} setAppProfile={setAppProfile}
+          token={token} setToken={setToken}></Main>}
           />
-          <Route exact path="/search" element={<Home page={'search'} username={username} profile={profile} token={token}></Home>}
+          {/* TODO - fix modified */}
+          {/* <Route exact path="/register" element={<Register username={username} password={password} currentUser={currentUser} setUsername={setUsername} setPassword={setPassword} setCurrentUser={setCurrentUser}></Register>}
+          /> */}
+          <Route exact path="/home" element={<Home page={'home'} username={username} profile={spotifyProfile} token={token}></Home>}
           />
-          <Route exact path="/groups" element={<Home page={'groups'} username={username} profile={profile} token={token}></Home>}
+          <Route exact path="/search" element={<Home page={'search'} username={username} profile={spotifyProfile} token={token}></Home>}
           />
-          <Route exact path="/profile" element={<Home page={'profile'} username={username} profile={profile} token={token}></Home>}
+          <Route exact path="/groups" element={<Home page={'groups'} username={username} profile={spotifyProfile} token={token}></Home>}
           />
-          <Route exact path="/post/:songId" element={<Home page={'post'} username={username} profile={profile} token={token}></Home>}
+          <Route exact path="/profile" element={<Home page={'profile'} username={username} profile={spotifyProfile} token={token}></Home>}
+          />
+          <Route exact path="/post/:songId" element={<Home page={'post'} username={username} profile={spotifyProfile} token={token}></Home>}
           />
         </Routes>
       </BrowserRouter>
