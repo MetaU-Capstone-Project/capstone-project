@@ -59,6 +59,41 @@ export default function Main({
         setUsername(result.data.username);
         setToken(accessToken);
         console.log("blah" + result.data.username);
+
+        console.log("password: " + result.data.password);
+        // TODO
+        // localStorage.setItem("username", result.data.username);
+        // localStorage.setItem("user", JSON.stringify(result.data));
+
+        // // added
+        // // TODO - call login
+        // // const login = await axios.get
+        // let postRequest = {
+        //   username: result.data.username,
+        //   password: result.data.password,
+        // };
+        // axios
+        //   .post("http://localhost:3001/user/login", postRequest)
+        //   .then(function (response) {
+        //     // alert(
+        //     //   `Success! User ${response.data.username} has successfully signed in!`
+        //     // );
+        //     console.log("successfully logged in");
+        //     // setUsername(response.data.username);
+        //     // setPassword(response.data.password);
+        //     // getCurrentUser();
+
+        //     // window.location.href = "http://localhost:3001/user/authorize";
+        //   })
+        //   .catch((error) => {
+        //     // alert(`Error! ${error.message}`);
+        //     // uncomment out
+        //     // setUsername("");
+        //     // setPassword("");
+        //     // return false;
+        //     console.log("error logging in");
+        //   });
+        // // added
       }
       // added
       setIsFetching(false);

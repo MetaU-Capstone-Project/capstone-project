@@ -18,15 +18,19 @@ class User {
         this.super();
     }
 
+    // TODO modify and call local storage
     static getCurrentUser() {
         Parse.User.enableUnsafeCurrentUser();
         let currentUser = Parse.User.current();
         return currentUser;
     }
 
+    // original
     static async logUserIn(usernameValue, passwordValue) {
         Parse.User.enableUnsafeCurrentUser();
         const loggedInUser = await Parse.User.logIn(usernameValue, passwordValue);
+        console.log('login');
+        console.log(loggedInUser);
         return loggedInUser;
     }
 
