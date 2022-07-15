@@ -61,6 +61,9 @@ class User {
       user.set("password", password);
       user.set("email", email);
       user.set('followers', []);
+      // added
+      user.set("appPassword", password);
+
       try {
           await user.signUp();
           return "User created!";
@@ -183,7 +186,19 @@ class User {
     }
     // TODO handle errors
     // return user.get('followers');
-    console.log(result);
+    result.sort(function(a, b) {
+      const timeA = a.createdAt;
+      const timeB = b.createdAt;
+      if (timeA < timeB) {
+        return 1;
+      }
+      if (timeA > timeB) {
+        return -1;
+      }
+    
+      return 0;
+    });
+
     return result;
   };
 
@@ -252,6 +267,14 @@ class User {
     let result = await query.first({}); 
     return result;
   }
+
+  static async getPassword(username) {
+    const query = new Parse.Query('User');
+    query.equalTo("username", username);
+    let result = await query.first({}); 
+    return result.get('appPassword');
+  }
+
 }
 
 module.exports = User;

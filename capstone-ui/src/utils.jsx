@@ -5,3 +5,7 @@ export const catchErrors = (fn) => {
     });
   };
 };
+
+export const formatDate = (dateTime) => {
+  return new Date(dateTime).toISOString().replace(/T/, " ").replace(/\..+/, "");
+};

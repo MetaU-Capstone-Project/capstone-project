@@ -4,6 +4,7 @@ import "./ProfileCard.css";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { logout } from "../../spotify";
+import { formatDate } from "../../utils";
 
 // TODO - temporarily use logo as profile picture
 import logo from "../../logo.svg";
@@ -60,7 +61,7 @@ export default function ProfileCard({
         )}
         {appProfile && (
           <span className="profile-join-date">
-            Joined app {appProfile.createdAt}
+            Joined app {formatDate(appProfile.createdAt)}
           </span>
         )}
       </div>

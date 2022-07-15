@@ -3,6 +3,7 @@ import "./PostHeader.css";
 import ProfileHeader from "../ProfileHeader/ProfileHeader";
 import SongHeaderView from "../SongHeaderView/SongHeaderView";
 import axios from "axios";
+import { formatDate } from "../../utils";
 
 export default function PostHeader({
   username,
@@ -43,7 +44,7 @@ export default function PostHeader({
           username={username}
           isTimelineView={isTimelineView}
         ></ProfileHeader>
-        <span className="timeline-view-date">{post.createdAt}</span>
+        <span className="timeline-view-date">{formatDate(post.createdAt)}</span>
       </div>
       <SongHeaderView id="songcard-component" song={songInfo}></SongHeaderView>
     </div>

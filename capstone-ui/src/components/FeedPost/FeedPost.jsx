@@ -5,6 +5,7 @@ import { getTrack } from "../../spotify";
 import { catchErrors } from "../../utils";
 import ProfileHeader from "../ProfileHeader/ProfileHeader";
 import SongCard from "../SongCard/SongCard";
+import { formatDate } from "../../utils";
 
 export default function FeedPost({ username, token, post }) {
   const [songInfo, setSongInfo] = React.useState(null);
@@ -37,7 +38,9 @@ export default function FeedPost({ username, token, post }) {
               isFeedView={true}
               isSearchView={false}
             ></ProfileHeader>
-            <span className="timeline-view-date">{post.createdAt}</span>
+            <span className="timeline-view-date">
+              {formatDate(post.createdAt)}
+            </span>
           </div>
           <div className="songcard-wrapper">
             <SongCard

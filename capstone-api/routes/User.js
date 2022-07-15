@@ -179,6 +179,12 @@ router.get('/profileByEmail/:email', async (req, res) => {
     res.send(result);
 });
 
+router.get('/password/:username', async (req, res) => {
+    const username = req.params.username;
+    const result = await User.getPassword(username);
+    res.send(result);
+});
+
 router.get('/', (req, res) => {
     try {
         let currUser = User.getCurrentUser();
