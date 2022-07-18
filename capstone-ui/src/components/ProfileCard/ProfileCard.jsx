@@ -38,6 +38,8 @@ export default function ProfileCard({
     }
   };
 
+  // call Profile details?
+
   return (
     <div className="profilecard-component">
       <div className="profile-picture-wrapper">

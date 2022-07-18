@@ -9,13 +9,14 @@ import axios from "axios";
 import { catchErrors } from "../../utils";
 import "./Home.css";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
+import FriendProfile from "../FriendProfile/FriendProfile";
 
 export default function Home({ username, page, token, profile, appProfile }) {
   return (
     <>
       {username ? (
         <div className="home-page">
-          <Navbar></Navbar>
+          <Navbar username={username}></Navbar>
           {page === "home" && (
             <Feed username={username} profile={profile} token={token}></Feed>
           )}
@@ -43,6 +44,18 @@ export default function Home({ username, page, token, profile, appProfile }) {
               settings={false}
               app={appProfile}
             ></Profile>
+          )}
+          {page === "friendprofile" && (
+            <FriendProfile
+              // change props
+              friendUsername={username}
+              profile={profile}
+              token={token}
+              followers={false}
+              timeline={true}
+              settings={false}
+              app={appProfile}
+            ></FriendProfile>
           )}
           {page === "post" && (
             <Post username={username} token={token} profile={profile}></Post>

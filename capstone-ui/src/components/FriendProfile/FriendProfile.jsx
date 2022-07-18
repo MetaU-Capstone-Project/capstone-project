@@ -6,21 +6,48 @@ import Settings from "../Settings/Settings";
 import ProfileCard from "../ProfileCard/ProfileCard";
 import Timeline from "../Timeline/Timeline";
 import Followers from "../Followers/Followers";
+import { useParams } from "react-router-dom";
+import Profile from "../Profile/Profile";
+import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 
 const Parse = require("parse");
 
-export default function FriendProfile({ username, token, profile }) {
-  const [appProfile, setAppProfile] = React.useState();
+export default function FriendProfile({ friendUsername, token, profile }) {
+  let { username } = useParams();
+
+  const [appProfile, setAppProfile] = React.useState(null);
   const [tab, setTab] = React.useState("timeline");
 
   React.useEffect(() => {
-    const fetchAppUser = async () => {
-      const { data } = await axios.get("http://localhost:3001/user");
+    const fetchData = async () => {
+      const { data } = await axios.get(
+        `http://localhost:3001/user/${username}`
+      );
       setAppProfile(data);
     };
 
-    catchErrors(fetchAppUser());
+    catchErrors(fetchData());
   }, []);
+
+  if (username === friendUsername) {
+    return (
+      <>
+        {appProfile ? (
+          <Profile
+            username={friendUsername}
+            profile={profile}
+            token={token}
+            followers={false}
+            timeline={true}
+            settings={false}
+            app={appProfile}
+          ></Profile>
+        ) : (
+          <LoadingSpinner></LoadingSpinner>
+        )}
+      </>
+    );
+  }
 
   return (
     <div className="profile-page">
@@ -44,16 +71,6 @@ export default function FriendProfile({ username, token, profile }) {
             token={token}
             profile={profile}
           ></Timeline>
-        </div>
-      )}
-      {tab == "settings" && (
-        <div className="settings-wrapper">
-          <span className="settings-heading">Settings</span>
-          <Settings
-            username={username}
-            token={token}
-            profile={profile}
-          ></Settings>
         </div>
       )}
       {tab == "followers" && (

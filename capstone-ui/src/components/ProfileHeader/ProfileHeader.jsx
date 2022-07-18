@@ -57,7 +57,7 @@ export default function ProfileHeader({
 
   const followUser = async (e) => {
     let followUsername =
-      e.target.parentNode.childNodes[1].childNodes[0].innerText;
+      e.target.parentNode.childNodes[0].childNodes[1].childNodes[0].innerText;
 
     e.preventDefault();
     axios
@@ -76,7 +76,7 @@ export default function ProfileHeader({
 
   const unfollowUser = async (e) => {
     let unfollowUsername =
-      e.target.parentNode.childNodes[1].childNodes[0].innerText;
+      e.target.parentNode.childNodes[0].childNodes[1].childNodes[0].innerText;
 
     e.preventDefault();
     axios
@@ -100,20 +100,25 @@ export default function ProfileHeader({
 
     return (
       <div className="search-view-profileheader-component">
-        <div className="search-view-profile-picture-wrapper">
-          {imageURL === "logo" && (
-            <img className="spotify-profileheader-picture" src={logo}></img>
-          )}
-          {imageURL !== "logo" && (
-            <img className="spotify-profileheader-picture" src={imageURL}></img>
-          )}
-        </div>
-        <div className="profile-username-wrapper">
-          <span className="profile-username">{username}</span>
-          {/* <span className="profile-username">
+        <Link to={`/friendprofile/${username}`}>
+          <div className="search-view-profile-picture-wrapper">
+            {imageURL === "logo" && (
+              <img className="spotify-profileheader-picture" src={logo}></img>
+            )}
+            {imageURL !== "logo" && (
+              <img
+                className="spotify-profileheader-picture"
+                src={imageURL}
+              ></img>
+            )}
+          </div>
+          <div className="profile-username-wrapper">
+            <span className="profile-username">{username}</span>
+            {/* <span className="profile-username">
             Spotify @{profile.display_name}
           </span> */}
-        </div>
+          </div>
+        </Link>
         {isFollowing ? (
           <button className="unfollow-button" onClick={unfollowUser}>
             Unfollow
@@ -124,6 +129,32 @@ export default function ProfileHeader({
           </button>
         )}
       </div>
+
+      // <div className="search-view-profileheader-component">
+      //   <div className="search-view-profile-picture-wrapper">
+      //     {imageURL === "logo" && (
+      //       <img className="spotify-profileheader-picture" src={logo}></img>
+      //     )}
+      //     {imageURL !== "logo" && (
+      //       <img className="spotify-profileheader-picture" src={imageURL}></img>
+      //     )}
+      //   </div>
+      //   <div className="profile-username-wrapper">
+      //     <span className="profile-username">{username}</span>
+      //     {/* <span className="profile-username">
+      //       Spotify @{profile.display_name}
+      //     </span> */}
+      //   </div>
+      //   {isFollowing ? (
+      //     <button className="unfollow-button" onClick={unfollowUser}>
+      //       Unfollow
+      //     </button>
+      //   ) : (
+      //     <button className="follow-button" onClick={followUser}>
+      //       Follow
+      //     </button>
+      //   )}
+      // </div>
     );
   }
 
@@ -137,6 +168,8 @@ export default function ProfileHeader({
               : "profileheader-component"
           }
         >
+          {/* TODO */}
+          {/* <Link to={"/friendprofile"}></Link> */}
           <div
             className={
               isFeedView
@@ -161,16 +194,6 @@ export default function ProfileHeader({
                 : "profile-username-wrapper"
             }
           >
-            {/* originally working */}
-            {/* profile.display name for normal and spotifyUsername for feed */}
-            {/* <span className="profile-username">{username}</span>
-        <span className="profile-username">
-          Spotify @
-          {profile.display_name
-            ? profile.display_name
-            : profile.spotifyUsername}
-        </span> */}
-
             <span
               className={
                 isTimelineView
