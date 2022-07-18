@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./Profile.css";
+import "./FriendProfile.css";
 import axios from "axios";
 import { catchErrors } from "../../utils";
 import Settings from "../Settings/Settings";
@@ -9,7 +9,7 @@ import Followers from "../Followers/Followers";
 
 const Parse = require("parse");
 
-export default function Profile({ username, token, profile }) {
+export default function FriendProfile({ username, token, profile }) {
   const [appProfile, setAppProfile] = React.useState();
   const [tab, setTab] = React.useState("timeline");
 
@@ -33,6 +33,7 @@ export default function Profile({ username, token, profile }) {
           isPreferencesView={false}
           tab={tab}
           setTab={setTab}
+          isFriendProfileView={true}
         ></ProfileCard>
       </div>
       {tab == "timeline" && (

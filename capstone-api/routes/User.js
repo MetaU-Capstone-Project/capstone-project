@@ -200,8 +200,6 @@ router.post('/topartists', async (req, res) => {
 router.get('/', (req, res) => {
     try {
         let currUser = User.getCurrentUser();
-        console.log('current user');
-        console.log(currUser);
         res.send(currUser);
     } catch {
         res.status(400).send();

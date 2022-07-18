@@ -26,7 +26,7 @@ class User {
     }
 
     static async registerUser(userValue) {
-      let {username, password, email} = userValue;
+      let {username, password, email, spotifyURL, imageURL } = userValue;
       let user = new Parse.User();
 
       user.set("username", username);
@@ -34,6 +34,8 @@ class User {
       user.set("email", email);
       user.set('followers', []);
       user.set("appPassword", password);
+      user.set('spotifyURL', spotifyURL);
+      user.set('imageURL', imageURL);
 
       let userPreferences = new Parse.Object('Preferences');
       userPreferences.set('topGenres', []);

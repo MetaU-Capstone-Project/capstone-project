@@ -67,13 +67,16 @@ export default function Main({
     <>
       {!isFetching ? (
         <>
-          {userExists === false && <Register></Register>}
+          {userExists === false && (
+            <Register spotifyProfile={spotifyProfile}></Register>
+          )}
           {username && (
             <Home
               page={"home"}
               username={username}
               profile={spotifyProfile}
               token={token}
+              appProfile={appProfile}
             ></Home>
           )}
         </>

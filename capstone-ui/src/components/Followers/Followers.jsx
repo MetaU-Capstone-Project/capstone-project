@@ -16,7 +16,7 @@ export default function Followers({ username, token, profile }) {
       setFollowers(response.data);
     }
     getFollowers();
-  }, []);
+  }, [followers]);
 
   return (
     <div className="followers-component">

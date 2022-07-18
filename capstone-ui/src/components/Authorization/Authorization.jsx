@@ -18,7 +18,7 @@ export default function Authorization() {
       </div>
       <div className="submission-wrapper">
         <span className="instruction">Spotify Authorization</span>
-        <button onClick={handleLogin}>Login</button>
+        <button onClick={handleLogin}>Welcome</button>
         {/* <input className="username-input" placeholder="Username"></input>
         <input className="password-input" placeholder="Password"></input>
         <div className="register-buttons">

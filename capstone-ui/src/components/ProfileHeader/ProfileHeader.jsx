@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./ProfileHeader.css";
+import { Link } from "react-router-dom";
 
 // TODO - temporarily use logo as profile picture
 import logo from "../../logo.svg";
+import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 
 export default function ProfileHeader({
   username,
@@ -16,6 +18,7 @@ export default function ProfileHeader({
 }) {
   const [isFollowing, setIsFollowing] = useState(false);
   const [followers, setFollowers] = useState([]);
+  const [imageURL, setImageURL] = useState(null);
 
   React.useEffect(() => {
     async function getFollowers() {
@@ -36,6 +39,20 @@ export default function ProfileHeader({
       }
     }
     getFollowers();
+
+    async function getProfileImage(usernameParam) {
+      const response = await axios.get(
+        `http://localhost:3001/user/${usernameParam}`
+      );
+      setImageURL(response.data.imageURL);
+    }
+
+    if (isSearchView || isFollowersView) {
+      let usernameParam = profile.username || profile;
+      getProfileImage(usernameParam);
+    } else {
+      getProfileImage(username);
+    }
   }, []);
 
   const followUser = async (e) => {
@@ -76,23 +93,20 @@ export default function ProfileHeader({
       });
   };
 
-  // TODO add button and retrieve other people's usernames and Spotify usernames
   if (isSearchView || isFollowersView) {
     let username = profile.username || profile;
+    console.log("followers view" + username);
+    console.log(username);
 
     return (
       <div className="search-view-profileheader-component">
         <div className="search-view-profile-picture-wrapper">
-          <img src={logo}></img>
-          {/* TODO uncomment both out */}
-          {/* {profile.images && (
-            <img
-              className="profile-picture"
-              src={profile.images[0].url}
-              alt="profile-picture"
-              id="profile-picture"
-            ></img>
-          )} */}
+          {imageURL === "logo" && (
+            <img className="spotify-profileheader-picture" src={logo}></img>
+          )}
+          {imageURL !== "logo" && (
+            <img className="spotify-profileheader-picture" src={imageURL}></img>
+          )}
         </div>
         <div className="profile-username-wrapper">
           <span className="profile-username">{username}</span>
@@ -114,40 +128,42 @@ export default function ProfileHeader({
   }
 
   return (
-    <div
-      className={
-        isFeedView
-          ? "feedview-profileheader-component"
-          : "profileheader-component"
-      }
-    >
-      <div
-        className={
-          isFeedView
-            ? "feedview-profile-picture-wrapper"
-            : "profile-picture-wrapper"
-        }
-      >
-        {/* {profile.images && (
-          <img
-            className="profile-picture"
-            src={profile.images[0].url}
-            alt="profile-picture"
-            id="profile-picture"
-          ></img>
-        )} */}
-        <img src={logo}></img>
-      </div>
-      <div
-        className={
-          isFeedView
-            ? "feedview-profile-username-wrapper"
-            : "profile-username-wrapper"
-        }
-      >
-        {/* originally working */}
-        {/* profile.display name for normal and spotifyUsername for feed */}
-        {/* <span className="profile-username">{username}</span>
+    <>
+      {imageURL ? (
+        <div
+          className={
+            isFeedView
+              ? "feedview-profileheader-component"
+              : "profileheader-component"
+          }
+        >
+          <div
+            className={
+              isFeedView
+                ? "feedview-profile-picture-wrapper"
+                : "profile-picture-wrapper"
+            }
+          >
+            {imageURL === "logo" && (
+              <img className="spotify-profileheader-picture" src={logo}></img>
+            )}
+            {imageURL !== "logo" && (
+              <img
+                className="spotify-profileheader-picture"
+                src={imageURL}
+              ></img>
+            )}
+          </div>
+          <div
+            className={
+              isFeedView
+                ? "feedview-profile-username-wrapper"
+                : "profile-username-wrapper"
+            }
+          >
+            {/* originally working */}
+            {/* profile.display name for normal and spotifyUsername for feed */}
+            {/* <span className="profile-username">{username}</span>
         <span className="profile-username">
           Spotify @
           {profile.display_name
@@ -155,16 +171,20 @@ export default function ProfileHeader({
             : profile.spotifyUsername}
         </span> */}
 
-        <span
-          className={
-            isTimelineView
-              ? "timeline-view-profile-username"
-              : "profile-username"
-          }
-        >
-          {username}
-        </span>
-      </div>
-    </div>
+            <span
+              className={
+                isTimelineView
+                  ? "timeline-view-profile-username"
+                  : "profile-username"
+              }
+            >
+              {username}
+            </span>
+          </div>
+        </div>
+      ) : (
+        <LoadingSpinner></LoadingSpinner>
+      )}
+    </>
   );
 }

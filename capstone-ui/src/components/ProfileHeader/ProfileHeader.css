@@ -28,6 +28,11 @@ img {
 
 }
 
+.spotify-profileheader-picture {
+    width: 5rem;
+    height: 5rem;
+}
+
 .feedview-profile-username-wrapper {
     font-size: 1.5rem;
     display: flex;

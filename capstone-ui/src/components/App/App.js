@@ -56,6 +56,9 @@ function App() {
           />
           <Route exact path="/post/:songId" element={<Home page={'post'} username={username} profile={spotifyProfile} token={token}></Home>}
           />
+          {/* TODO add for linking and change props but not wired to correct one*/}
+          {/* <Route exact path="/profile/:username" element={<Home page={'profile'} username={username} profile={spotifyProfile} token={token}></Home>}
+          /> */}
         </Routes>
       </BrowserRouter>
     </div>

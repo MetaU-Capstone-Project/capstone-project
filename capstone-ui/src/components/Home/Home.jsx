@@ -10,7 +10,7 @@ import { catchErrors } from "../../utils";
 import "./Home.css";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 
-export default function Home({ username, page, token, profile }) {
+export default function Home({ username, page, token, profile, appProfile }) {
   return (
     <>
       {username ? (
@@ -41,6 +41,7 @@ export default function Home({ username, page, token, profile }) {
               followers={false}
               timeline={true}
               settings={false}
+              app={appProfile}
             ></Profile>
           )}
           {page === "post" && (
@@ -54,6 +55,7 @@ export default function Home({ username, page, token, profile }) {
               followers={false}
               timeline={true}
               settings={false}
+              app={appProfile}
             ></Profile>
           )}
           {page === "preferences" && (
@@ -64,6 +66,7 @@ export default function Home({ username, page, token, profile }) {
               followers={false}
               timeline={false}
               settings={true}
+              app={appProfile}
             ></Profile>
           )}
           {page === "followers" && (
@@ -74,6 +77,7 @@ export default function Home({ username, page, token, profile }) {
               followers={true}
               timeline={false}
               settings={false}
+              app={appProfile}
             ></Profile>
           )}
         </div>

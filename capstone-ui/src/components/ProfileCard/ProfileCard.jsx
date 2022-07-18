@@ -6,7 +6,6 @@ import axios from "axios";
 import { logout } from "../../spotify";
 import { formatDate } from "../../utils";
 
-// TODO - temporarily use logo as profile picture
 import logo from "../../logo.svg";
 
 export default function ProfileCard({
@@ -17,6 +16,7 @@ export default function ProfileCard({
   isPreferencesView,
   tab,
   setTab,
+  isFriendProfileView,
 }) {
   function handleTabChange(e) {
     setTab(e.target.id);
@@ -24,8 +24,6 @@ export default function ProfileCard({
   }
 
   const deleteAccount = async (e) => {
-    console.log("deleting account");
-    console.log(username);
     axios
       .get(`http://localhost:3001/user/delete/${username}`)
       .then(function (response) {
@@ -43,22 +41,26 @@ export default function ProfileCard({
   return (
     <div className="profilecard-component">
       <div className="profile-picture-wrapper">
-        {/* {profile && profile.images && (
-          <img
-            className="profile-picture"
-            src={profile.images[0].url}
-            alt="profile-picture"
-          ></img>
-        )} */}
-        <img src={logo}></img>
+        {appProfile &&
+          appProfile.imageURL &&
+          appProfile.imageURL === "logo" && (
+            <img className="spotify-profile-picture" src={logo}></img>
+          )}
+        {appProfile &&
+          appProfile.imageURL &&
+          appProfile.imageURL !== "logo" && (
+            <img
+              className="spotify-profile-picture"
+              src={appProfile.imageURL}
+            ></img>
+          )}
       </div>
       <div className="profile-info-wrapper">
         <span className="profile-username">Username: {username}</span>
-        {profile && (
-          <span className="profile-username">
-            Spotify Name: {profile.display_name}
-          </span>
-        )}
+        {/* TODO spotify URL */}
+        {/* {profile && (
+          <button className="profile-username">Spotify Profile</button>
+        )} */}
         {appProfile && (
           <span className="profile-join-date">
             Joined app {formatDate(appProfile.createdAt)}
@@ -73,7 +75,7 @@ export default function ProfileCard({
           }
           onClick={handleTabChange}
         >
-          Your Timeline
+          Timeline
         </button>
         <button
           id="followers"
@@ -82,26 +84,29 @@ export default function ProfileCard({
           }
           onClick={handleTabChange}
         >
-          Your Friends
+          Friends
         </button>
-        <button
-          id="settings"
-          className={
-            tab === "settings" ? "is-active" : "profile-friends-button"
-          }
-          onClick={handleTabChange}
-        >
-          Your Settings
-        </button>
-      </div>
-      <div className="delete-account-wrapper">
-        <button className="delete-account-button" onClick={confirmDelete}>
-          Delete Account
-        </button>
-        {/* added */}
-        <button className="logout-account-button" onClick={logout}>
-          Logout
-        </button>
+        {!isFriendProfileView && (
+          <>
+            <button
+              id="settings"
+              className={
+                tab === "settings" ? "is-active" : "profile-friends-button"
+              }
+              onClick={handleTabChange}
+            >
+              Settings
+            </button>
+            <div className="delete-account-wrapper">
+              <button className="delete-account-button" onClick={confirmDelete}>
+                Delete Account
+              </button>
+              <button className="logout-account-button" onClick={logout}>
+                Logout
+              </button>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

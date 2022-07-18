@@ -145,9 +145,6 @@ export default function Search({ username, token }) {
           console.log(error);
         });
 
-      console.log("searching");
-      console.log(data);
-
       let newResults = data.tracks.items;
       let addedResults = oldResults.concat(newResults);
       setSongResults(addedResults);

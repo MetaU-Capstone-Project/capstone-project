@@ -15,70 +15,30 @@ const Parse = require("parse");
 const REDIRECT_URI = "http://localhost:3001/callback";
 const CLIENT_ID = "df31a108deeb4f8698d7936b772522bb";
 
-export default function Register(
-  {
-    // username,
-    // password,
-    // currentUser,
-    // setUsername,
-    // setPassword,
-    // setCurrentUser,
-  }
-) {
+export default function Register({ spotifyProfile }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   // added - delete spotify username
   const [spotifyUsername, setSpotifyUsername] = useState("");
-  // addded
   const [email, setEmail] = useState("");
-
-  // const registerUser = async function () {
-  //   const usernameValue = username;
-  //   const passwordValue = password;
-  //   const spotifyUsernameValue = spotifyUsername;
-
-  //   let postRequest = {
-  //     username: usernameValue,
-  //     password: passwordValue,
-  //     spotifyUsername: spotifyUsernameValue,
-  //   };
-  //   axios
-  //     .post("http://localhost:3001/user/register", postRequest)
-  //     .then(function (response) {
-  //       alert(
-  //         `Success! User ${response.data.username} was successfully created!`
-  //       );
-
-  //       // TODO login user after registration
-  //       // getCurrentUser();
-  //       // before
-  //       // window.location.href = "http://localhost:3000/feed";
-  //       // was working prev but adding registration preferences page
-  //       // window.location.href = "http://localhost:3001/user/authorize";
-  //       // 6/14 original
-  //       // window.location.href = "http://localhost:3001/user/authorize/register";
-  //       // TODO pass query params?
-  //       window.location.href = "http://localhost:3000/main";
-  //     })
-  //     .catch((error) => {
-  //       alert(`Error! ${error.message}`);
-  //       setUsername("");
-  //       setPassword("");
-  //       setSpotifyUsername("");
-  //       return false;
-  //     });
-  // };
 
   const registerUser = async function () {
     const usernameValue = username;
     const passwordValue = password;
     const emailValue = email;
+    const spotifyURLValue = spotifyProfile.external_urls.spotify;
+    const imageURLValue =
+      spotifyProfile.images && spotifyProfile.images.length > 0
+        ? spotifyProfile.images[0].url
+        : "logo";
 
     let postRequest = {
       username: usernameValue,
       password: passwordValue,
       email: emailValue,
+      spotifyURL: spotifyURLValue,
+      imageURL: imageURLValue,
     };
     axios
       .post("http://localhost:3001/user/register", postRequest)
@@ -86,16 +46,6 @@ export default function Register(
         alert(
           `Success! User ${response.data.username} was successfully created!`
         );
-
-        // TODO login user after registration
-        // getCurrentUser();
-        // before
-        // window.location.href = "http://localhost:3000/feed";
-        // was working prev but adding registration preferences page
-        // window.location.href = "http://localhost:3001/user/authorize";
-        // 6/14 original
-        // window.location.href = "http://localhost:3001/user/authorize/register";
-        // TODO pass query params?
         window.location.href = "http://localhost:3000/main";
       })
       .catch((error) => {
@@ -103,7 +53,6 @@ export default function Register(
         setUsername("");
         setPassword("");
         setSpotifyUsername("");
-        // added
         setEmail("");
         return false;
       });
@@ -139,18 +88,6 @@ export default function Register(
           <Link to={"/"}>
             <button className="go-back-button">Go Back</button>
           </Link>
-          {/* originally working!!! */}
-          {/* <a href={loginURL} className="register-button"> */}
-          {/* <button className="register-button" onClick={() => registerUser()}> */}
-          {/* Register */}
-          {/* </button> */}
-          {/* </a> */}
-
-          {/* this was working 6/8/22 */}
-          {/* <a
-            href={`http://localhost:3001/user/authorize`}
-            className="register-button"
-          > */}
           <button className="register-button" onClick={() => registerUser()}>
             Register
           </button>

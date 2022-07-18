@@ -14,12 +14,14 @@ export default function Profile({ username, token, profile }) {
   const [tab, setTab] = React.useState("timeline");
 
   React.useEffect(() => {
-    const fetchAppUser = async () => {
-      const { data } = await axios.get("http://localhost:3001/user");
+    const fetchData = async () => {
+      const { data } = await axios.get(
+        `http://localhost:3001/user/${username}`
+      );
       setAppProfile(data);
     };
 
-    catchErrors(fetchAppUser());
+    catchErrors(fetchData());
   }, []);
 
   return (
