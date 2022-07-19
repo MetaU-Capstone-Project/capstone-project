@@ -1,3 +1,8 @@
+iframe {
+    width: 5rem;
+    height: 5rem;
+}
+
 .feed-heading {
     font-size: 2rem;
     font-weight: bold;
@@ -7,6 +12,22 @@
     margin-top: 4rem;
     text-align: start;
     margin-left: 4rem;
+}
+
+.recommendation-heading {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.recommendation-heading-wrapper {
+    margin-top: 4rem;
+    text-align: start;
+    margin-left: 4rem;
+}
+
+.recommendation-component-wrapper {
+    display: flex;
+    flex-direction: column;
 }
 
 .feed-page {

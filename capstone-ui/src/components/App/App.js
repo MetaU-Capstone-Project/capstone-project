@@ -5,7 +5,7 @@ import Home from '../Home/Home';
 import React, {useState, useEffect} from 'react';
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import { Navigate } from 'react-router-dom';
-import { accessToken, getCurrentUserProfile, logout } from '../../spotify';
+import { accessToken, getCurrentUserProfile, logout, deleteTokens } from '../../spotify';
 import { catchErrors } from '../../utils';
 import Authorization from "../Authorization/Authorization";
 import Main from "../Main/Main";
@@ -32,10 +32,6 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          {/* modified */}
-          {/* uncomment out again */}
-          {/* <Route exact path="/" element={<Login view={view} setView={setView} username={username} password={password} currentUser={currentUser} setUsername={setUsername} setPassword={setPassword} setCurrentUser={setCurrentUser}></Login>}
-          /> */}
           <Route exact path="/" element={<Navigate replace to="/authorization" />}
           />
           <Route exact path="/authorization" element={<Authorization></Authorization>}
@@ -43,16 +39,12 @@ function App() {
           <Route exact path="/main" element={<Main userExists={userExists} setUserExists={setUserExists} spotifyProfile={spotifyProfile} setSpotifyProfile={setSpotifyProfile} username={username} setUsername={setUsername} appProfile={appProfile} setAppProfile={setAppProfile}
           token={token} setToken={setToken}></Main>}
           />
-          {/* TODO - fix modified */}
-          {/* <Route exact path="/register" element={<Register username={username} password={password} currentUser={currentUser} setUsername={setUsername} setPassword={setPassword} setCurrentUser={setCurrentUser}></Register>}
-          /> */}
           <Route exact path="/home" element={<Home page={'home'} username={username} profile={spotifyProfile} token={token}></Home>}
           />
           <Route exact path="/search" element={<Home page={'search'} username={username} profile={spotifyProfile} token={token}></Home>}
           />
           <Route exact path="/groups" element={<Home page={'groups'} username={username} profile={spotifyProfile} token={token}></Home>}
           />
-          {/* TODO add for linking and change props but not wired to correct one*/}
            <Route exact path="/friendprofile/:username" element={<Home page={'friendprofile'} username={username} profile={spotifyProfile} token={token}></Home>}
           />
           <Route exact path="/profile" element={<Home page={'profile'} username={username} profile={spotifyProfile} token={token}></Home>}

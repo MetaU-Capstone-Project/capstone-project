@@ -225,6 +225,8 @@ class User {
     let result = await query.first({}); 
     result.set('topGenres', genres);
     await result.save();
+    console.log('here');
+    console.log(result.get('topGenres'));
     return result.get('topGenres');
   }
 

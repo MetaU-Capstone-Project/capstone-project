@@ -63,27 +63,6 @@ export default function Post({ username, profile, token }) {
       ) : (
         <LoadingSpinner />
       )}
-      {/* {songInfo ? (
-        <div className="loading-wrapper">
-          <div className="postcard-wrapper">
-            <PostCard
-              username={username}
-              profile={profile}
-              token={token}
-              song={songInfo}
-            ></PostCard>
-          </div>
-          <div className="post-button-wrapper">
-            <button className="post-button" onClick={addPost}>
-              Post
-            </button>
-          </div>
-        </div>
-      ) : (
-        <div className="loading-wrapper">
-          <LoadingSpinner />
-        </div>
-      )} */}
     </div>
   );
 }

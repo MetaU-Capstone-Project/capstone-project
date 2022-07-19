@@ -1,13 +1,8 @@
-// import * as React from "react";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "./Register.css";
 import axios from "axios";
 
-// added
-import { loginURL } from "../../spotify";
-
-// TODO - temporarily use logo as profile picture
 import logo from "../../logo.svg";
 
 const Parse = require("parse");

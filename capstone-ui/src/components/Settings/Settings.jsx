@@ -5,14 +5,15 @@ import axios from "axios";
 import { catchErrors } from "../../utils";
 import { getTopArtists, getGenres, getRecommendations } from "../../spotify";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
+import { getRecommendedUsers } from "../../recommendation";
+import Recommendations from "../Recommendations/Recommendations";
 
 export default function Settings({ username, token, profile }) {
   const [genreOptions, setGenreOptions] = useState(null);
   const [artistOptions, setArtistOptions] = useState(null);
-
-  // TODO - for selected preferences
   const [selectedGenres, setSelectedGenres] = useState(null);
   const [selectedArtists, setSelectedArtists] = useState(null);
+  const [recommendations, setRecommendations] = useState(null);
 
   React.useEffect(() => {
     const fetchData = async () => {
@@ -21,71 +22,54 @@ export default function Settings({ username, token, profile }) {
         return { value: element.id, label: element.name };
       });
       setArtistOptions(artistsResult);
-      // TODO sets the top artists in database as id ?? change later
-      console.log("users top artists");
-      console.log(artistsResult);
 
       const allGenres = await getGenres();
       let genreResults = allGenres.data.genres.map((element) => {
         return { value: element, label: element };
       });
       setGenreOptions(genreResults);
+
+      let savedTopArtists = await axios.get(
+        `http://localhost:3001/user/topartists/${username}`
+      );
+      let savedTopGenres = await axios.get(
+        `http://localhost:3001/user/topgenres/${username}`
+      );
+      setSelectedArtists(savedTopArtists.data);
+      setSelectedGenres(savedTopGenres.data);
     };
 
     catchErrors(fetchData());
   }, []);
 
   async function handleGenreChange(e) {
-    let userGenres = [];
-    for (let i = 0; i < e.length; i++) {
-      userGenres.push(e[i].value);
-    }
     let postRequest = {
       username: username,
-      genres: userGenres,
+      genres: e,
     };
     let { data } = await axios.post(
       "http://localhost:3001/user/topgenres",
       postRequest
     );
-    // TODO update select options
-    // let genreResults = data.map((element) => {
-    //   return { value: element, label: element };
-    // });
     setSelectedGenres(data);
   }
 
   async function handleArtistChange(e) {
-    let userArtists = [];
-    for (let i = 0; i < e.length; i++) {
-      userArtists.push(e[i].value);
-    }
     let postRequest = {
       username: username,
-      artists: userArtists,
+      artists: e,
     };
     let { data } = await axios.post(
       "http://localhost:3001/user/topartists",
       postRequest
     );
-    // TODO update select options
-    // let artistResults = data.map((element) => {
-    //   return { value: element, label: element };
-    // });
     setSelectedArtists(data);
   }
 
   async function recommendUsers(e) {
-    console.log("recommended users");
-
-    // TODO remove these calls and just use selected songs
-    // let artistsResult = await axios.get(
-    //   `http://localhost:3001/user/topartists/${username}`
-    // );
-    // let genresResult = await axios.get(
-    //   `http://localhost:3001/user/topgenres/${username}`
-    // );
     let artistsResult = selectedArtists;
+    console.log("recommendinggewgaweg");
+    console.log(artistsResult);
     let genresResult = selectedGenres;
     let postedSongsResult = await axios.get(
       `http://localhost:3001/user/timeline/${username}`
@@ -93,41 +77,55 @@ export default function Settings({ username, token, profile }) {
     let postedSongs = postedSongsResult.data;
 
     // format into strings for param queries
+    if (artistsResult === null) {
+      artistsResult = [];
+    }
+
+    if (genresResult === null) {
+      genresResult = [];
+    }
     let topArtists = artistsResult.join(",");
     let topGenres = genresResult.join(",");
     postedSongs = postedSongs.map((element) => element.trackId);
+
+    let recs = await getRecommendedUsers(
+      username,
+      genresResult,
+      artistsResult,
+      postedSongs
+    );
+    setRecommendations(recs);
+
     // postedSongs = postedSongs.join(",");
 
-    console.log(topArtists);
-    console.log(topGenres);
-    // console.log(postedSongs);
+    // console.log(topArtists);
+    // console.log(topGenres);
 
-    // console.log("settings token");
-    // console.log(token);
-    let { data } = await axios
-      .get(
-        "https://api.spotify.com/v1/recommendations",
-        {
-          params: {
-            seed_artists: topArtists,
-            seed_genres: topGenres,
-            // TODO uncomment out later - figure out which 5 to priortize
-            // seed_tracks: postedSongs,
-            // TODO other parameters
-          },
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
-      .catch((error) => {
-        console.log(error);
-      });
+    // recommended songs
+    // let { data } = await axios
+    //   .get(
+    //     "https://api.spotify.com/v1/recommendations",
+    //     {
+    //       params: {
+    //         seed_artists: topArtists,
+    //         seed_genres: topGenres,
+    //         // TODO uncomment out later - figure out which 5 to priortize
+    //         // seed_tracks: postedSongs,
+    //         // TODO other parameters
+    //       },
+    //     },
+    //     {
+    //       headers: {
+    //         Authorization: `Bearer ${token}`,
+    //       },
+    //     }
+    //   )
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
 
-    console.log("recommendation results");
-    console.log(data);
+    // console.log("recommendation results");
+    // console.log(data);
     // TODO
   }
 
@@ -140,7 +138,7 @@ export default function Settings({ username, token, profile }) {
             <Select
               className="preference-select"
               closeMenuOnSelect={false}
-              defaultValue={[]}
+              value={selectedGenres}
               isMulti
               options={genreOptions}
               onChange={handleGenreChange}
@@ -151,7 +149,7 @@ export default function Settings({ username, token, profile }) {
             <Select
               className="preference-select"
               closeMenuOnSelect={false}
-              defaultValue={[]}
+              value={selectedArtists}
               isMulti
               options={artistOptions}
               onChange={handleArtistChange}
@@ -163,6 +161,10 @@ export default function Settings({ username, token, profile }) {
               Recommend Me Users
             </button>
           </div>
+          {recommendations && (
+            <span className="recommendations-heading">Recommendations</span>
+          )}
+          <Recommendations recs={recommendations}></Recommendations>
         </>
       ) : (
         <LoadingSpinner></LoadingSpinner>

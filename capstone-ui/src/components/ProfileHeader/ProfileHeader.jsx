@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./ProfileHeader.css";
 import { Link } from "react-router-dom";
-
-// TODO - temporarily use logo as profile picture
 import logo from "../../logo.svg";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 
@@ -154,7 +152,6 @@ export default function ProfileHeader({
               : "profileheader-component"
           }
         >
-          {/* TODO */}
           <Link to={`/friendprofile/${username}`}>
             <div
               className={
