@@ -3,7 +3,7 @@ import Select from "react-select";
 import "./Settings.css";
 import axios from "axios";
 import { catchErrors } from "../../utils";
-import { getTopArtists, getGenres } from "../../spotify";
+import { getTopArtists, getGenres, getRecommendations } from "../../spotify";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 
 export default function Settings({ username, token, profile }) {
@@ -18,9 +18,12 @@ export default function Settings({ username, token, profile }) {
     const fetchData = async () => {
       const usersTopArtists = await getTopArtists();
       let artistsResult = usersTopArtists.data.items.map((element) => {
-        return { value: element.name, label: element.name };
+        return { value: element.id, label: element.name };
       });
       setArtistOptions(artistsResult);
+      // TODO sets the top artists in database as id ?? change later
+      console.log("users top artists");
+      console.log(artistsResult);
 
       const allGenres = await getGenres();
       let genreResults = allGenres.data.genres.map((element) => {
@@ -72,6 +75,62 @@ export default function Settings({ username, token, profile }) {
     setSelectedArtists(data);
   }
 
+  async function recommendUsers(e) {
+    console.log("recommended users");
+
+    // TODO remove these calls and just use selected songs
+    // let artistsResult = await axios.get(
+    //   `http://localhost:3001/user/topartists/${username}`
+    // );
+    // let genresResult = await axios.get(
+    //   `http://localhost:3001/user/topgenres/${username}`
+    // );
+    let artistsResult = selectedArtists;
+    let genresResult = selectedGenres;
+    let postedSongsResult = await axios.get(
+      `http://localhost:3001/user/timeline/${username}`
+    );
+    let postedSongs = postedSongsResult.data;
+
+    // format into strings for param queries
+    let topArtists = artistsResult.join(",");
+    let topGenres = genresResult.join(",");
+    postedSongs = postedSongs.map((element) => element.trackId);
+    // postedSongs = postedSongs.join(",");
+
+    console.log(topArtists);
+    console.log(topGenres);
+    // console.log(postedSongs);
+
+    // console.log("settings token");
+    // console.log(token);
+    let { data } = await axios
+      .get(
+        "https://api.spotify.com/v1/recommendations",
+        {
+          params: {
+            seed_artists: topArtists,
+            seed_genres: topGenres,
+            // TODO uncomment out later - figure out which 5 to priortize
+            // seed_tracks: postedSongs,
+            // TODO other parameters
+          },
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .catch((error) => {
+        console.log(error);
+      });
+
+    console.log("recommendation results");
+    console.log(data);
+    // TODO
+  }
+
   return (
     <div className="settings-component">
       {genreOptions && artistOptions ? (
@@ -100,7 +159,9 @@ export default function Settings({ username, token, profile }) {
           </div>
           <div className="recommend-buttons-wrapper">
             <button className="recommend-button">Recommend Me Songs</button>
-            <button className="recommend-button">Recommend Me Users</button>
+            <button className="recommend-button" onClick={recommendUsers}>
+              Recommend Me Users
+            </button>
           </div>
         </>
       ) : (

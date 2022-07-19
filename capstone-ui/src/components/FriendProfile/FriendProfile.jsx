@@ -14,7 +14,6 @@ const Parse = require("parse");
 
 export default function FriendProfile({ friendUsername, token, profile }) {
   let { username } = useParams();
-
   const [appProfile, setAppProfile] = React.useState(null);
   const [tab, setTab] = React.useState("timeline");
 
@@ -80,6 +79,7 @@ export default function FriendProfile({ friendUsername, token, profile }) {
             username={username}
             token={token}
             profile={profile}
+            currentUserUsername={friendUsername}
           ></Followers>
         </div>
       )}

@@ -84,27 +84,6 @@ router.get('/users', async (req, res) => {
     res.send(result);
 });
 
-// was working!!
-// router.post('/followUser', async (req, res) => {
-//     let { currUsername, followUsername } = req.body;
-//     let result = await User.followUser(currUsername, followUsername);
-//     if (result) {
-//         res.send(201);
-//     } else {
-//         res.send(400);
-//     }
-// });
-
-// router.post('/unfollowUser', async (req, res) => {
-//     let { currUsername, unfollowUsername } = req.body;
-//     let result = await User.unfollowUser(currUsername, unfollowUsername);
-//     if (result) {
-//         res.send(200);
-//     } else {
-//         res.send(400);
-//     }
-// });
-
 router.post('/followUser', async (req, res) => {
     let { currUsername, followUsername } = req.body;
     let result = await User.followUser(currUsername, followUsername);
@@ -154,12 +133,6 @@ router.get('/:username', async (req, res) => {
     res.send(result);
 });
 
-// router.get('/exists/:username', async (req, res) => {
-//     const spotifyUsername = req.params.username;
-//     const result = await User.getUserExists(spotifyUsername);
-//     res.send(result);
-// });
-
 router.get('/exists/:email', async (req, res) => {
     const email = req.params.email;
     const result = await User.getUserExists(email);
@@ -194,6 +167,18 @@ router.post('/topgenres', async (req, res) => {
 router.post('/topartists', async (req, res) => {
     let { username, artists } = req.body;
     let result = await User.setTopArtists(username, artists);
+    res.send(result);
+});
+
+router.get('/topgenres/:username', async (req, res) => {
+    const username = req.params.username;
+    const result = await User.getTopGenres(username);
+    res.send(result);
+});
+
+router.get('/topartists/:username', async (req, res) => {
+    const username = req.params.username;
+    const result = await User.getTopArtists(username);
     res.send(result);
 });
 

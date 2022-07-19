@@ -15,10 +15,15 @@ export default function ProfileHeader({
   isFollowersView,
   isFeedView,
   isTimelineView,
+  currentUserUsername,
 }) {
   const [isFollowing, setIsFollowing] = useState(false);
   const [followers, setFollowers] = useState([]);
   const [imageURL, setImageURL] = useState(null);
+
+  if (currentUserUsername) {
+    username = currentUserUsername;
+  }
 
   React.useEffect(() => {
     async function getFollowers() {
@@ -95,7 +100,7 @@ export default function ProfileHeader({
 
   if (isSearchView || isFollowersView) {
     let username = profile.username || profile;
-    console.log("followers view" + username);
+    console.log("after");
     console.log(username);
 
     return (
@@ -119,42 +124,23 @@ export default function ProfileHeader({
           </span> */}
           </div>
         </Link>
-        {isFollowing ? (
+        {((!currentUserUsername && isFollowing) ||
+          (currentUserUsername &&
+            currentUserUsername != username &&
+            isFollowing)) && (
           <button className="unfollow-button" onClick={unfollowUser}>
             Unfollow
           </button>
-        ) : (
+        )}
+        {((!currentUserUsername && !isFollowing) ||
+          (currentUserUsername &&
+            currentUserUsername != username &&
+            !isFollowing)) && (
           <button className="follow-button" onClick={followUser}>
             Follow
           </button>
         )}
       </div>
-
-      // <div className="search-view-profileheader-component">
-      //   <div className="search-view-profile-picture-wrapper">
-      //     {imageURL === "logo" && (
-      //       <img className="spotify-profileheader-picture" src={logo}></img>
-      //     )}
-      //     {imageURL !== "logo" && (
-      //       <img className="spotify-profileheader-picture" src={imageURL}></img>
-      //     )}
-      //   </div>
-      //   <div className="profile-username-wrapper">
-      //     <span className="profile-username">{username}</span>
-      //     {/* <span className="profile-username">
-      //       Spotify @{profile.display_name}
-      //     </span> */}
-      //   </div>
-      //   {isFollowing ? (
-      //     <button className="unfollow-button" onClick={unfollowUser}>
-      //       Unfollow
-      //     </button>
-      //   ) : (
-      //     <button className="follow-button" onClick={followUser}>
-      //       Follow
-      //     </button>
-      //   )}
-      // </div>
     );
   }
 
@@ -169,41 +155,42 @@ export default function ProfileHeader({
           }
         >
           {/* TODO */}
-          {/* <Link to={"/friendprofile"}></Link> */}
-          <div
-            className={
-              isFeedView
-                ? "feedview-profile-picture-wrapper"
-                : "profile-picture-wrapper"
-            }
-          >
-            {imageURL === "logo" && (
-              <img className="spotify-profileheader-picture" src={logo}></img>
-            )}
-            {imageURL !== "logo" && (
-              <img
-                className="spotify-profileheader-picture"
-                src={imageURL}
-              ></img>
-            )}
-          </div>
-          <div
-            className={
-              isFeedView
-                ? "feedview-profile-username-wrapper"
-                : "profile-username-wrapper"
-            }
-          >
-            <span
+          <Link to={`/friendprofile/${username}`}>
+            <div
               className={
-                isTimelineView
-                  ? "timeline-view-profile-username"
-                  : "profile-username"
+                isFeedView
+                  ? "feedview-profile-picture-wrapper"
+                  : "profile-picture-wrapper"
               }
             >
-              {username}
-            </span>
-          </div>
+              {imageURL === "logo" && (
+                <img className="spotify-profileheader-picture" src={logo}></img>
+              )}
+              {imageURL !== "logo" && (
+                <img
+                  className="spotify-profileheader-picture"
+                  src={imageURL}
+                ></img>
+              )}
+            </div>
+            <div
+              className={
+                isFeedView
+                  ? "feedview-profile-username-wrapper"
+                  : "profile-username-wrapper"
+              }
+            >
+              <span
+                className={
+                  isTimelineView
+                    ? "timeline-view-profile-username"
+                    : "profile-username"
+                }
+              >
+                {username}
+              </span>
+            </div>
+          </Link>
         </div>
       ) : (
         <LoadingSpinner></LoadingSpinner>

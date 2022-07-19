@@ -11,10 +11,6 @@ import { useParams } from "react-router-dom";
 const Parse = require("parse");
 
 export default function Profile({ username, token, profile }) {
-  // export default function Profile({ token, profile }) {
-  // added for individual profile view
-  // let { username } = useParams();
-
   const [appProfile, setAppProfile] = React.useState();
   const [tab, setTab] = React.useState("timeline");
 

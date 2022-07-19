@@ -237,6 +237,20 @@ class User {
     return result.get('topArtists');
   }
 
+  static async getTopGenres(username) {
+    const query = new Parse.Query('Preferences');
+    query.equalTo("username", username);
+    let result = await query.first({}); 
+    return result.get('topGenres');
+  }
+
+  static async getTopArtists(username) {
+    const query = new Parse.Query('Preferences');
+    query.equalTo("username", username);
+    let result = await query.first({}); 
+    return result.get('topArtists');
+  }
+
 }
 
 module.exports = User;

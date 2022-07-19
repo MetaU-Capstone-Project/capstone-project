@@ -170,3 +170,7 @@ export const getTrack = (trackId) => {
   return axios.get(`/tracks/${trackId}`);
 };
 // TODO put search here
+
+// export const getRecommendations = () => {
+//   return axios.get(`/recommendations`);
+// };

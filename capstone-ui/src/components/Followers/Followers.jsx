@@ -4,7 +4,12 @@ import "./Followers.css";
 import axios from "axios";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 
-export default function Followers({ username, token, profile }) {
+export default function Followers({
+  username,
+  token,
+  profile,
+  currentUserUsername,
+}) {
   const [followers, setFollowers] = useState(null);
 
   React.useEffect(() => {
@@ -28,6 +33,7 @@ export default function Followers({ username, token, profile }) {
             token={token}
             isFollowersView={true}
             username={username}
+            currentUserUsername={currentUserUsername}
           ></ProfileHeader>
         ))
       ) : (
