@@ -38,8 +38,6 @@ export default function ProfileCard({
     }
   };
 
-  // call Profile details?
-
   return (
     <div className="profilecard-component">
       <div className="profile-picture-wrapper">
@@ -59,10 +57,6 @@ export default function ProfileCard({
       </div>
       <div className="profile-info-wrapper">
         <span className="profile-username">Username: {username}</span>
-        {/* TODO spotify URL */}
-        {/* {profile && (
-          <button className="profile-username">Spotify Profile</button>
-        )} */}
         {appProfile && (
           <span className="profile-join-date">
             Joined app {formatDate(appProfile.createdAt)}

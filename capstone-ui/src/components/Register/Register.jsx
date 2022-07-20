@@ -13,8 +13,6 @@ const CLIENT_ID = "df31a108deeb4f8698d7936b772522bb";
 export default function Register({ spotifyProfile }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-
-  // added - delete spotify username
   const [spotifyUsername, setSpotifyUsername] = useState("");
 
   const registerUser = async function () {

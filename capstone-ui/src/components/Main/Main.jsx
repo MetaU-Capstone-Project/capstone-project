@@ -22,7 +22,6 @@ export default function Main({
 }) {
   const [isFetching, setIsFetching] = useState(false);
 
-  // was working for login
   React.useEffect(() => {
     const fetchData = async () => {
       setIsFetching(true);
@@ -56,7 +55,6 @@ export default function Main({
           .post("http://localhost:3001/user/login", postRequest)
           .then(function (response) {});
       }
-      // added
       setIsFetching(false);
     };
 

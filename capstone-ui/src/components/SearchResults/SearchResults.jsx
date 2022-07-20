@@ -12,7 +12,6 @@ export default function SearchResults({
   token,
   isSongResults,
 }) {
-  // added
   const [isHovering, setIsHovering] = useState(false);
 
   const handleMouseOver = () => {
@@ -29,33 +28,6 @@ export default function SearchResults({
   } else {
     results = profileResults;
   }
-
-  // return (
-  //   <div className="searchresults-component">
-  //     <div className="searchresults-grid">
-  //       {isSongResults &&
-  //         results &&
-  //         results.length > 0 &&
-  //         results.map((element) => (
-  //           <SongHeader key={element.id} song={element}></SongHeader>
-  //         ))}
-  //       {!isSongResults &&
-  //         results &&
-  //         results.length > 0 &&
-  //         results.map((element) => (
-  //           <ProfileHeader
-  //             username={username}
-  //             key={element.username}
-  //             profile={element}
-  //             isSearchView={true}
-  //             handleMouseOut={handleMouseOut}
-  //             handleMouseOver={handleMouseOver}
-  //           ></ProfileHeader>
-  //         ))}
-  //     </div>
-  //     {isHovering && <ProfileDetails></ProfileDetails>}
-  //   </div>
-  // );
 
   return (
     <div className="searchresults-component">

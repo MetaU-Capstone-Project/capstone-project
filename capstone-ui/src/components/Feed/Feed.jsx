@@ -10,6 +10,7 @@ import { getRecommendedUsers } from "../../recommendation";
 export default function Feed({ username, profile, token }) {
   const [feed, setFeed] = useState(null);
   const [recommendations, setRecommendations] = useState(null);
+  const [shouldUpdateFeed, setShouldUpdateFeed] = useState(false);
 
   React.useEffect(() => {
     const fetchData = async () => {
@@ -24,7 +25,6 @@ export default function Feed({ username, profile, token }) {
       let artistsResult = await axios.get(
         `http://localhost:3001/user/topartists/${username}`
       );
-      // TODO remove posted songs
       let postedSongs = [];
       let recs = await getRecommendedUsers(
         username,
@@ -36,7 +36,8 @@ export default function Feed({ username, profile, token }) {
     };
 
     catchErrors(fetchData());
-  }, []);
+    setShouldUpdateFeed(false);
+  }, [shouldUpdateFeed]);
 
   return (
     <>
@@ -53,6 +54,7 @@ export default function Feed({ username, profile, token }) {
                 <Recommendations
                   recs={recommendations}
                   username={username}
+                  setShouldUpdateFeed={setShouldUpdateFeed}
                 ></Recommendations>
               </div>
             )}
@@ -72,15 +74,5 @@ export default function Feed({ username, profile, token }) {
         <LoadingSpinner />
       )}
     </>
-    // TODO playback component
-    // <iframe
-    //   // style="border-radius:12px"
-    //   src="https://open.spotify.com/embed/track/6dGnYIeXmHdcikdzNNDMm2?utm_source=generator"
-    //   width="100%"
-    //   height="380"
-    //   frameBorder="0"
-    //   allowFullScreen=""
-    //   allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-    // ></iframe>
   );
 }

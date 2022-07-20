@@ -47,13 +47,10 @@ class User {
           await userPreferences.save();
           return "User created!";
       } catch (error) {
-          console.log('error');
           return error.message;
       }
   }
 
-    // added
-    // TODO add parameters - username, postInfo
     static async post(username, trackId) {
         let Post = new Parse.Object('Post');
         Post.set('username', username);
@@ -62,7 +59,6 @@ class User {
           await Post.save();
           return true;
         } catch (error) {
-          console.log(error.message);
           return false;
         };
     };
@@ -90,7 +86,6 @@ class User {
       query.equalTo("username", username);
       query.equalTo("trackId", trackId);
       try {
-        // TODO [0] since should only be one?
         let posts = await query.find();
         return posts[0];
       } catch (error) {
@@ -98,10 +93,8 @@ class User {
       };
     };
 
-    // TODO
     static async getUsers() {
       const query = new Parse.Query('User');
-      // TODO sort somehow and weigh how to recommend users? 
       try {
         let users = await query.find();
         return users;
@@ -117,7 +110,6 @@ class User {
       return true;
     }
 
-    // TODO errors
     static async unfollowUser(currUsername, unfollowUsername) {
       let user = Parse.User.current();
       user.remove('followers', unfollowUsername);
@@ -129,7 +121,6 @@ class User {
     const query = new Parse.Query('User');
     query.equalTo("username", username);
     let user = await query.first({});
-    // TODO handle errors
     return user.get('followers');
   };
 
@@ -140,8 +131,6 @@ class User {
       let userPosts = await this.timeline(followers[i]);
       result = result.concat(userPosts);
     }
-    // TODO handle errors
-    // return user.get('followers');
     result.sort(function(a, b) {
       const timeA = a.createdAt;
       const timeB = b.createdAt;
@@ -174,11 +163,7 @@ class User {
     postsQuery.find().then(function (results) {
       return Parse.Object.destroyAll(results);
     }).then(function() {
-      // Done
-      console.log('Deleted all posts asscoiated with ' + username);
     }, function(error) {
-      // Error
-      console.log('Error deleting all posts asscoiated with ' + username);
     });
 
     return true;
@@ -230,8 +215,6 @@ class User {
     let result = await query.first({}); 
     result.set('topGenres', genres);
     await result.save();
-    console.log('here');
-    console.log(result.get('topGenres'));
     return result.get('topGenres');
   }
 

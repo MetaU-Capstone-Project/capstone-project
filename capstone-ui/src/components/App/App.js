@@ -14,7 +14,6 @@ import RegistrationPreferences from '../RegistrationPreferences/RegistrationPref
 import axios from "axios";
 import './App.css';
 
-// Parse initialization
 const Parse = require('parse');
 const PARSE_APPLICATION_ID = 'tW3HTz0fUSdMPmk1hE4qA8c9FbZqcerL3iY1kejp';
 const PARSE_HOST_URL = 'https://parseapi.back4app.com/';
@@ -53,6 +52,8 @@ function App() {
           <Route exact path="/post/:songId" element={<Home page={'post'} username={username} profile={spotifyProfile} token={token}></Home>}
           />
           <Route exact path="/preferences/:username" element={<RegistrationPreferences username={username}></RegistrationPreferences>}
+          />
+          <Route exact path="/group/:name" element={<Home page={'group'} username={username} profile={spotifyProfile} token={token}></Home>}
           />
         </Routes>
       </BrowserRouter>

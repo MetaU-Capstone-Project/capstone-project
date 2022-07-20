@@ -17,19 +17,12 @@ export default function ProfileHeader({
   currentUserUsername,
   handleMouseOver,
   handleMouseOut,
+  setShouldUpdate,
+  setShouldUpdateFeed,
 }) {
   const [isFollowing, setIsFollowing] = useState(false);
   const [followers, setFollowers] = useState([]);
   const [imageURL, setImageURL] = useState(null);
-  // const [isHovering, setIsHovering] = useState(false);
-
-  // const handleMouseOver = () => {
-  //   setIsHovering(true);
-  // };
-
-  // const handleMouseOut = () => {
-  //   setIsHovering(false);
-  // };
 
   if (currentUserUsername) {
     username = currentUserUsername;
@@ -87,6 +80,14 @@ export default function ProfileHeader({
       .catch(function (error) {
         alert(`Error! ${error.message}`);
       });
+
+    if (setShouldUpdate && typeof setShouldUpdate == "function") {
+      setShouldUpdate(true);
+    }
+
+    if (setShouldUpdateFeed && typeof setShouldUpdateFeed == "function") {
+      setShouldUpdateFeed(true);
+    }
   };
 
   const unfollowUser = async (e) => {
@@ -106,17 +107,22 @@ export default function ProfileHeader({
       .catch(function (error) {
         alert(`Error! ${error.message}`);
       });
+
+    if (setShouldUpdate && typeof setShouldUpdate == "function") {
+      setShouldUpdate(true);
+    }
+
+    if (setShouldUpdateFeed && typeof setShouldUpdateFeed == "function") {
+      setShouldUpdateFeed(true);
+    }
   };
 
   if (isSearchView || isFollowersView) {
     let username = profile.username || profile;
-    console.log("after");
-    console.log(username);
 
     return (
       <div
         className="search-view-profileheader-component"
-        // added
         onMouseOver={handleMouseOver}
         onMouseOut={handleMouseOut}
       >
@@ -134,9 +140,6 @@ export default function ProfileHeader({
           </div>
           <div className="profile-username-wrapper">
             <span className="profile-username">{username}</span>
-            {/* <span className="profile-username">
-            Spotify @{profile.display_name}
-          </span> */}
           </div>
         </Link>
         {((!currentUserUsername && isFollowing) ||
@@ -155,49 +158,8 @@ export default function ProfileHeader({
             Follow
           </button>
         )}
-        {/* {isHovering && <ProfileDetails />} */}
       </div>
     );
-
-    // return (
-    //   <div className="search-view-profileheader-component">
-    //     <Link to={`/friendprofile/${username}`}>
-    //       <div className="search-view-profile-picture-wrapper">
-    //         {imageURL === "logo" && (
-    //           <img className="spotify-profileheader-picture" src={logo}></img>
-    //         )}
-    //         {imageURL !== "logo" && (
-    //           <img
-    //             className="spotify-profileheader-picture"
-    //             src={imageURL}
-    //           ></img>
-    //         )}
-    //       </div>
-    //       <div className="profile-username-wrapper">
-    //         <span className="profile-username">{username}</span>
-    //         {/* <span className="profile-username">
-    //         Spotify @{profile.display_name}
-    //       </span> */}
-    //       </div>
-    //     </Link>
-    //     {((!currentUserUsername && isFollowing) ||
-    //       (currentUserUsername &&
-    //         currentUserUsername != username &&
-    //         isFollowing)) && (
-    //       <button className="unfollow-button" onClick={unfollowUser}>
-    //         Unfollow
-    //       </button>
-    //     )}
-    //     {((!currentUserUsername && !isFollowing) ||
-    //       (currentUserUsername &&
-    //         currentUserUsername != username &&
-    //         !isFollowing)) && (
-    //       <button className="follow-button" onClick={followUser}>
-    //         Follow
-    //       </button>
-    //     )}
-    //   </div>
-    // );
   }
 
   return (

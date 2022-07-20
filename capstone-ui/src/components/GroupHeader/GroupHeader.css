@@ -1,0 +1,18 @@
+.group-info {
+    width: 100%;
+}
+
+.groupinfo-wrapper {
+    width: 100%;
+}
+
+.groupheader-component {
+    width: 12rem;
+    height: 12rem;
+    display: flex;
+    flex-direction: column;
+    background-color: lightgray;
+    align-items: center;
+    justify-content: center;
+    border: solid black 0.3rem;
+}

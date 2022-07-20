@@ -10,6 +10,7 @@ import { catchErrors } from "../../utils";
 import "./Home.css";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 import FriendProfile from "../FriendProfile/FriendProfile";
+import Group from "../Group/Group";
 
 export default function Home({ username, page, token, profile, appProfile }) {
   return (
@@ -92,6 +93,14 @@ export default function Home({ username, page, token, profile, appProfile }) {
               settings={false}
               app={appProfile}
             ></Profile>
+          )}
+          {page === "group" && (
+            <Group
+              username={username}
+              profile={profile}
+              token={token}
+              app={appProfile}
+            ></Group>
           )}
         </div>
       ) : (

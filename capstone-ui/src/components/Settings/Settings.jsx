@@ -68,15 +68,12 @@ export default function Settings({ username, token, profile, isRegisterView }) {
 
   async function recommendUsers(e) {
     let artistsResult = selectedArtists;
-    console.log("recommendinggewgaweg");
-    console.log(artistsResult);
     let genresResult = selectedGenres;
     let postedSongsResult = await axios.get(
       `http://localhost:3001/user/timeline/${username}`
     );
     let postedSongs = postedSongsResult.data;
 
-    // format into strings for param queries
     if (artistsResult === null) {
       artistsResult = [];
     }
@@ -95,38 +92,6 @@ export default function Settings({ username, token, profile, isRegisterView }) {
       postedSongs
     );
     setRecommendations(recs);
-
-    // postedSongs = postedSongs.join(",");
-
-    // console.log(topArtists);
-    // console.log(topGenres);
-
-    // recommended songs
-    // let { data } = await axios
-    //   .get(
-    //     "https://api.spotify.com/v1/recommendations",
-    //     {
-    //       params: {
-    //         seed_artists: topArtists,
-    //         seed_genres: topGenres,
-    //         // TODO uncomment out later - figure out which 5 to priortize
-    //         // seed_tracks: postedSongs,
-    //         // TODO other parameters
-    //       },
-    //     },
-    //     {
-    //       headers: {
-    //         Authorization: `Bearer ${token}`,
-    //       },
-    //     }
-    //   )
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
-
-    // console.log("recommendation results");
-    // console.log(data);
-    // TODO
   }
 
   function handleNext() {
@@ -160,7 +125,6 @@ export default function Settings({ username, token, profile, isRegisterView }) {
             />
           </div>
           {isRegisterView && <button onClick={handleNext}>Next</button>}
-          {/* {isRegisterView && <button onClick={recommendUsers}>Next</button>} */}
           {!isRegisterView && (
             <div className="recommend-buttons-wrapper">
               <button className="recommend-button">Recommend Me Songs</button>
@@ -169,12 +133,6 @@ export default function Settings({ username, token, profile, isRegisterView }) {
               </button>
             </div>
           )}
-          {/* <div className="recommend-buttons-wrapper">
-            <button className="recommend-button">Recommend Me Songs</button>
-            <button className="recommend-button" onClick={recommendUsers}>
-              Recommend Me Users
-            </button>
-          </div> */}
           {recommendations && (
             <span className="recommendations-heading">Recommendations</span>
           )}

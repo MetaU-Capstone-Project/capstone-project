@@ -48,9 +48,7 @@ export default function Search({ username, token }) {
             },
           }
         )
-        .catch((error) => {
-          console.log(error);
-        });
+        .catch((error) => {});
 
       let newResults = data.tracks.items;
       let addedResults = oldResults.concat(newResults);
@@ -70,9 +68,7 @@ export default function Search({ username, token }) {
 
     const results = await axios
       .get("http://localhost:3001/user/users")
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => {});
 
     let tempArray = results.data.filter(
       (element) => element.username !== username

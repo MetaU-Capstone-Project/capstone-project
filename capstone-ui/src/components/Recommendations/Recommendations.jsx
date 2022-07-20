@@ -7,36 +7,18 @@ import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 import { getRecommendedUsers } from "../../recommendation";
 import ProfileHeader from "../ProfileHeader/ProfileHeader";
 
-export default function Reommendations({ username, token, profile, recs }) {
-  const [genreOptions, setGenreOptions] = useState(null);
-  const [artistOptions, setArtistOptions] = useState(null);
-
-  // TODO - for selected preferences
-  const [selectedGenres, setSelectedGenres] = useState(null);
-  const [selectedArtists, setSelectedArtists] = useState(null);
-
-  const [recommendations, setRecommendations] = useState(recs);
-
-  //   React.useEffect(() => {
-  //     async function getRecs() {
-  //       console.log("current user: " + username);
-  //       const response = await getRecommendedUsers(
-  //         username,
-  //         selectedGenres,
-  //         selectedArtists,
-  //         null
-  //       );
-  //       console.log("hello");
-  //       setRecommendations(response.data);
-  //     }
-  //     getRecs();
-  //   }, [recommendations]);
-
+export default function Recommendations({
+  username,
+  token,
+  profile,
+  recs,
+  setShouldUpdateFeed,
+}) {
   return (
     <div className="recommendations-component">
       <div className="recommendations-wrapper">
-        {/* originally working */}
-        {/* {recs &&
+        {recs &&
+          recs.length > 0 &&
           recs.map((element) => (
             <ProfileHeader
               profile={element.username}
@@ -45,19 +27,10 @@ export default function Reommendations({ username, token, profile, recs }) {
               isFollowersView={true}
               username={element.username}
               currentUserUsername={username}
-            ></ProfileHeader>
-          ))} */}
-        {recommendations &&
-          recommendations.map((element) => (
-            <ProfileHeader
-              profile={element.username}
-              key={element.username}
-              token={token}
-              isFollowersView={true}
-              username={element.username}
-              currentUserUsername={username}
+              setShouldUpdateFeed={setShouldUpdateFeed}
             ></ProfileHeader>
           ))}
+        {recs && recs.length === 0 && <span>No recommended users.</span>}
       </div>
     </div>
   );

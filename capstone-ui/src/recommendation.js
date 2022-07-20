@@ -15,39 +15,30 @@ export const getRecommendedUsers = async (username, topGenres, topArtists, poste
         `http://localhost:3001/user/followers/${username}`
     );
 
-    allUsers = allUsers.data.map(element => element.username);
-    allUsers = allUsers.filter(element => element != username);
     friends = friends.data;
-    // skip people who are already friends - can't recommend them
-    allUsers = allUsers.filter(x => !friends.includes(x));
+    let nonFriendUsers = allUsers.data.map(user => user.username).filter(currentUsername => currentUsername != username && !friends.includes(currentUsername));
     let result = [];
 
-    console.log('getting recommended users');
-    console.log(allUsers);
-    for (let i = 0; i < allUsers.length; i++) {
+    for (let i = 0; i < nonFriendUsers.length; i++) {
         let score = 0;
-        let friendUsername = allUsers[i];
+        let friendUsername = nonFriendUsers[i];
         let friendArtists = await axios.get(`http://localhost:3001/user/topartists/${friendUsername}`);
         let friendGenres = await axios.get(`http://localhost:3001/user/topgenres/${friendUsername}`);
-
-        console.log('mine');
-        console.log(topArtists);
-        console.log('friend' + friendUsername);
-        console.log(friendArtists.data);
 
         // weight shared artist preferences more heavily than genres since more rare to like a specific artist
         for (let j = 0; j < friendArtists.data.length; j++) {
             let currArtist = friendArtists.data[j];
-            let isInArray = topArtists.some(e => e.value === currArtist.value); 
-            if (isInArray) {
+            let hasSameArtist = topArtists.some(e => e.value === currArtist.value); 
+            if (hasSameArtist) {
                 score += 5;
             }
         }
 
+        // weight shared genres preferences less than artists since there are fewer genres than artists and so more likely to share genre preferences
         for (let j = 0; j < friendGenres.data.length; j++) {
             let currGenre = friendGenres.data[j];
-            let isInArray = topGenres.some(e => e.value === currGenre.value); 
-            if (isInArray) {
+            let hasSameGenre = topGenres.some(e => e.value === currGenre.value); 
+            if (hasSameGenre) {
                 score++;
             }
         }
@@ -56,6 +47,5 @@ export const getRecommendedUsers = async (username, topGenres, topArtists, poste
     }
 
     rank(result);
-    console.log(result);
     return result;
 };

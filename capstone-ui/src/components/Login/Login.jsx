@@ -40,9 +40,6 @@ export default function Login({}) {
       })
       .catch((error) => {
         alert(`Error! ${error.message}`);
-        // uncomment out
-        // setUsername("");
-        // setPassword("");
         return false;
       });
   };

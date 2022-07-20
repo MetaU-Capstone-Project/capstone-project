@@ -79,7 +79,6 @@ const refreshToken = async () => {
         LOCALSTORAGE_VALUES.refreshToken === 'undefined' ||
         (Date.now() - Number(LOCALSTORAGE_VALUES.timestamp) / 1000) < 1000
       ) {
-        console.error('No refresh token available');
         logout();
       }
   
@@ -94,7 +93,6 @@ const refreshToken = async () => {
       window.location.reload();
   
     } catch (e) {
-      console.error(e);
     }
   };
   
