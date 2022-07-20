@@ -50,7 +50,10 @@ export default function Feed({ username, profile, token }) {
                     Recommended Users
                   </span>
                 </div>
-                <Recommendations recs={recommendations}></Recommendations>
+                <Recommendations
+                  recs={recommendations}
+                  username={username}
+                ></Recommendations>
               </div>
             )}
             <div className="feed-heading-wrapper">

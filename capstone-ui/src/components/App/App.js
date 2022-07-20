@@ -9,6 +9,7 @@ import { accessToken, getCurrentUserProfile, logout, deleteTokens } from '../../
 import { catchErrors } from '../../utils';
 import Authorization from "../Authorization/Authorization";
 import Main from "../Main/Main";
+import RegistrationPreferences from '../RegistrationPreferences/RegistrationPreferences';
 
 import axios from "axios";
 import './App.css';
@@ -50,6 +51,8 @@ function App() {
           <Route exact path="/profile" element={<Home page={'profile'} username={username} profile={spotifyProfile} token={token}></Home>}
           />
           <Route exact path="/post/:songId" element={<Home page={'post'} username={username} profile={spotifyProfile} token={token}></Home>}
+          />
+          <Route exact path="/preferences/:username" element={<RegistrationPreferences username={username}></RegistrationPreferences>}
           />
         </Routes>
       </BrowserRouter>

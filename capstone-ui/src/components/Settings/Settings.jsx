@@ -8,7 +8,7 @@ import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 import { getRecommendedUsers } from "../../recommendation";
 import Recommendations from "../Recommendations/Recommendations";
 
-export default function Settings({ username, token, profile }) {
+export default function Settings({ username, token, profile, isRegisterView }) {
   const [genreOptions, setGenreOptions] = useState(null);
   const [artistOptions, setArtistOptions] = useState(null);
   const [selectedGenres, setSelectedGenres] = useState(null);
@@ -129,6 +129,10 @@ export default function Settings({ username, token, profile }) {
     // TODO
   }
 
+  function handleNext() {
+    window.location.href = "http://localhost:3000/main";
+  }
+
   return (
     <div className="settings-component">
       {genreOptions && artistOptions ? (
@@ -155,12 +159,22 @@ export default function Settings({ username, token, profile }) {
               onChange={handleArtistChange}
             />
           </div>
-          <div className="recommend-buttons-wrapper">
+          {isRegisterView && <button onClick={handleNext}>Next</button>}
+          {/* {isRegisterView && <button onClick={recommendUsers}>Next</button>} */}
+          {!isRegisterView && (
+            <div className="recommend-buttons-wrapper">
+              <button className="recommend-button">Recommend Me Songs</button>
+              <button className="recommend-button" onClick={recommendUsers}>
+                Recommend Me Users
+              </button>
+            </div>
+          )}
+          {/* <div className="recommend-buttons-wrapper">
             <button className="recommend-button">Recommend Me Songs</button>
             <button className="recommend-button" onClick={recommendUsers}>
               Recommend Me Users
             </button>
-          </div>
+          </div> */}
           {recommendations && (
             <span className="recommendations-heading">Recommendations</span>
           )}

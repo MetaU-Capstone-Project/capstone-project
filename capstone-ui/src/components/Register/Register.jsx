@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "./Register.css";
 import axios from "axios";
-
+import Settings from "../Settings/Settings";
 import logo from "../../logo.svg";
 
 const Parse = require("parse");
@@ -16,12 +16,11 @@ export default function Register({ spotifyProfile }) {
 
   // added - delete spotify username
   const [spotifyUsername, setSpotifyUsername] = useState("");
-  const [email, setEmail] = useState("");
 
   const registerUser = async function () {
     const usernameValue = username;
     const passwordValue = password;
-    const emailValue = email;
+    const emailValue = spotifyProfile.email;
     const spotifyURLValue = spotifyProfile.external_urls.spotify;
     const imageURLValue =
       spotifyProfile.images && spotifyProfile.images.length > 0
@@ -41,14 +40,13 @@ export default function Register({ spotifyProfile }) {
         alert(
           `Success! User ${response.data.username} was successfully created!`
         );
-        window.location.href = "http://localhost:3000/main";
+        window.location.href = `http://localhost:3000/preferences/${usernameValue}`;
       })
       .catch((error) => {
         alert(`Error! ${error.message}`);
         setUsername("");
         setPassword("");
         setSpotifyUsername("");
-        setEmail("");
         return false;
       });
   };
@@ -75,9 +73,8 @@ export default function Register({ spotifyProfile }) {
         ></input>
         <input
           className="username-input"
-          placeholder="Email"
-          onChange={(event) => setEmail(event.target.value)}
-          value={email}
+          value={spotifyProfile.email}
+          readOnly
         ></input>
         <div className="register-buttons">
           <Link to={"/"}>

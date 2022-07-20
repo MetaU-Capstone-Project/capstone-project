@@ -1,0 +1,7 @@
+.profiledetails-component {
+    display: flex;
+    background-color: lightblue;
+    width: 20rem;
+    height: 20rem;
+    z-index: 1;
+}

@@ -4,6 +4,7 @@ import "./ProfileHeader.css";
 import { Link } from "react-router-dom";
 import logo from "../../logo.svg";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
+import ProfileDetails from "../ProfileDetails/ProfileDetails";
 
 export default function ProfileHeader({
   username,
@@ -14,10 +15,21 @@ export default function ProfileHeader({
   isFeedView,
   isTimelineView,
   currentUserUsername,
+  handleMouseOver,
+  handleMouseOut,
 }) {
   const [isFollowing, setIsFollowing] = useState(false);
   const [followers, setFollowers] = useState([]);
   const [imageURL, setImageURL] = useState(null);
+  // const [isHovering, setIsHovering] = useState(false);
+
+  // const handleMouseOver = () => {
+  //   setIsHovering(true);
+  // };
+
+  // const handleMouseOut = () => {
+  //   setIsHovering(false);
+  // };
 
   if (currentUserUsername) {
     username = currentUserUsername;
@@ -102,7 +114,12 @@ export default function ProfileHeader({
     console.log(username);
 
     return (
-      <div className="search-view-profileheader-component">
+      <div
+        className="search-view-profileheader-component"
+        // added
+        onMouseOver={handleMouseOver}
+        onMouseOut={handleMouseOut}
+      >
         <Link to={`/friendprofile/${username}`}>
           <div className="search-view-profile-picture-wrapper">
             {imageURL === "logo" && (
@@ -138,8 +155,49 @@ export default function ProfileHeader({
             Follow
           </button>
         )}
+        {/* {isHovering && <ProfileDetails />} */}
       </div>
     );
+
+    // return (
+    //   <div className="search-view-profileheader-component">
+    //     <Link to={`/friendprofile/${username}`}>
+    //       <div className="search-view-profile-picture-wrapper">
+    //         {imageURL === "logo" && (
+    //           <img className="spotify-profileheader-picture" src={logo}></img>
+    //         )}
+    //         {imageURL !== "logo" && (
+    //           <img
+    //             className="spotify-profileheader-picture"
+    //             src={imageURL}
+    //           ></img>
+    //         )}
+    //       </div>
+    //       <div className="profile-username-wrapper">
+    //         <span className="profile-username">{username}</span>
+    //         {/* <span className="profile-username">
+    //         Spotify @{profile.display_name}
+    //       </span> */}
+    //       </div>
+    //     </Link>
+    //     {((!currentUserUsername && isFollowing) ||
+    //       (currentUserUsername &&
+    //         currentUserUsername != username &&
+    //         isFollowing)) && (
+    //       <button className="unfollow-button" onClick={unfollowUser}>
+    //         Unfollow
+    //       </button>
+    //     )}
+    //     {((!currentUserUsername && !isFollowing) ||
+    //       (currentUserUsername &&
+    //         currentUserUsername != username &&
+    //         !isFollowing)) && (
+    //       <button className="follow-button" onClick={followUser}>
+    //         Follow
+    //       </button>
+    //     )}
+    //   </div>
+    // );
   }
 
   return (

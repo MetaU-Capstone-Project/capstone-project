@@ -15,20 +15,45 @@ export default function Reommendations({ username, token, profile, recs }) {
   const [selectedGenres, setSelectedGenres] = useState(null);
   const [selectedArtists, setSelectedArtists] = useState(null);
 
-  console.log("recommendations");
-  console.log(recs);
-  React.useEffect(() => {}, []);
+  const [recommendations, setRecommendations] = useState(recs);
+
+  //   React.useEffect(() => {
+  //     async function getRecs() {
+  //       console.log("current user: " + username);
+  //       const response = await getRecommendedUsers(
+  //         username,
+  //         selectedGenres,
+  //         selectedArtists,
+  //         null
+  //       );
+  //       console.log("hello");
+  //       setRecommendations(response.data);
+  //     }
+  //     getRecs();
+  //   }, [recommendations]);
 
   return (
     <div className="recommendations-component">
       <div className="recommendations-wrapper">
-        {recs &&
+        {/* originally working */}
+        {/* {recs &&
           recs.map((element) => (
             <ProfileHeader
               profile={element.username}
               key={element.username}
               token={token}
-              //   isFollowersView={true}
+              isFollowersView={true}
+              username={element.username}
+              currentUserUsername={username}
+            ></ProfileHeader>
+          ))} */}
+        {recommendations &&
+          recommendations.map((element) => (
+            <ProfileHeader
+              profile={element.username}
+              key={element.username}
+              token={token}
+              isFollowersView={true}
               username={element.username}
               currentUserUsername={username}
             ></ProfileHeader>

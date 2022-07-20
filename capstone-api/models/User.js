@@ -164,6 +164,11 @@ class User {
     let result = await userQuery.first({}); 
     result.destroy({});
 
+    const preferencesQuery = new Parse.Query('Preferences');
+    preferencesQuery.equalTo("username", username);
+    let result2 = await preferencesQuery.first({}); 
+    result2.destroy({});
+
     const postsQuery = new Parse.Query('Post');
     postsQuery.equalTo("username", username);
     postsQuery.find().then(function (results) {
