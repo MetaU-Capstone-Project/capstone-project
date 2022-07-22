@@ -17,7 +17,6 @@ export default function GroupInbox({ username }) {
     };
 
     catchErrors(fetchData());
-    console.log("group inbox use effect");
     setShouldUpdateInbox(false);
   }, [shouldUpdateInbox]);
 
@@ -33,7 +32,6 @@ export default function GroupInbox({ username }) {
               key={element.groupName}
               group={element}
               username={username}
-              // added
               setShouldUpdateInbox={setShouldUpdateInbox}
             ></GroupHeader>
           ))}

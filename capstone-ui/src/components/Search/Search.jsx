@@ -24,8 +24,6 @@ export default function Search({ username, token }) {
     on();
     setHoverUsername(username);
     setShouldUpdateProfileDetails(true);
-
-    // TODO get call for mutual friends and set additonal state variables to be added
   };
 
   const handleMouseOut = () => {

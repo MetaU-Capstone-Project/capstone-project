@@ -15,17 +15,12 @@ export default function Group({
   let { name } = useParams();
   const [groupInfo, setGroupInfo] = React.useState();
 
-  // TODO - sidebar
-
   React.useEffect(() => {
     const fetchData = async () => {
       const { data } = await axios.get(
         `http://localhost:3001/user/group/${name}`
       );
       setGroupInfo(data);
-
-      console.log("group info");
-      console.log(data);
     };
 
     catchErrors(fetchData());

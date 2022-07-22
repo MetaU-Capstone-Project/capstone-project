@@ -6,12 +6,8 @@ import {
     Route,
   } from 'react-router-dom';
   
-// was working previously
-
 export const authorizationEndpoint = "https://accounts.spotify.com/authorize";
 const redirectURI = "http://localhost:3000/home/";
-// this was working
-// const redirectURI = "http://localhost:3001/callback";
 const clientId = "df31a108deeb4f8698d7936b772522bb";
 
 const scopes = [
@@ -24,7 +20,6 @@ const scopes = [
 
 export const loginURL = `${authorizationEndpoint}?client_id=${clientId}&redirect_uri=${redirectURI}&scope=${scopes.join("%20")}&response_type=token&show_dialog=true`;
 
-// new working stuff
 // Map for localStorage keys
 const LOCALSTORAGE_KEYS = {
     accessToken: 'spotify_access_token',
@@ -169,8 +164,3 @@ export const getGenres = () => {
 export const getTrack = (trackId) => {
   return axios.get(`/tracks/${trackId}`);
 };
-// TODO put search here
-
-// export const getRecommendations = () => {
-//   return axios.get(`/recommendations`);
-// };

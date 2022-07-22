@@ -303,7 +303,6 @@ class User {
   }
 
   static async leaveGroup(username, groupName) {
-    // TODO COMPOUND QUERY
     let query = new Parse.Query('UserGroup');
     query.equalTo("username", username);
     query.equalTo("groupName", groupName);
