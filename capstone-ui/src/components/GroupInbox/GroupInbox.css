@@ -1,0 +1,23 @@
+.groupinbox-heading {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.groupinbox-heading-wrapper {
+    margin-top: 4rem;
+    text-align: start;
+    margin-left: 4rem;
+}
+
+.inbox-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    margin: 2rem;
+}
+
+.groupinbox-component {
+    display: flex;
+    flex-direction: column;
+}

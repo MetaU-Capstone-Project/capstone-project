@@ -158,6 +158,51 @@ router.get('/topartists/:username', async (req, res) => {
     res.send(result);
 });
 
+router.post('/group', async (req, res) => {
+    let createMessage = await User.createGroup(req.body);
+    if (createMessage === "Group created!") {
+        res.status(201).send(req.body);
+    } else {
+        res.status(400).send({errorMessage: createMessage});
+    }
+});
+
+router.get('/groups/:username', async (req, res) => {
+    const username = req.params.username;
+    let result = await User.getGroups(username);
+    res.send(result);
+});
+
+router.get('/group/:name', async (req, res) => {
+    const groupName = req.params.name;
+    let result = await User.getGroup(groupName);
+    res.send(result);
+});
+
+router.post('/joingroup', async (req, res) => {
+    let { username, groupName } = req.body;
+    let result = await User.joinGroup(username, groupName);
+    res.send(result);
+});
+
+router.post('/leavegroup', async (req, res) => {
+    let { username, groupName } = req.body;
+    let result = await User.leaveGroup(username, groupName);
+    res.send(result);
+});
+
+router.post('/invite', async (req, res) => {
+    let { username, groupName } = req.body;
+    let result = await User.invite(username, groupName);
+    res.send(result);
+});
+
+router.get('/inbox/:username', async (req, res) => {
+    const username = req.params.username;
+    let result = await User.getInbox(username);
+    res.send(result);
+});
+
 router.get('/', (req, res) => {
     try {
         let currUser = User.getCurrentUser();

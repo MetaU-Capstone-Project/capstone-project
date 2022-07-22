@@ -73,7 +73,7 @@ class User {
         };
     };
     
-    static async timeline(username) {
+  static async timeline(username) {
       const query = new Parse.Query('Post');
       query.equalTo("username", username);
       query.descending("createdAt");
@@ -240,6 +240,97 @@ class User {
     let result = await query.first({}); 
     return result.get('topArtists');
   }
+
+  static async createGroup(groupInfo) {
+    let {username, groupName, description, isPrivate, genres, isAdmin } = groupInfo;
+    let group = new Parse.Object('Group');
+
+    group.set("name", groupName);
+    group.set('description', description);
+    group.set('isPrivate', isPrivate);
+    group.set('genres', genres);
+
+    let relationship = new Parse.Object('UserGroup');
+    relationship.set("username", username);
+    relationship.set('groupName', groupName);
+    relationship.set('isAdmin', isAdmin);
+
+    try {
+        await group.save();
+        await relationship.save();
+        return "Group created!";
+    } catch (error) {
+        return error.message;
+    }
+  }
+
+  static async getGroup(groupName) {
+    const query = new Parse.Query('Group');
+    query.equalTo("name", groupName);
+    let result = await query.first({}); 
+    return result;
+  }
+
+  static async getGroups(username) {
+    const query = new Parse.Query('UserGroup');
+    query.equalTo("username", username);
+    query.descending("createdAt");
+    let result = await query.find();
+    return result;
+  };
+
+  static async joinGroup(username, groupName) {
+    let relationship = new Parse.Object('UserGroup');
+    relationship.set("username", username);
+    relationship.set('groupName', groupName);
+    relationship.set('isAdmin', false);
+
+    let usernameQuery = new Parse.Query('Invite');
+    usernameQuery.equalTo("username", username);
+    let groupNameQuery = new Parse.Query('Invite');
+    groupNameQuery.equalTo("groupName", groupName);
+
+    let compoundQuery = Parse.Query.and(usernameQuery, groupNameQuery);
+    let result = await compoundQuery.first({}); 
+    result.destroy({});
+
+    try {
+        await relationship.save();
+        return "User added!";
+    } catch (error) {
+        return error.message;
+    }
+  }
+
+  static async leaveGroup(username, groupName) {
+    // TODO COMPOUND QUERY
+    let query = new Parse.Query('UserGroup');
+    query.equalTo("username", username);
+    query.equalTo("groupName", groupName);
+    let result = await query.first({}); 
+    result.destroy({});
+  }
+
+  static async invite(username, groupName) {
+    let invite = new Parse.Object('Invite');
+    invite.set("username", username);
+    invite.set('groupName', groupName);
+
+    try {
+        await invite.save();
+        return "Invite sent!";
+    } catch (error) {
+        return error.message;
+    }
+  }
+
+  static async getInbox(username) {
+    const query = new Parse.Query('Invite');
+    query.equalTo("username", username);
+    query.descending("createdAt");
+    let result = await query.find();
+    return result;
+  };
 
 }
 

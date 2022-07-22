@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import SearchBar from "../SearchBar/SearchBar";
 import SearchResults from "../SearchResults/SearchResults";
+import ProfileDetails from "../ProfileDetails/ProfileDetails";
 
 import axios from "axios";
 
@@ -13,6 +14,25 @@ export default function Search({ username, token }) {
   const [profileResults, setProfileResults] = useState([]);
   const [isSongResults, setIsSongResults] = useState(true);
   const [offset, setOffset] = useState(0);
+  const [isHovering, setIsHovering] = useState(false);
+  const [hoverUsername, setHoverUsername] = useState(null);
+  const [shouldUpdateProfileDetails, setShouldUpdateProfileDetails] =
+    useState(false);
+
+  const handleMouseOver = (username) => {
+    setIsHovering(true);
+    on();
+    setHoverUsername(username);
+    setShouldUpdateProfileDetails(true);
+
+    // TODO get call for mutual friends and set additonal state variables to be added
+  };
+
+  const handleMouseOut = () => {
+    setIsHovering(false);
+    off();
+    setShouldUpdateProfileDetails(false);
+  };
 
   const searchSongs = async (e) => {
     if (searchInput != "") {
@@ -87,8 +107,26 @@ export default function Search({ username, token }) {
     }
   };
 
+  function on() {
+    document.getElementById("overlay").style.display = "block";
+  }
+
+  function off() {
+    document.getElementById("overlay").style.display = "none";
+  }
+
   return (
     <div className="search-page">
+      <div id="overlay">
+        <div className="profile-details-wrapper">
+          {hoverUsername && (
+            <ProfileDetails
+              username={hoverUsername}
+              setShouldUpdateProfileDetails={shouldUpdateProfileDetails}
+            ></ProfileDetails>
+          )}
+        </div>
+      </div>
       <SearchBar
         searchSongs={searchSongs}
         setSearchInput={setSearchInput}
@@ -101,6 +139,9 @@ export default function Search({ username, token }) {
         profileResults={profileResults}
         token={token}
         isSongResults={isSongResults}
+        isHovering={isHovering}
+        handleMouseOut={handleMouseOut}
+        handleMouseOver={handleMouseOver}
       ></SearchResults>
       {(songResults.length != 0 || profileResults.length != 0) && (
         <div className="load-more-button-wrapper">
