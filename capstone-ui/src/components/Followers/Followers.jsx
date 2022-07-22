@@ -11,6 +11,7 @@ export default function Followers({
   currentUserUsername,
 }) {
   const [followers, setFollowers] = useState(null);
+  const [shouldUpdate, setShouldUpdate] = useState(false);
 
   React.useEffect(() => {
     async function getFollowers() {
@@ -21,7 +22,8 @@ export default function Followers({
       setFollowers(response.data);
     }
     getFollowers();
-  }, [followers]);
+    setShouldUpdate(false);
+  }, [shouldUpdate]);
 
   return (
     <div className="followers-component">
@@ -34,7 +36,8 @@ export default function Followers({
             isFollowersView={true}
             username={username}
             currentUserUsername={currentUserUsername}
-          ></ProfileHeader>
+            setShouldUpdate={setShouldUpdate}
+          />
         ))
       ) : (
         <LoadingSpinner />

@@ -26,7 +26,6 @@ export default function FeedPost({ username, token, post }) {
 
   return (
     <div className="feedpost-component">
-      {/* TODO loader change to conditional rendering ? : */}
       {songInfo && profile && (
         <>
           <div className="profileheader-wrapper">

@@ -14,112 +14,19 @@ export default function Search({ username, token }) {
   const [isSongResults, setIsSongResults] = useState(true);
   const [offset, setOffset] = useState(0);
 
-  // TODO
-  // const searchSongs = async (e) => {
-  //   setProfileResults([]);
-  //   e.preventDefault();
-  //   // first time loading song results
-  //   if (!isSongResults) {
-  //     setOffset(0);
-  //     // TODO need to clear grid
-  //     // setSongResults([]);
-  //   }
-
-  //   let oldResults = songResults;
-  //   const { data } = await axios
-  //     .get(
-  //       "https://api.spotify.com/v1/search",
-  //       {
-  //         params: {
-  //           q: searchInput,
-  //           type: "track",
-  //           include_external: "audio",
-  //           limit: 5,
-  //           offset: offset,
-  //         },
-  //       },
-  //       {
-  //         headers: {
-  //           Authorization: `Bearer ${token}`,
-  //         },
-  //       }
-  //     )
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-
-  //   let newResults = data.tracks.items;
-  //   let addedResults = oldResults.concat(newResults);
-  //   setSongResults(addedResults);
-  //   setIsSongResults(true);
-  //   setOffset((previousValue) => previousValue + 5);
-  //   // added
-  //   // setSearchInput("");
-  // };
-
-  // const searchProfiles = async (e) => {
-  //   setSongResults([]);
-  //   e.preventDefault();
-  //   // first time loading song results
-  //   if (!isSongResults) {
-  //     setOffset(0);
-  //     // added
-  //     // setProfileResults([]);
-  //   }
-
-  //   const results = await axios
-  //     .get("http://localhost:3001/user/users")
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-
-  //   let tempArray = results.data.filter(
-  //     (element) => element.username !== username
-  //   );
-
-  //   // TODO offset
-  //   // 5 for each new set of profiles returned
-  //   let min = Math.min(offset + 5, tempArray.length);
-  //   let newArray = tempArray.slice(offset, min);
-
-  //   console.log("new array");
-  //   console.log(newArray);
-
-  //   setProfileResults(newArray);
-  //   setIsSongResults(false);
-  // };
-
-  // // TODO modify
-
-  // const loadMore = (e) => {
-  //   // TODO remove
-  //   setOffset((previousValue) => previousValue + 5);
-  //   if (isSongResults) {
-  //     searchSongs(e);
-  //   } else {
-  //     searchProfiles(e);
-  //   }
-  // };
-
-  // 6/13 attemp
   const searchSongs = async (e) => {
     if (searchInput != "") {
       let temp = searchInput;
       if (searchInput === "") {
         temp = searchInputValue;
       }
-      // setSearchInputValue(searchInput);
       setSearchInputValue(temp);
-      // let temp = searchInput === "" ? searchInputValue : searchInput;
 
       setProfileResults([]);
 
       e.preventDefault();
-      // first time loading song results
       if (!isSongResults) {
         setOffset(0);
-        // TODO need to clear grid
-        // setSongResults([]);
       }
 
       let oldResults = songResults;
@@ -141,16 +48,13 @@ export default function Search({ username, token }) {
             },
           }
         )
-        .catch((error) => {
-          console.log(error);
-        });
+        .catch((error) => {});
 
       let newResults = data.tracks.items;
       let addedResults = oldResults.concat(newResults);
       setSongResults(addedResults);
       setIsSongResults(true);
       setOffset((previousValue) => previousValue + 5);
-      // added
       setSearchInput("");
     }
   };
@@ -158,42 +62,23 @@ export default function Search({ username, token }) {
   const searchProfiles = async (e) => {
     setSongResults([]);
     e.preventDefault();
-    // first time loading song results
     if (!isSongResults) {
       setOffset(0);
-      // added
-      // setProfileResults([]);
     }
 
     const results = await axios
       .get("http://localhost:3001/user/users")
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => {});
 
     let tempArray = results.data.filter(
       (element) => element.username !== username
     );
 
-    // TODO offset
-    // 5 for each new set of profiles returned
-    // let min = Math.min(offset + 5, tempArray.length);
-    // let newArray = tempArray.slice(offset, min);
-
-    // console.log("new array");
-    // console.log(newArray);
-
-    // setProfileResults(newArray);
-    // setIsSongResults(false);
-
     setProfileResults(tempArray);
     setIsSongResults(false);
   };
 
-  // TODO modify
-
   const loadMore = (e) => {
-    // TODO remove
     setOffset((previousValue) => previousValue + 5);
     if (isSongResults) {
       searchSongs(e);

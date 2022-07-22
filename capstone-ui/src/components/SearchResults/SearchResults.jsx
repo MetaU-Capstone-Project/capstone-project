@@ -1,9 +1,9 @@
-// import * as React from "react";
-import React from "react";
+import React, { useState } from "react";
 import "./SearchResults.css";
 
 import ProfileHeader from "../ProfileHeader/ProfileHeader";
 import SongHeader from "../SongHeader/SongHeader";
+import ProfileDetails from "../ProfileDetails/ProfileDetails";
 
 export default function SearchResults({
   username,
@@ -12,6 +12,16 @@ export default function SearchResults({
   token,
   isSongResults,
 }) {
+  const [isHovering, setIsHovering] = useState(false);
+
+  const handleMouseOver = () => {
+    setIsHovering(true);
+  };
+
+  const handleMouseOut = () => {
+    setIsHovering(false);
+  };
+
   let results;
   if (isSongResults) {
     results = songResults;
@@ -37,9 +47,12 @@ export default function SearchResults({
               key={element.username}
               profile={element}
               isSearchView={true}
+              handleMouseOut={handleMouseOut}
+              handleMouseOver={handleMouseOver}
             ></ProfileHeader>
           ))}
       </div>
+      {isHovering && <ProfileDetails></ProfileDetails>}
     </div>
   );
 }

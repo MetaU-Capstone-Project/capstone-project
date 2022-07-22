@@ -79,7 +79,6 @@ const refreshToken = async () => {
         LOCALSTORAGE_VALUES.refreshToken === 'undefined' ||
         (Date.now() - Number(LOCALSTORAGE_VALUES.timestamp) / 1000) < 1000
       ) {
-        console.error('No refresh token available');
         logout();
       }
   
@@ -94,7 +93,6 @@ const refreshToken = async () => {
       window.location.reload();
   
     } catch (e) {
-      console.error(e);
     }
   };
   
@@ -142,8 +140,11 @@ const refreshToken = async () => {
 
   export const accessToken = getAccessToken();
 
-//added temporarily
-// const tempToken = 'BQDT8D12Sq1xSdmciJcYeKAAapnnPycKs1s6-zhz8IHFuVTGaOKdjxGzN1Qyf9O5_kwKWQ2WLVWIpWmoZ1J2AFlQUp3er6oX_GEi4xWa9E7OxRhbxU9KvJxRcBHZzrzYJEfSVLTAVil4IkjzQ4mi4wDTqmeXO9Ju0i2NPzZToWibRng8xKdx9A0te9S-tENQ9TIYLI7JO6AFPWKX4qA';
+export const deleteTokens  = () => {
+  for (const property in LOCALSTORAGE_KEYS) {
+    window.localStorage.removeItem(LOCALSTORAGE_KEYS[property]);
+  }
+}
 
   /**
  * Axios global request headers
@@ -153,7 +154,6 @@ const refreshToken = async () => {
  axios.defaults.headers['Authorization'] = `Bearer ${accessToken}`;
  axios.defaults.headers['Content-Type'] = 'application/json';
 
-//  export const getCurrentUserProfile = () => axios.get('/me');
 export const getCurrentUserProfile = () => {
   return axios.get('/me')
 };

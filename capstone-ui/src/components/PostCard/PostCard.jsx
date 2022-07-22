@@ -11,7 +11,6 @@ export default function PostCard({ username, profile, token, song }) {
           username={username}
           profile={profile}
           token={token}
-          // added 6/11
           isSearchView={false}
         ></ProfileHeader>
       </div>

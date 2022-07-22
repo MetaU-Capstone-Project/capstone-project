@@ -2,10 +2,9 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./ProfileHeader.css";
 import { Link } from "react-router-dom";
-
-// TODO - temporarily use logo as profile picture
 import logo from "../../logo.svg";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
+import ProfileDetails from "../ProfileDetails/ProfileDetails";
 
 export default function ProfileHeader({
   username,
@@ -16,6 +15,10 @@ export default function ProfileHeader({
   isFeedView,
   isTimelineView,
   currentUserUsername,
+  handleMouseOver,
+  handleMouseOut,
+  setShouldUpdate,
+  setShouldUpdateFeed,
 }) {
   const [isFollowing, setIsFollowing] = useState(false);
   const [followers, setFollowers] = useState([]);
@@ -77,6 +80,14 @@ export default function ProfileHeader({
       .catch(function (error) {
         alert(`Error! ${error.message}`);
       });
+
+    if (setShouldUpdate && typeof setShouldUpdate == "function") {
+      setShouldUpdate(true);
+    }
+
+    if (setShouldUpdateFeed && typeof setShouldUpdateFeed == "function") {
+      setShouldUpdateFeed(true);
+    }
   };
 
   const unfollowUser = async (e) => {
@@ -96,15 +107,25 @@ export default function ProfileHeader({
       .catch(function (error) {
         alert(`Error! ${error.message}`);
       });
+
+    if (setShouldUpdate && typeof setShouldUpdate == "function") {
+      setShouldUpdate(true);
+    }
+
+    if (setShouldUpdateFeed && typeof setShouldUpdateFeed == "function") {
+      setShouldUpdateFeed(true);
+    }
   };
 
   if (isSearchView || isFollowersView) {
     let username = profile.username || profile;
-    console.log("after");
-    console.log(username);
 
     return (
-      <div className="search-view-profileheader-component">
+      <div
+        className="search-view-profileheader-component"
+        onMouseOver={handleMouseOver}
+        onMouseOut={handleMouseOut}
+      >
         <Link to={`/friendprofile/${username}`}>
           <div className="search-view-profile-picture-wrapper">
             {imageURL === "logo" && (
@@ -119,9 +140,6 @@ export default function ProfileHeader({
           </div>
           <div className="profile-username-wrapper">
             <span className="profile-username">{username}</span>
-            {/* <span className="profile-username">
-            Spotify @{profile.display_name}
-          </span> */}
           </div>
         </Link>
         {((!currentUserUsername && isFollowing) ||
@@ -154,7 +172,6 @@ export default function ProfileHeader({
               : "profileheader-component"
           }
         >
-          {/* TODO */}
           <Link to={`/friendprofile/${username}`}>
             <div
               className={

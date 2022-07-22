@@ -18,19 +18,14 @@ const stateKey = 'spotify_auth_state';
 
 router.get('/authorize', (req, res) => {
     const state = generateRandomString(16);
-    // TODO temporarily commented out
-    // res.cookie(stateKey, state);
     const scope = 'user-read-private user-read-email user-top-read';
 
     const queryParams = `client_id=${CLIENT_ID}&response_type=code&redirect_uri=${REDIRECT_URI}&state=${state}&scope=${scope}&show_dialog=true`;
     res.redirect(`https://accounts.spotify.com/authorize?${queryParams}`);
 });
 
-// TODO add different routes for authorizing after login and registration
 router.get('/authorize/register', (req, res) => {
     const state = generateRandomString(16);
-    // TODO temporarily commented out
-    // res.cookie(stateKey, state);
     const scope = 'user-read-private user-read-email user-top-read';
 
     const queryParams = `client_id=${CLIENT_ID}&response_type=code&redirect_uri=${REDIRECT_URI}&state=${state}&scope=${scope}&show_dialog=true&register=true`;
@@ -63,22 +58,17 @@ router.post('/post', async (req, res) => {
     }
 });
 
-// TODO - fix
-// change endpoint and add conditions for query
 router.get('/posts', async (req, res) => {
     let result = await User.posts();
     res.send('posts: ' + JSON.stringify(result));
 });
 
-// TODO
 router.get('/timeline/:username', async (req, res) => {
     const username = req.params.username;
     const result = await User.timeline(username);
-    // TODO - fix and errors
     res.send(result);
 })
 
-// TODO
 router.get('/users', async (req, res) => {
     let result = await User.getUsers();
     res.send(result);
@@ -88,42 +78,29 @@ router.post('/followUser', async (req, res) => {
     let { currUsername, followUsername } = req.body;
     let result = await User.followUser(currUsername, followUsername);
     res.send(result);
-    // if (result === false) {
-    //     res.send(400);
-    // } else {
-    //     res.send(201);
-    // }
 });
 
 router.post('/unfollowUser', async (req, res) => {
     let { currUsername, unfollowUsername } = req.body;
     let result = await User.unfollowUser(currUsername, unfollowUsername);
     res.send(result);
-    // if (result === false) {
-    //     res.send(401);
-    // } else {
-    //     res.send(200);
-    // }
 });
 
 router.get('/followers/:username', async (req, res) => {
     const username = req.params.username;
     const result = await User.getFollowers(username);
-    // TODO - fix and errors
     res.send(result);
 });
 
 router.get('/feed/:username', async (req, res) => {
     const username = req.params.username;
     const result = await User.getFeed(username);
-    // TODO - fix and errors
     res.send(result);
 });
 
 router.get('/delete/:username', async (req, res) => {
     const username = req.params.username;
     const result = await User.delete(username);
-    // TODO - fix and errors
     res.send(result);
 });
 
@@ -139,7 +116,6 @@ router.get('/exists/:email', async (req, res) => {
     res.send(result);
 });
 
-// TODO delete? 
 router.get('/profileBySpotifyUsername/:username', async (req, res) => {
     const spotifyUsername = req.params.username;
     const result = await User.getProfileBySpotifyUsername(spotifyUsername);
