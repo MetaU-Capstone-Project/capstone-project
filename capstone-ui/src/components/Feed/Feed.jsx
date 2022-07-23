@@ -29,8 +29,7 @@ export default function Feed({ username, profile, token }) {
       let recs = await getRecommendedUsers(
         username,
         genresResult.data,
-        artistsResult.data,
-        postedSongs
+        artistsResult.data
       );
       setRecommendations(recs);
     };

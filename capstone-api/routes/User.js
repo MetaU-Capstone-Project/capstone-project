@@ -26,6 +26,11 @@ router.get('/authorize', (req, res) => {
 
 router.get('/authorize/register', (req, res) => {
     const state = generateRandomString(16);
+
+    // added
+    res.cookie(stateKey, state);
+    // added
+
     const scope = 'user-read-private user-read-email user-top-read';
 
     const queryParams = `client_id=${CLIENT_ID}&response_type=code&redirect_uri=${REDIRECT_URI}&state=${state}&scope=${scope}&show_dialog=true&register=true`;
@@ -197,11 +202,11 @@ router.post('/invite', async (req, res) => {
     res.send(result);
 });
 
-router.get('/inbox/:username', async (req, res) => {
-    const username = req.params.username;
-    let result = await User.getInbox(username);
-    res.send(result);
-});
+// router.get('/inbox/:username', async (req, res) => {
+//     const username = req.params.username;
+//     let result = await User.getInbox(username);
+//     res.send(result);
+// });
 
 router.get('/', (req, res) => {
     try {

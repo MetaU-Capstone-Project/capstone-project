@@ -17,6 +17,9 @@ export default function Recommendations({
   return (
     <div className="recommendations-component">
       <div className="recommendations-wrapper">
+        {recs != null && recs.length === 0 && (
+          <span>No recommended users.</span>
+        )}
         {recs &&
           recs.length > 0 &&
           recs.map((element) => (
@@ -30,9 +33,6 @@ export default function Recommendations({
               setShouldUpdateFeed={setShouldUpdateFeed}
             ></ProfileHeader>
           ))}
-        {recs != null && recs.length === 0 && (
-          <span>No recommended users.</span>
-        )}
       </div>
     </div>
   );

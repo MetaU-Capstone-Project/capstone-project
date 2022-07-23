@@ -12,16 +12,13 @@
 
 .play-song-wrapper {
     flex: 0.25;
-    /* TODO - width and height */
     margin: 2rem;
 }
 
-.song-info-wrapper {
+.song-info-wrapper-songheader {
     flex: 0.75;
     display: flex;
     flex-direction: column;
-
-    /* added 6/6/ for search results */
     width: 6rem;
 }
 

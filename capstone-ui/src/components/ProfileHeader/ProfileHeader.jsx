@@ -36,7 +36,7 @@ export default function ProfileHeader({
       setFollowers(response.data);
 
       let viewUsername = profile.username;
-      // TODO first condition is for search view, second condition is for profile view - refactor
+      // first condition is for search view, second condition is for profile view - refactor
       if (
         response.data.includes(viewUsername) ||
         response.data.includes(profile)
@@ -119,6 +119,12 @@ export default function ProfileHeader({
 
   if (isSearchView || isFollowersView) {
     let username = profile.username || profile;
+
+    // error handling when not in search view
+    if (typeof handleMouseOut === "undefined") {
+      handleMouseOver = () => {};
+      handleMouseOut = () => {};
+    }
 
     return (
       <div className="search-view-profileheader-component">

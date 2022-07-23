@@ -20,9 +20,16 @@ export default function SongHeaderView({ song }) {
   return (
     <div className="songheader-component">
       <div className="play-song-wrapper">
-        {song.album && song.album.images && (
+        {/* {song.album && song.album.images && (
           <img src={song.album.images[0].url} alt="song-image"></img>
-        )}
+        )} */}
+        <iframe
+          className="songheader-playing-picture"
+          src={`https://open.spotify.com/embed/track/${song.id}`}
+          width="100%"
+          height="380"
+          frameBorder="0"
+        ></iframe>
       </div>
       <div className="song-info-wrapper">
         <div className="song-info-row">

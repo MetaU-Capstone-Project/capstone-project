@@ -3,7 +3,12 @@ import Select from "react-select";
 import "./Settings.css";
 import axios from "axios";
 import { catchErrors } from "../../utils";
-import { getTopArtists, getGenres, getRecommendations } from "../../spotify";
+import {
+  getTopArtists,
+  getGenres,
+  getRecommendations,
+  getAudioFeatures,
+} from "../../spotify";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 import { getRecommendedUsers } from "../../recommendation";
 import Recommendations from "../Recommendations/Recommendations";
@@ -14,6 +19,7 @@ export default function Settings({ username, token, profile, isRegisterView }) {
   const [selectedGenres, setSelectedGenres] = useState(null);
   const [selectedArtists, setSelectedArtists] = useState(null);
   const [recommendations, setRecommendations] = useState(null);
+  const [isFetchingRecs, setIsFetchingRecs] = useState(false);
 
   React.useEffect(() => {
     const fetchData = async () => {
@@ -67,12 +73,9 @@ export default function Settings({ username, token, profile, isRegisterView }) {
   }
 
   async function recommendUsers(e) {
+    setIsFetchingRecs(true);
     let artistsResult = selectedArtists;
     let genresResult = selectedGenres;
-    let postedSongsResult = await axios.get(
-      `http://localhost:3001/user/timeline/${username}`
-    );
-    let postedSongs = postedSongsResult.data;
 
     if (artistsResult === null) {
       artistsResult = [];
@@ -83,15 +86,10 @@ export default function Settings({ username, token, profile, isRegisterView }) {
     }
     let topArtists = artistsResult.join(",");
     let topGenres = genresResult.join(",");
-    postedSongs = postedSongs.map((element) => element.trackId);
 
-    let recs = await getRecommendedUsers(
-      username,
-      genresResult,
-      artistsResult,
-      postedSongs
-    );
+    let recs = await getRecommendedUsers(username, genresResult, artistsResult);
     setRecommendations(recs);
+    setIsFetchingRecs(false);
   }
 
   function handleNext() {
@@ -133,10 +131,17 @@ export default function Settings({ username, token, profile, isRegisterView }) {
               </button>
             </div>
           )}
-          {recommendations && (
-            <span className="recommendations-heading">Recommendations</span>
+          {isFetchingRecs && (
+            <div className="loading-recs-wrapper">
+              {<LoadingSpinner></LoadingSpinner>}
+            </div>
           )}
-          <Recommendations recs={recommendations}></Recommendations>
+          {!isFetchingRecs && recommendations && (
+            <>
+              <span className="recommendations-heading">Recommendations</span>
+              <Recommendations recs={recommendations}></Recommendations>
+            </>
+          )}
         </>
       ) : (
         <LoadingSpinner></LoadingSpinner>

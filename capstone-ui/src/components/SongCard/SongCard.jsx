@@ -24,6 +24,16 @@ export default function SongCard({ profile, token, song, isFeedView }) {
         {song.album && song.album.images && (
           <img src={song.album.images[0].url} alt="album picture"></img>
         )}
+        {/* <iframe
+          // style="border-radius:12px"
+          className="song-playing-picture"
+          src={`https://open.spotify.com/embed/track/${song.id}`}
+          width="100%"
+          height="380"
+          frameBorder="0"
+          allowFullScreen=""
+          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+        ></iframe> */}
       </div>
     </div>
   );
