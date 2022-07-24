@@ -59,148 +59,125 @@ router.post('/post', async (req, res) => {
 });
 
 router.get('/posts', async (req, res) => {
-    let result = await User.posts();
-    res.send('posts: ' + JSON.stringify(result));
+    res.send(await User.posts());
 });
 
 router.get('/timeline/:username', async (req, res) => {
     const username = req.params.username;
-    const result = await User.timeline(username);
-    res.send(result);
+    res.send(await User.timeline(username));
 })
 
 router.get('/users', async (req, res) => {
-    let result = await User.getUsers();
-    res.send(result);
+    res.send(await User.getUsers());
 });
 
 router.post('/followUser', async (req, res) => {
     let { currUsername, followUsername } = req.body;
-    let result = await User.followUser(currUsername, followUsername);
-    res.send(result);
+    res.send(await User.followUser(currUsername, followUsername));
 });
 
 router.post('/unfollowUser', async (req, res) => {
     let { currUsername, unfollowUsername } = req.body;
-    let result = await User.unfollowUser(currUsername, unfollowUsername);
-    res.send(result);
+    res.send(await User.unfollowUser(currUsername, unfollowUsername));
 });
 
 router.get('/followers/:username', async (req, res) => {
     const username = req.params.username;
-    const result = await User.getFollowers(username);
-    res.send(result);
+    res.send(await User.getFollowers(username));
 });
 
 router.get('/feed/:username', async (req, res) => {
     const username = req.params.username;
-    const result = await User.getFeed(username);
-    res.send(result);
+    res.send(await User.getFeed(username));
 });
 
 router.get('/delete/:username', async (req, res) => {
     const username = req.params.username;
-    const result = await User.delete(username);
-    res.send(result);
+    res.send(await User.delete(username));
 });
 
 router.get('/:username', async (req, res) => {
     const username = req.params.username;
-    const result = await User.getAppProfile(username);
-    res.send(result);
+    res.send(await User.getAppProfile(username));
 });
 
 router.get('/exists/:email', async (req, res) => {
     const email = req.params.email;
-    const result = await User.getUserExists(email);
-    res.send(result);
+    res.send(await User.getUserExists(email));
 });
 
 router.get('/profileBySpotifyUsername/:username', async (req, res) => {
     const spotifyUsername = req.params.username;
-    const result = await User.getProfileBySpotifyUsername(spotifyUsername);
-    res.send(result);
+    res.send(await User.getProfileBySpotifyUsername(spotifyUsername));
 });
 
 router.get('/profileByEmail/:email', async (req, res) => {
     const email = req.params.email;
-    const result = await User.getProfileByEmail(email);
-    res.send(result);
+    res.send(await User.getProfileByEmail(email));
 });
 
 router.get('/password/:username', async (req, res) => {
     const username = req.params.username;
-    const result = await User.getPassword(username);
-    res.send(result);
+    res.send(await User.getPassword(username));
 });
 
 router.post('/topgenres', async (req, res) => {
     let { username, genres } = req.body;
-    let result = await User.setTopGenres(username, genres);
-    res.send(result);
+    res.send(await User.setTopGenres(username, genres));
 });
 
 router.post('/topartists', async (req, res) => {
     let { username, artists } = req.body;
-    let result = await User.setTopArtists(username, artists);
-    res.send(result);
+    res.send(await User.setTopArtists(username, artists));
 });
 
 router.get('/topgenres/:username', async (req, res) => {
     const username = req.params.username;
-    const result = await User.getTopGenres(username);
-    res.send(result);
+    res.send(await User.getTopGenres(username));
 });
 
 router.get('/topartists/:username', async (req, res) => {
     const username = req.params.username;
-    const result = await User.getTopArtists(username);
-    res.send(result);
+    res.send(await User.getTopArtists(username));
 });
 
 router.post('/group', async (req, res) => {
-    let createMessage = await User.createGroup(req.body);
-    if (createMessage === "Group created!") {
+    let result = await User.createGroup(req.body);
+    if (result === true) {
         res.status(201).send(req.body);
     } else {
-        res.status(400).send({errorMessage: createMessage});
+        res.status(400).send({errorMessage: result});
     }
 });
 
 router.get('/groups/:username', async (req, res) => {
     const username = req.params.username;
-    let result = await User.getGroups(username);
-    res.send(result);
+    res.send(await User.getGroups(username));
 });
 
 router.get('/group/:name', async (req, res) => {
     const groupName = req.params.name;
-    let result = await User.getGroup(groupName);
-    res.send(result);
+    res.send(await User.getGroup(groupName));
 });
 
 router.post('/joingroup', async (req, res) => {
     let { username, groupName } = req.body;
-    let result = await User.joinGroup(username, groupName);
-    res.send(result);
+    res.send(await User.joinGroup(username, groupName));
 });
 
 router.post('/leavegroup', async (req, res) => {
     let { username, groupName } = req.body;
-    let result = await User.leaveGroup(username, groupName);
-    res.send(result);
+    res.send(await User.leaveGroup(username, groupName));
 });
 
 router.post('/invite', async (req, res) => {
     let { username, groupName } = req.body;
-    let result = await User.invite(username, groupName);
-    res.send(result);
+    res.send(await User.sendInvite(username, groupName));
 });
 
 router.get('/inbox/:username', async (req, res) => {
     const username = req.params.username;
-    let result = await User.getInbox(username);
-    res.send(result);
+    res.send(await User.getInbox(username));
 });
 
 router.get('/', (req, res) => {
