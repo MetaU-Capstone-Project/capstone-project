@@ -1,7 +1,27 @@
+.profiledetails-preference {
+    font-size: 1rem;
+    margin: 0.5rem;
+}
+
+.profiledetails-name {
+    font-size: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    margin: 1rem;
+}
+
+.profiledetails-list {
+    display: flex;
+    flex-direction: column;
+}
+
 .profiledetails-component {
     display: flex;
-    background-color: lightblue;
+    flex-direction: column;
+    background-color: darkseagreen;
     width: 20rem;
     height: 20rem;
     z-index: 1;
+    align-items: center;
+    justify-content: center;
 }

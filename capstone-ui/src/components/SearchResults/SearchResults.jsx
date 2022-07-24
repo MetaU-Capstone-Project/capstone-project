@@ -11,17 +11,10 @@ export default function SearchResults({
   profileResults,
   token,
   isSongResults,
+  isHovering,
+  handleMouseOut,
+  handleMouseOver,
 }) {
-  const [isHovering, setIsHovering] = useState(false);
-
-  const handleMouseOver = () => {
-    setIsHovering(true);
-  };
-
-  const handleMouseOut = () => {
-    setIsHovering(false);
-  };
-
   let results;
   if (isSongResults) {
     results = songResults;
@@ -52,7 +45,6 @@ export default function SearchResults({
             ></ProfileHeader>
           ))}
       </div>
-      {isHovering && <ProfileDetails></ProfileDetails>}
     </div>
   );
 }

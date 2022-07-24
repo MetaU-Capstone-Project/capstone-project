@@ -1,0 +1,95 @@
+.group-privacy-text {
+    font-size: 1rem;
+    margin: 1rem;
+}
+
+.group-privacy-switch {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.group-preference {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 1rem;
+    width: 20rem;
+    font-size: 1rem;
+}
+
+.group-members-text {
+    font-size: 1.5rem;
+}
+
+.group-members-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 1rem;
+    width: 20rem;
+}
+
+.group-create-button-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.group-preferences {
+    font-size: 1.5rem;
+}
+
+.group-privacy-label {
+    display: flex;
+}
+
+.is-active {
+    text-decoration: underline;
+    background-color: darkcyan;
+    width: 10rem;
+    height: 3rem;
+    font-size: 1rem;
+}
+
+button {
+    text-decoration: underline;
+    width: 10rem;
+    height: 3rem;
+    font-size: 1rem;
+}
+
+img {
+    width: 100%;
+    height: 100%;
+}
+
+.description-input {
+    width: 20rem;
+    height: 5rem;
+    font-size: 1rem;
+}
+
+.group-select-wrapper {
+    margin-top: 1rem;
+    /* width: 20rem; */
+    display: flex;
+    flex-direction: column;
+}
+
+.group-info-wrapper {
+    display: flex;
+    flex-direction: column;
+    margin-top: 1rem;
+    font-size: 1.5rem;
+}
+
+.groupcard-component {
+    display: flex;
+    flex-direction: column;
+    max-width: 30rem;
+    max-height: 30rem;
+    align-items: center;
+}

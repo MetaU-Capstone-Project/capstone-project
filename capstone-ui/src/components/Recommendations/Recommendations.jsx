@@ -30,7 +30,9 @@ export default function Recommendations({
               setShouldUpdateFeed={setShouldUpdateFeed}
             ></ProfileHeader>
           ))}
-        {recs && recs.length === 0 && <span>No recommended users.</span>}
+        {recs != null && recs.length === 0 && (
+          <span>No recommended users.</span>
+        )}
       </div>
     </div>
   );

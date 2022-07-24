@@ -49,7 +49,7 @@ class User {
       } catch (error) {
           return error.message;
       }
-  }
+    }
 
     static async post(username, trackId) {
         let Post = new Parse.Object('Post');
@@ -67,18 +67,17 @@ class User {
         const query = new Parse.Query('Post');
         try {
           let todos = await query.find();
-            return todos;
+          return todos;
         } catch (error) {
           return {};
         };
     };
     
-    static async timeline(username) {
+  static async timeline(username) {
       const query = new Parse.Query('Post');
       query.equalTo("username", username);
       query.descending("createdAt");
-      let result = await query.find();
-      return result;
+      return await query.find();
   };
 
     static async getPost(username, trackId) {
@@ -86,8 +85,7 @@ class User {
       query.equalTo("username", username);
       query.equalTo("trackId", trackId);
       try {
-        let posts = await query.find();
-        return posts[0];
+        return await query.first();
       } catch (error) {
         return {};
       };
@@ -96,8 +94,7 @@ class User {
     static async getUsers() {
       const query = new Parse.Query('User');
       try {
-        let users = await query.find();
-        return users;
+        return await query.find();
       } catch (error) {
         return {};
       };
@@ -150,13 +147,11 @@ class User {
   static async delete(username) {
     const userQuery = new Parse.Query('User');
     userQuery.equalTo("username", username);
-    let result = await userQuery.first({}); 
-    result.destroy({});
+    (await userQuery.first({})).destroy({});
 
     const preferencesQuery = new Parse.Query('Preferences');
     preferencesQuery.equalTo("username", username);
-    let result2 = await preferencesQuery.first({}); 
-    result2.destroy({});
+    (await preferencesQuery.first({})).destroy({});
 
     const postsQuery = new Parse.Query('Post');
     postsQuery.equalTo("username", username);
@@ -172,8 +167,7 @@ class User {
   static async getAppProfile(username) {
     const query = new Parse.Query('User');
     query.equalTo("username", username);
-    let result = await query.first({}); 
-    return result;
+    return await query.first({}); 
   }
 
   static async getUserExists(email) {
@@ -191,22 +185,19 @@ class User {
   static async getProfileBySpotifyUsername(spotifyUsername) {
     const query = new Parse.Query('User');
     query.equalTo("spotifyUsername", spotifyUsername);
-    let result = await query.first({}); 
-    return result;
+    return await query.first({}); 
   }
 
   static async getProfileByEmail(email) {
     const query = new Parse.Query('User');
     query.equalTo("email", email);
-    let result = await query.first({}); 
-    return result;
+    return await query.first({}); 
   }
 
   static async getPassword(username) {
     const query = new Parse.Query('User');
     query.equalTo("username", username);
-    let result = await query.first({}); 
-    return result.get('appPassword');
+    return (await query.first({})).get('appPassword');
   }
 
   static async setTopGenres(username, genres) {
@@ -230,16 +221,102 @@ class User {
   static async getTopGenres(username) {
     const query = new Parse.Query('Preferences');
     query.equalTo("username", username);
-    let result = await query.first({}); 
-    return result.get('topGenres');
+    return (await query.first({})).get('topGenres');
   }
 
   static async getTopArtists(username) {
     const query = new Parse.Query('Preferences');
     query.equalTo("username", username);
-    let result = await query.first({}); 
-    return result.get('topArtists');
+    return (await query.first({})).get('topArtists');
   }
+
+  static async createGroup(groupInfo) {
+    let {username, groupName, description, isPrivate, genres, isAdmin } = groupInfo;
+    let group = new Parse.Object('Group');
+
+    group.set("name", groupName);
+    group.set('description', description);
+    group.set('isPrivate', isPrivate);
+    group.set('genres', genres);
+
+    let relationship = new Parse.Object('UserGroup');
+    relationship.set("username", username);
+    relationship.set('groupName', groupName);
+    relationship.set('isAdmin', isAdmin);
+
+    try {
+        await group.save();
+        await relationship.save();
+        return true;
+    } catch (error) {
+        return error.message;
+    }
+  }
+
+  static async getGroup(groupName) {
+    const query = new Parse.Query('Group');
+    query.equalTo("name", groupName);
+    return (await query.first({}));
+  }
+
+  static async getGroups(username) {
+    const query = new Parse.Query('UserGroup');
+    query.equalTo("username", username);
+    query.descending("createdAt");
+    return await query.find();
+  };
+
+  static async joinGroup(username, groupName) {
+    let relationship = new Parse.Object('UserGroup');
+    relationship.set("username", username);
+    relationship.set('groupName', groupName);
+    relationship.set('isAdmin', false);
+
+    let usernameQuery = new Parse.Query('Invite');
+    usernameQuery.equalTo("username", username);
+    let groupNameQuery = new Parse.Query('Invite');
+    groupNameQuery.equalTo("groupName", groupName);
+
+    let compoundQuery = Parse.Query.and(usernameQuery, groupNameQuery);
+    let result = await compoundQuery.first({}); 
+    result.destroy({});
+
+    try {
+        await relationship.save();
+        return true;
+    } catch (error) {
+        return error.message;
+    }
+  }
+
+  static async leaveGroup(username, groupName) {
+    let query = new Parse.Query('UserGroup');
+    query.equalTo("username", username);
+    query.equalTo("groupName", groupName);
+    let result = await query.first({}); 
+    result.destroy({});
+  }
+
+  static async sendInvite(username, groupName) {
+    let invite = new Parse.Object('Invite');
+    invite.set("username", username);
+    invite.set('groupName', groupName);
+
+    try {
+        await invite.save();
+        return "Invite sent!";
+    } catch (error) {
+        return error.message;
+    }
+  }
+
+  static async getInbox(username) {
+    const query = new Parse.Query('Invite');
+    query.equalTo("username", username);
+    query.descending("createdAt");
+    let result = await query.find();
+    return result;
+  };
 
 }
 
