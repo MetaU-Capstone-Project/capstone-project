@@ -261,8 +261,7 @@ class User {
 
   static async getGroups(username) {
     const query = new Parse.Query('UserGroup');
-    query.equalTo("username", username);
-    query.descending("createdAt");
+    query.equalTo("username", username).descending("createdAt");
     return await query.find();
   };
 
@@ -312,8 +311,7 @@ class User {
 
   static async getInbox(username) {
     const query = new Parse.Query('Invite');
-    query.equalTo("username", username);
-    query.descending("createdAt");
+    query.equalTo("username", username).descending("createdAt");
     let result = await query.find();
     return result;
   };
