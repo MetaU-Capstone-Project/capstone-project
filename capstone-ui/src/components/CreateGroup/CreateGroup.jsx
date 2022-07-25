@@ -85,16 +85,16 @@ export default function CreateGroup({
     setSelectedMembers([]);
   }
 
-  function handleSwitch(e) {
-    setIsPrivate(e);
+  function handleSwitch(privacySetting) {
+    setIsPrivate(privacySetting);
   }
 
-  async function handleGenreChange(e) {
-    setSelectedGenres(e);
+  async function handleGenreChange(genres) {
+    setSelectedGenres(genres);
   }
 
-  async function handleMemberChange(e) {
-    setSelectedMembers(e);
+  async function handleMemberChange(members) {
+    setSelectedMembers(members);
   }
 
   return (
