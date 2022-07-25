@@ -5,7 +5,7 @@ import axios from "axios";
 import { catchErrors } from "../../utils";
 
 export default function GroupInbox({ username }) {
-  const [inbox, setInbox] = React.useState(null);
+  const [inbox, setInbox] = React.useState([]);
   const [shouldUpdateInbox, setShouldUpdateInbox] = React.useState(false);
 
   React.useEffect(() => {
@@ -26,15 +26,14 @@ export default function GroupInbox({ username }) {
         <span className="groupinbox-heading">Inbox</span>
       </div>
       <div className="inbox-grid">
-        {inbox &&
-          inbox.map((element) => (
-            <GroupHeader
-              key={element.groupName}
-              group={element}
-              username={username}
-              setShouldUpdateInbox={setShouldUpdateInbox}
-            ></GroupHeader>
-          ))}
+        {inbox.map((element) => (
+          <GroupHeader
+            key={element.groupName}
+            group={element}
+            username={username}
+            setShouldUpdateInbox={setShouldUpdateInbox}
+          ></GroupHeader>
+        ))}
       </div>
     </div>
   );
