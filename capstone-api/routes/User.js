@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
+var cookieParser = require('cookie-parser')
 
 const REDIRECT_URI = "http://localhost:3001/callback";
 const CLIENT_ID = "df31a108deeb4f8698d7936b772522bb";
@@ -20,7 +21,8 @@ router.get('/authorize', (req, res) => {
     const state = generateRandomString(16);
     const scope = 'user-read-private user-read-email user-top-read';
 
-    res.cookie(stateKey, state);
+    // TODO
+    res.cookie(stateKey, state, { httpOnly: true });
 
     const queryParams = `client_id=${CLIENT_ID}&response_type=code&redirect_uri=${REDIRECT_URI}&state=${state}&scope=${scope}&show_dialog=true`;
     res.redirect(`https://accounts.spotify.com/authorize?${queryParams}`);

@@ -40,7 +40,8 @@ export default function Main({
         );
         setAppProfile(result.data);
         setUsername(result.data.username);
-        setToken(accessToken);
+        // TODO
+        setToken(document.cookie.substring(13));
 
         const passwordData = await axios.get(
           `http://localhost:3001/user/password/${result.data.username}`
