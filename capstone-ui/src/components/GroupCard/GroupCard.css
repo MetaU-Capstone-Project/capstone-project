@@ -1,0 +1,53 @@
+.is-active {
+    text-decoration: underline;
+    background-color: darkcyan;
+    width: 10rem;
+    height: 3rem;
+    font-size: 1rem;
+}
+
+button {
+    text-decoration: underline;
+    width: 10rem;
+    height: 3rem;
+    font-size: 1rem;
+}
+
+.group-info-wrapper {
+    flex: 0.5;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.profile-join-date {
+    font-size: 1rem;
+}
+
+.group-name-text {
+    margin: 1rem;
+}
+
+.profile-friends-button {
+    background-color: darkseagreen;
+    text-decoration: none;
+    width: 10rem;
+    height: 3rem;
+    font-size: 1rem;
+}
+
+.group-buttons {
+    margin-top: 2rem;
+}
+
+.delete-account-wrapper {
+    margin-top: 2rem;
+}
+
+.groupcard-component {
+    display: flex;
+    flex-direction: column;
+    max-width: 30rem;
+    max-height: 30rem;
+}

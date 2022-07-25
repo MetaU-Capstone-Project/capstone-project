@@ -234,6 +234,23 @@ class User {
     let {username, groupName, description, isPrivate, genres, isAdmin } = groupInfo;
     let group = new Parse.Object('Group');
 
+    if (groupName === "") {
+      return "Name cannot be empty!";
+    }
+
+    let uniqueNameQuery = new Parse.Query('Group');
+    uniqueNameQuery.equalTo("name", groupName);
+    let uniqueNameResult = await uniqueNameQuery.find({});
+    console.log('unique name result');
+    console.log(uniqueNameResult);
+    if (uniqueNameResult.length !== 0) {
+      return "Group exists with that name already!";
+    }
+
+    if (description === "") {
+      return "Description cannot be empty!";
+    }
+
     group.set("name", groupName);
     group.set('description', description);
     group.set('isPrivate', isPrivate);
@@ -318,6 +335,40 @@ class User {
     return result;
   };
 
+  static async getMembers(groupName) {
+    const query = new Parse.Query('UserGroup');
+    query.equalTo("groupName", groupName);
+    let relationships = await query.find({});
+    return relationships.map((element) => {return {username: element.get('username'), isAdmin: element.get('isAdmin')}});
+  };
+
+  static async setGroupGenres(groupName, genres) {
+    const query = new Parse.Query('Group');
+    query.equalTo("name", groupName);
+    let result = await query.first({}); 
+    result.set('genres', genres);
+    await result.save();
+    return result.get('genres');
+  }
+
+  static async getMembershipStatus(username, groupName) {
+    let usernameQuery = new Parse.Query('UserGroup');
+    usernameQuery.equalTo("username", username);
+    let groupNameQuery = new Parse.Query('UserGroup');
+    groupNameQuery.equalTo("groupName", groupName);
+    let compoundQuery = Parse.Query.and(usernameQuery, groupNameQuery);
+    let result = await compoundQuery.first({});
+    return await compoundQuery.first({}); 
+  };
+
+  static async setGroupDescription(groupName, description) {
+    const query = new Parse.Query('Group');
+    query.equalTo("name", groupName);
+    let result = await query.first({}); 
+    result.set('description', description);
+    await result.save();
+    return result.get('description');
+  }
 }
 
 module.exports = User;

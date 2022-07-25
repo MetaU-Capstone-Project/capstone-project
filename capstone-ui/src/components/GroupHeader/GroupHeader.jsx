@@ -8,7 +8,7 @@ export default function GroupHeader({
   token,
   profile,
   group,
-  setShouldUpdateInbox,
+  setShouldUpdateGroupPage,
 }) {
   const [isMember, setIsMember] = useState(false);
 
@@ -30,14 +30,17 @@ export default function GroupHeader({
       .catch(function (error) {
         alert(`Error! ${error.message}`);
       });
-    if (setShouldUpdateInbox && typeof setShouldUpdateInbox == "function") {
-      setShouldUpdateInbox(true);
+    if (
+      setShouldUpdateGroupPage &&
+      typeof setShouldUpdateGroupPage == "function"
+    ) {
+      setShouldUpdateGroupPage(true);
     }
   };
 
   return (
     <div className="groupheader-component">
-      <Link to={`/group/${group.name}`}>
+      <Link to={`/group/${group.groupName}`}>
         <div className="groupheader-info-wrapper">
           <span className="group-info">{group.groupName}</span>
         </div>

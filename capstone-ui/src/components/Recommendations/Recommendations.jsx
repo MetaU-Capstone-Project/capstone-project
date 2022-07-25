@@ -31,7 +31,7 @@ export default function Recommendations({
             ></ProfileHeader>
           ))}
         {recs != null && recs.length === 0 && (
-          <span>No recommended users.</span>
+          <span className="no-recommendations-text">No recommended users.</span>
         )}
       </div>
     </div>

@@ -20,6 +20,8 @@ router.get('/authorize', (req, res) => {
     const state = generateRandomString(16);
     const scope = 'user-read-private user-read-email user-top-read';
 
+    res.cookie(stateKey, state);
+
     const queryParams = `client_id=${CLIENT_ID}&response_type=code&redirect_uri=${REDIRECT_URI}&state=${state}&scope=${scope}&show_dialog=true`;
     res.redirect(`https://accounts.spotify.com/authorize?${queryParams}`);
 });
@@ -178,6 +180,26 @@ router.post('/invite', async (req, res) => {
 router.get('/inbox/:username', async (req, res) => {
     const username = req.params.username;
     res.send(await User.getInbox(username));
+});
+
+router.get('/members/:groupname', async (req, res) => {
+    const groupName = req.params.groupname;
+    res.send(await User.getMembers(groupName));
+});
+
+router.post('/groupgenres', async (req, res) => {
+    let { groupName, genres } = req.body;
+    res.send(await User.setGroupGenres(groupName, genres));
+});
+
+router.post('/membershipstatus', async (req, res) => {
+    let { username, groupName } = req.body;
+    res.send(await User.getMembershipStatus(username, groupName));
+});
+
+router.post('/groupdescription', async (req, res) => {
+    let { groupName, description } = req.body;
+    res.send(await User.setGroupDescription(groupName, description));
 });
 
 router.get('/', (req, res) => {

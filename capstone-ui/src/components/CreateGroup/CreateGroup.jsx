@@ -11,16 +11,7 @@ import { catchErrors } from "../../utils";
 
 import logo from "../../logo.svg";
 
-export default function CreateGroup({
-  username,
-  token,
-  profile,
-  appProfile,
-  isPreferencesView,
-  tab,
-  setTab,
-  isFriendProfileView,
-}) {
+export default function CreateGroup({ username, setShouldUpdateGroupPage }) {
   const [groupName, setGroupName] = useState("");
   const [description, setDescription] = useState("");
   const [isPrivate, setIsPrivate] = useState(false);
@@ -62,11 +53,10 @@ export default function CreateGroup({
     axios
       .post("http://localhost:3001/user/group", postRequest)
       .then(function (response) {
-        alert(`Success! Group ${groupName} was successfully created!`);
+        alert(`Group ${groupName} was successfully created!`);
       })
       .catch((error) => {
-        alert(`Error! ${error.message}`);
-        return false;
+        alert(`${error.response.data.errorMessage}`);
       });
 
     setGroupName("");
@@ -83,6 +73,7 @@ export default function CreateGroup({
     }
 
     setSelectedMembers([]);
+    setShouldUpdateGroupPage(true);
   }
 
   function handleSwitch(e) {
