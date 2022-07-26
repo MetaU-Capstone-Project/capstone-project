@@ -6,19 +6,21 @@ const cors = require("cors");
 const user = require("./routes/User");
 const axios = require("axios");
 // TODO import errors
+const dotenv = require("dotenv");
+dotenv.config();
 
 app.use(cors());
 app.use(bodyParser.json());
 app.use(morgan("tiny"));
 
-const REDIRECT_URI = "http://localhost:3001/callback";
-const CLIENT_ID = "df31a108deeb4f8698d7936b772522bb";
-const CLIENT_SECRET = "4c7a1c1bec464bf0ad268409131e0c67";
-
+// Handles the callback after authorization and redirects user to home page on success
 app.get("/callback", (req, res) => {
   const code = req.query.code || null;
   const isRegister = req.query.register || null;
-  const data = `grant_type=authorization_code&rcode=${code}&redirect_uri=${REDIRECT_URI}`;
+  const data = `grant_type=authorization_code&rcode=${code}&redirect_uri=${process.env.SPOTIFY_REDIRECT_URI}`;
+
+  console.log("dataaa");
+  console.log(data);
 
   axios
     .post(
@@ -26,13 +28,13 @@ app.get("/callback", (req, res) => {
       new URLSearchParams({
         grant_type: "authorization_code",
         code: code,
-        redirect_uri: REDIRECT_URI,
+        redirect_uri: process.env.SPOTIFY_REDIRECT_URI,
       }).toString(),
       {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
           Authorization: `Basic ${new Buffer.from(
-            `${CLIENT_ID}:${CLIENT_SECRET}`
+            `${process.env.SPOTIFY_CLIENT_ID}:${process.env.SPOTIFY_CLIENT_SECRET}`
           ).toString("base64")}`,
         },
       }
@@ -52,11 +54,12 @@ app.get("/callback", (req, res) => {
     });
 });
 
+// Retrieves the refresh token when access token has expired
 app.get("/refresh_token", (req, res) => {
   const { refresh_token } = req.query;
   const code = req.query.code || null;
 
-  const data = `grant_type=authorization_code&rcode=${code}&redirect_uri=${REDIRECT_URI}`;
+  const data = `grant_type=authorization_code&rcode=${code}&redirect_uri=${process.env.SPOTIFY_REDIRECT_URI}`;
 
   axios
     .post(
@@ -69,7 +72,7 @@ app.get("/refresh_token", (req, res) => {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
           Authorization: `Basic ${new Buffer.from(
-            `${CLIENT_ID}:${CLIENT_SECRET}`
+            `${process.env.SPOTIFY_CLIENT_ID}:${process.env.SPOTIFY_CLIENT_SECRET}`
           ).toString("base64")}`,
         },
       }
@@ -82,6 +85,7 @@ app.get("/refresh_token", (req, res) => {
     });
 });
 
+// Returns the app profile of the current user
 app.use("/user", user);
 
 app.get("/", (req, res) => {

@@ -2,34 +2,28 @@ const express = require("express");
 const router = express.Router();
 const User = require("../models/User");
 
-const REDIRECT_URI = "http://localhost:3001/callback";
-const CLIENT_ID = "df31a108deeb4f8698d7936b772522bb";
+const dotenv = require("dotenv");
+dotenv.config();
 
 const generateRandomString = (length) => {
-  let text = "";
-  const possible =
+  let randomString = "";
+  const possibleString =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
   for (let i = 0; i < length; i++) {
-    text += possible.charAt(Math.floor(Math.random() * possible.length));
+    randomString += possibleString.charAt(
+      Math.floor(Math.random() * possibleString.length)
+    );
   }
-  return text;
+  return randomString;
 };
 
-const stateKey = "spotify_auth_state";
-
+// Redirects to the Spotify authorization page
 router.get("/authorize", (req, res) => {
-  const state = generateRandomString(16);
-  const scope = "user-read-private user-read-email user-top-read";
+  // defines authorization scope for what user has access to
+  const security_state = generateRandomString(16);
+  const authorization_scope = "user-read-private user-read-email user-top-read";
 
-  const queryParams = `client_id=${CLIENT_ID}&response_type=code&redirect_uri=${REDIRECT_URI}&state=${state}&scope=${scope}&show_dialog=true`;
-  res.redirect(`https://accounts.spotify.com/authorize?${queryParams}`);
-});
-
-router.get("/authorize/register", (req, res) => {
-  const state = generateRandomString(16);
-  const scope = "user-read-private user-read-email user-top-read";
-
-  const queryParams = `client_id=${CLIENT_ID}&response_type=code&redirect_uri=${REDIRECT_URI}&state=${state}&scope=${scope}&show_dialog=true&register=true`;
+  const queryParams = `client_id=${process.env.SPOTIFY_CLIENT_ID}&response_type=code&redirect_uri=${process.env.SPOTIFY_REDIRECT_URI}&state=${security_state}&scope=${authorization_scope}&show_dialog=true`;
   res.redirect(`https://accounts.spotify.com/authorize?${queryParams}`);
 });
 

@@ -12,6 +12,7 @@ export default function GroupHeader({
 }) {
   const [isMember, setIsMember] = useState(false);
 
+  // Adds user to group upon success and displays message
   const joinGroup = async (e) => {
     let groupName =
       e.target.parentNode.parentNode.childNodes[0].childNodes[0].childNodes[0]
