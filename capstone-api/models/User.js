@@ -54,7 +54,7 @@ class User {
     return true;
   }
 
-  static async post(username, trackId) {
+  static async createPost(username, trackId) {
     let Post = new Parse.Object("Post");
     Post.set("username", username);
     Post.set("trackId", trackId);
@@ -66,12 +66,12 @@ class User {
     }
   }
 
-  static async posts() {
+  static async getPosts() {
     const query = new Parse.Query("Post");
     return await query.find();
   }
 
-  static async timeline(username) {
+  static async getTimeline(username) {
     const query = new Parse.Query("Post");
     query.equalTo("username", username);
     query.descending("createdAt");
@@ -133,7 +133,7 @@ class User {
     return result;
   }
 
-  static async delete(username) {
+  static async deleteUser(username) {
     const userQuery = new Parse.Query("User");
     userQuery.equalTo("username", username);
     (await userQuery.first({})).destroy({});

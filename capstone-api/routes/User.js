@@ -45,7 +45,7 @@ router.post("/register", async (req, res) => {
 
 router.post("/post", async (req, res) => {
   const { username, trackId } = req.body;
-  const result = await User.post(username, trackId);
+  const result = await User.createPost(username, trackId);
   if (result === true) {
     res.send(201);
   } else {
@@ -54,12 +54,12 @@ router.post("/post", async (req, res) => {
 });
 
 router.get("/posts", async (req, res) => {
-  res.send(await User.posts());
+  res.send(await User.getPosts());
 });
 
 router.get("/timeline/:username", async (req, res) => {
   const username = req.params.username;
-  res.send(await User.timeline(username));
+  res.send(await User.getTimeline(username));
 });
 
 router.get("/users", async (req, res) => {
@@ -88,7 +88,7 @@ router.get("/feed/:username", async (req, res) => {
 
 router.get("/delete/:username", async (req, res) => {
   const username = req.params.username;
-  res.send(await User.delete(username));
+  res.send(await User.deleteUser(username));
 });
 
 router.get("/:username", async (req, res) => {

@@ -19,9 +19,6 @@ app.get("/callback", (req, res) => {
   const isRegister = req.query.register || null;
   const data = `grant_type=authorization_code&rcode=${code}&redirect_uri=${process.env.SPOTIFY_REDIRECT_URI}`;
 
-  console.log("dataaa");
-  console.log(data);
-
   axios
     .post(
       "https://accounts.spotify.com/api/token",
@@ -50,7 +47,7 @@ app.get("/callback", (req, res) => {
       }
     })
     .catch(function (error) {
-      res.redirect("http://localhost:3000");
+      res.redirect("http://localhost:3000/error");
     });
 });
 
