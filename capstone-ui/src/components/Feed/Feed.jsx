@@ -5,7 +5,7 @@ import axios from "axios";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 import Recommendations from "../Recommendations/Recommendations";
 import { catchErrors } from "../../utils";
-import { getRecommendedUsers } from "../../recommendation";
+import { getRecommendedUsers } from "../../recommendationUtils";
 
 export default function Feed({ username, profile, token }) {
   const [feed, setFeed] = useState(null);

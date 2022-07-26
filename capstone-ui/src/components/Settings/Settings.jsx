@@ -10,7 +10,7 @@ import {
   getAudioFeatures,
 } from "../../spotify";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
-import { getRecommendedUsers } from "../../recommendation";
+import { getRecommendedUsers } from "../../recommendationUtils";
 import Recommendations from "../Recommendations/Recommendations";
 
 export default function Settings({ username, token, profile, isRegisterView }) {

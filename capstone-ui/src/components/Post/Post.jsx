@@ -26,6 +26,7 @@ export default function Post({ username, profile, token }) {
     getTrack();
   }, []);
 
+  // Adds post to current user's timeline on success and displays message
   const addPost = async function () {
     let postRequest = {
       username: username,
