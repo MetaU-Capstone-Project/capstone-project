@@ -8,9 +8,7 @@ import axios from "axios";
 import "./Search.css";
 
 export default function Search({ username, token }) {
-  // added
   const [searchSongHistory, setSearchSongHistory] = useState([]);
-  // added
 
   const [searchInput, setSearchInput] = useState("");
   const [searchInputValue, setSearchInputValue] = useState("");

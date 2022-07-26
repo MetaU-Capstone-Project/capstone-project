@@ -29,7 +29,6 @@ export default function SongHeader({ song }) {
             frameBorder="0"
           ></iframe>
         </div>
-        {/* <div className="song-info-wrapper"> */}
         <div className="song-info-wrapper-songheader">
           <div className="song-info-row">
             <span className="song-info">{song.name}</span>
