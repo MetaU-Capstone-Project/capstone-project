@@ -1,5 +1,27 @@
+.join-group-button {
+    background-color:lightcyan;
+    width: 6rem;
+    font-size: 0.75rem;
+    height: 1.5rem;
+    word-wrap: break-word;
+}
+
+.request-access-button {
+    background-color:lavender;
+    width: 6rem;
+    font-size: 0.75rem;
+    height: 1.5rem;
+    word-wrap: break-word;
+}
+
+.groupheader-button-wrapper {
+    display: flex;
+    margin: 1rem;
+}
+
 .group-info {
     width: 100%;
+    font-size: 1.25rem;
 }
 
 .groupinfo-wrapper {

@@ -63,9 +63,10 @@ export default function ProfileHeader({
     }
   }, []);
 
+  // follows user on success and displays message, and rerenders the parent component if successful
   const followUser = async (e) => {
     let followUsername =
-      e.target.parentNode.childNodes[0].childNodes[1].childNodes[0].innerText;
+      e.target.parentNode.childNodes[1].childNodes[0].childNodes[0].innerText;
 
     e.preventDefault();
     axios
@@ -90,9 +91,10 @@ export default function ProfileHeader({
     }
   };
 
+  // unfollows user on success and displays message, and rerenders the parent component if successful
   const unfollowUser = async (e) => {
     let unfollowUsername =
-      e.target.parentNode.childNodes[0].childNodes[1].childNodes[0].innerText;
+      e.target.parentNode.childNodes[1].childNodes[0].childNodes[0].innerText;
 
     e.preventDefault();
     axios
@@ -121,23 +123,20 @@ export default function ProfileHeader({
     let username = profile.username || profile;
 
     return (
-      <div
-        className="search-view-profileheader-component"
-        onMouseOver={handleMouseOver}
-        onMouseOut={handleMouseOut}
-      >
+      <div className="search-view-profileheader-component">
+        <div
+          className="search-view-profile-picture-wrapper"
+          onMouseOver={() => handleMouseOver(username)}
+          onMouseOut={handleMouseOut}
+        >
+          {imageURL === "logo" && (
+            <img className="spotify-profileheader-picture" src={logo}></img>
+          )}
+          {imageURL !== "logo" && (
+            <img className="spotify-profileheader-picture" src={imageURL}></img>
+          )}
+        </div>
         <Link to={`/friendprofile/${username}`}>
-          <div className="search-view-profile-picture-wrapper">
-            {imageURL === "logo" && (
-              <img className="spotify-profileheader-picture" src={logo}></img>
-            )}
-            {imageURL !== "logo" && (
-              <img
-                className="spotify-profileheader-picture"
-                src={imageURL}
-              ></img>
-            )}
-          </div>
           <div className="profile-username-wrapper">
             <span className="profile-username">{username}</span>
           </div>

@@ -48,7 +48,6 @@ export default function Home({ username, page, token, profile, appProfile }) {
           )}
           {page === "friendprofile" && (
             <FriendProfile
-              // change props
               friendUsername={username}
               profile={profile}
               token={token}

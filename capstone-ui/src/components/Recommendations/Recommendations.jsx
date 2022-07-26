@@ -4,7 +4,7 @@ import axios from "axios";
 import { catchErrors } from "../../utils";
 import { getTopArtists, getGenres, getRecommendations } from "../../spotify";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
-import { getRecommendedUsers } from "../../recommendation";
+import { getRecommendedUsers } from "../../recommendationUtils";
 import ProfileHeader from "../ProfileHeader/ProfileHeader";
 
 export default function Recommendations({
@@ -30,7 +30,9 @@ export default function Recommendations({
               setShouldUpdateFeed={setShouldUpdateFeed}
             ></ProfileHeader>
           ))}
-        {recs && recs.length === 0 && <span>No recommended users.</span>}
+        {recs != null && recs.length === 0 && (
+          <span>No recommended users.</span>
+        )}
       </div>
     </div>
   );
