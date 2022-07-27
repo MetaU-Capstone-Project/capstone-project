@@ -63,6 +63,7 @@ export default function ProfileHeader({
     }
   }, []);
 
+  // follows user on success and displays message, and rerenders the parent component if successful
   const followUser = async (e) => {
     let followUsername =
       e.target.parentNode.childNodes[1].childNodes[0].childNodes[0].innerText;
@@ -90,6 +91,7 @@ export default function ProfileHeader({
     }
   };
 
+  // unfollows user on success and displays message, and rerenders the parent component if successful
   const unfollowUser = async (e) => {
     let unfollowUsername =
       e.target.parentNode.childNodes[1].childNodes[0].childNodes[0].innerText;
