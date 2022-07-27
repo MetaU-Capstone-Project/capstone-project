@@ -8,6 +8,7 @@ import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 import GroupCard from "../GroupCard/GroupCard";
 import Members from "../Members/Members";
 import GroupInformation from "../GroupInformation/GroupInformation";
+import GroupFeed from "../GroupFeed/GroupFeed";
 
 export default function Group({
   username,
@@ -49,6 +50,16 @@ export default function Group({
       {tab == "feed" && (
         <div className="timeline-wrapper">
           <span className="timeline-heading">Feed</span>
+          {groupInfo ? (
+            <GroupFeed
+              username={username}
+              token={token}
+              profile={profile}
+              groupName={groupInfo.name}
+            ></GroupFeed>
+          ) : (
+            <LoadingSpinner></LoadingSpinner>
+          )}
         </div>
       )}
       {tab == "members" && (
@@ -60,6 +71,7 @@ export default function Group({
               token={token}
               profile={profile}
               groupName={groupInfo.name}
+              currentUserUsername={username}
             ></Members>
           ) : (
             <LoadingSpinner></LoadingSpinner>

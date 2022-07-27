@@ -19,6 +19,8 @@ export default function GroupInformation({
   const [selectedGenres, setSelectedGenres] = useState(null);
   const [description, setDescription] = useState(null);
   const [isAdmin, setIsAdmin] = useState(null);
+  const [memberOptions, setMemberOptions] = useState(null);
+  const [selectedMembers, setSelectedMembers] = useState([]);
 
   React.useEffect(() => {
     const fetchData = async () => {
@@ -44,6 +46,15 @@ export default function GroupInformation({
         postRequest
       );
       setIsAdmin(membershipStatus.data.isAdmin);
+
+      const memberResponse = await axios.get(
+        `http://localhost:3001/user/followers/${username}`
+      );
+
+      let memberResults = memberResponse.data.map((element) => {
+        return { value: element, label: element };
+      });
+      setMemberOptions(memberResults);
     };
 
     catchErrors(fetchData());
@@ -72,6 +83,23 @@ export default function GroupInformation({
       postRequest
     );
     setDescription(data);
+  }
+
+  async function handleMemberChange(e) {
+    setSelectedMembers(e);
+  }
+
+  async function inviteMembers() {
+    for (let i = 0; i < selectedMembers.length; i++) {
+      let inviteRequest = {
+        username: selectedMembers[i].value,
+        groupName: groupName,
+      };
+      axios.post("http://localhost:3001/user/invite", inviteRequest).then();
+    }
+
+    alert(`Sent invites for ${groupName}!`);
+    setSelectedMembers([]);
   }
 
   return (
@@ -118,6 +146,22 @@ export default function GroupInformation({
                 />
               )}
             </div>
+            {isAdmin === true && (
+              <div className="groupinformation-wrapper">
+                <span className="preference-heading">Invite</span>
+                <Select
+                  className="preference-select"
+                  closeMenuOnSelect={false}
+                  value={selectedMembers}
+                  isMulti
+                  options={memberOptions}
+                  onChange={handleMemberChange}
+                />
+                <button className="invite-group-button" onClick={inviteMembers}>
+                  Invite
+                </button>
+              </div>
+            )}
             <div className="groupinformation-wrapper">
               <span className="preference-heading">Membership Status:</span>
               <span>{isAdmin ? "Admin" : "Member"}</span>

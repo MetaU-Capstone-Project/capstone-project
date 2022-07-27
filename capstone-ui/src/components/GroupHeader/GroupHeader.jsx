@@ -11,6 +11,23 @@ export default function GroupHeader({
   setShouldUpdateGroupPage,
 }) {
   const [isMember, setIsMember] = useState(false);
+  const [members, setMembers] = useState([]);
+
+  React.useEffect(() => {
+    async function getMembers() {
+      const response = await axios.get(
+        `http://localhost:3001/user/members/${group.groupName}`
+      );
+      setMembers(response.data);
+
+      if (response.data.some((member) => member.username === username)) {
+        setIsMember(true);
+      } else {
+        setIsMember(false);
+      }
+    }
+    getMembers();
+  }, []);
 
   // Adds user to group upon success and displays message
   const joinGroup = async (e) => {

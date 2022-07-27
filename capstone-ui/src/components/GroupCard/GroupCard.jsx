@@ -30,6 +30,7 @@ export default function GroupCard({
       })
       .then(function (response) {
         alert(`You have left ${group.name} succesfully!`);
+        setTab("feed");
       });
   };
 

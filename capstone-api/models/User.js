@@ -50,8 +50,6 @@ class User {
     } catch (error) {
       return `Error with ${username} saving preferences`;
     }
-
-    return true;
   }
 
   static async createPost(username, trackId) {
@@ -229,7 +227,6 @@ class User {
     let uniqueNameQuery = new Parse.Query("Group");
     uniqueNameQuery.equalTo("name", groupName);
     let uniqueNameResult = await uniqueNameQuery.find({});
-
     if (uniqueNameResult.length !== 0) {
       return "Group exists with that name already!";
     }
