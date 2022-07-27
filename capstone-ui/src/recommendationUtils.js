@@ -130,7 +130,7 @@ export const getRecommendedUsers = async (username, topGenres, topArtists) => {
       friendRecentSearches.data.includes(searchValue)
     );
 
-    score += sharedRecentSearches.length;
+    score += sharedRecentSearches.length * 100;
     userResult.push({ username: friendUsername, score: score });
   }
   rankUsers(userResult);
