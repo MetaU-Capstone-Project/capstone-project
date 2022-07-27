@@ -359,6 +359,26 @@ class User {
     await result.save();
     return result.get("description");
   }
+
+  static async createGroupPost(username, trackId, groupName) {
+    let Post = new Parse.Object("Post");
+    Post.set("username", username);
+    Post.set("trackId", trackId);
+    Post.set("groupName", groupName);
+    try {
+      await Post.save();
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
+
+  static async getGroupFeed(groupName) {
+    const query = new Parse.Query("Post");
+    query.equalTo("groupName", groupName);
+    query.descending("createdAt");
+    return await query.find();
+  }
 }
 
 module.exports = User;
