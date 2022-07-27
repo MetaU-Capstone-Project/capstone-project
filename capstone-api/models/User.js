@@ -114,7 +114,7 @@ class User {
     let followers = await this.getFollowers(username);
     let result = [];
     for (let i = 0; i < followers.length; i++) {
-      let userPosts = await this.timeline(followers[i]);
+      let userPosts = await this.getTimeline(followers[i]);
       result = result.concat(userPosts);
     }
     result.sort(function (a, b) {
@@ -229,8 +229,7 @@ class User {
     let uniqueNameQuery = new Parse.Query("Group");
     uniqueNameQuery.equalTo("name", groupName);
     let uniqueNameResult = await uniqueNameQuery.find({});
-    console.log("unique name result");
-    console.log(uniqueNameResult);
+
     if (uniqueNameResult.length !== 0) {
       return "Group exists with that name already!";
     }

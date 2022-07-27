@@ -4,7 +4,11 @@ import "./GroupInbox.css";
 import axios from "axios";
 import { catchErrors } from "../../utils";
 
-export default function GroupInbox({ username }) {
+export default function GroupInbox({
+  username,
+  myGroups,
+  setShouldUpdateGroupPage,
+}) {
   const [inbox, setInbox] = React.useState([]);
   const [shouldUpdateInbox, setShouldUpdateInbox] = React.useState(false);
 

@@ -5,7 +5,7 @@ import axios from "axios";
 import { catchErrors } from "../../utils";
 import { getTopArtists, getGenres, getRecommendations } from "../../spotify";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
-import { getRecommendedUsers } from "../../recommendation";
+import { getRecommendedUsers } from "../../recommendationUtils";
 import Recommendations from "../Recommendations/Recommendations";
 
 export default function GroupInformation({
