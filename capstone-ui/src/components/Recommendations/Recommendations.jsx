@@ -13,9 +13,16 @@ export default function Recommendations({
   profile,
   recs,
   setShouldUpdateFeed,
+  isFeedView,
 }) {
   return (
-    <div className="recommendations-component">
+    <div
+      className={
+        isFeedView
+          ? "feed-view-recommendations-component"
+          : "recommendations-component"
+      }
+    >
       <div className="recommendations-wrapper">
         {recs != null && recs.length === 0 && (
           <span>No recommended users.</span>

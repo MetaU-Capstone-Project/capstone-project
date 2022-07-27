@@ -33,6 +33,7 @@ class User {
     user.set("appPassword", password);
     user.set("spotifyURL", spotifyURL);
     user.set("imageURL", imageURL);
+    user.set("recentSearches", []);
 
     let userPreferences = new Parse.Object("Preferences");
     userPreferences.set("topGenres", []);
@@ -307,6 +308,55 @@ class User {
     const query = new Parse.Query("Invite");
     query.equalTo("username", username).descending("createdAt");
     return await query.find();
+  }
+
+  static async getRecentSearches(username) {
+    const query = new Parse.Query("User");
+    query.equalTo("username", username);
+    return (await query.first({})).get("recentSearches");
+  }
+
+  static async addRecentSearch(username, searchValue) {
+    const query = new Parse.Query("User");
+    query.equalTo("username", username);
+    const user = await query.first({});
+
+    // logic to remove oldest search from queue - have to specifically remove the first element to get the first element to delete
+    let oldestSearch = "";
+    if (user.get("recentSearches").length >= 10) {
+      oldestSearch = user.get("recentSearches")[0];
+      user.remove("recentSearches", oldestSearch);
+    }
+
+    try {
+      await user.save();
+    } catch (error) {
+      return `Error with ${username} deleting oldest search value ${oldestSearch}`;
+    }
+
+    // adding newest search to recent searches - needs a separate save after each operation to the array
+    user.addUnique("recentSearches", searchValue);
+
+    try {
+      await user.save();
+      return true;
+    } catch (error) {
+      return `Error with ${username} saving recent search for ${searchValue}`;
+    }
+  }
+
+  static async clearRecentSearches(username) {
+    const query = new Parse.Query("User");
+    query.equalTo("username", username);
+    const user = await query.first({});
+    user.set("recentSearches", []);
+
+    try {
+      await user.save();
+      return true;
+    } catch (error) {
+      return `Error with ${username} clearing recent searches ${searchValue}`;
+    }
   }
 }
 

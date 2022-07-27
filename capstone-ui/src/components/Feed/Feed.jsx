@@ -54,6 +54,7 @@ export default function Feed({ username, profile, token }) {
                   recs={recommendations}
                   username={username}
                   setShouldUpdateFeed={setShouldUpdateFeed}
+                  isFeedView={true}
                 ></Recommendations>
               </div>
             )}

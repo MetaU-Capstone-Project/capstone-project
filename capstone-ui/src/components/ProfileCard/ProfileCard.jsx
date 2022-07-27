@@ -3,7 +3,7 @@ import ProfileHeader from "../ProfileHeader/ProfileHeader";
 import "./ProfileCard.css";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { logout } from "../../spotify";
+import { logout, logoutWithUsername } from "../../spotify";
 import { formatDate } from "../../utils";
 
 import logo from "../../logo.svg";
@@ -28,6 +28,7 @@ export default function ProfileCard({
       .get(`http://localhost:3001/user/delete/${username}`)
       .then(function (response) {
         logout();
+
         window.location.href = "http://localhost:3000";
       });
   };
@@ -97,7 +98,10 @@ export default function ProfileCard({
               <button className="delete-account-button" onClick={confirmDelete}>
                 Delete Account
               </button>
-              <button className="logout-account-button" onClick={logout}>
+              <button
+                className="logout-account-button"
+                onClick={() => logoutWithUsername(username)}
+              >
                 Logout
               </button>
             </div>

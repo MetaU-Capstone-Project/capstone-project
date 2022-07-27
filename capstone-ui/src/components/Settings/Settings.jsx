@@ -139,7 +139,10 @@ export default function Settings({ username, token, profile, isRegisterView }) {
           {!isFetchingRecs && recommendations && (
             <>
               <span className="recommendations-heading">Recommendations</span>
-              <Recommendations recs={recommendations}></Recommendations>
+              <Recommendations
+                recs={recommendations}
+                isFeedView={false}
+              ></Recommendations>
             </>
           )}
         </>
