@@ -30,6 +30,7 @@ export default function Search({ username, token }) {
   function handleTabChange(e) {
     setSearchInput("");
     setSongResults([]);
+    setProfileResults([]);
     setTab(e.target.id);
     e.target.className = "is-active-search";
   }
