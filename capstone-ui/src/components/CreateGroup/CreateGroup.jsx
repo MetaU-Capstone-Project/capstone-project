@@ -1,26 +1,12 @@
 import React, { useState } from "react";
-import ProfileHeader from "../ProfileHeader/ProfileHeader";
 import "./CreateGroup.css";
-import { Link } from "react-router-dom";
 import axios from "axios";
-import { logout, getGenres } from "../../spotify";
-import { formatDate } from "../../utils";
+import { getGenres } from "../../spotify";
 import Switch from "react-switch";
 import Select from "react-select";
 import { catchErrors } from "../../utils";
 
-import logo from "../../logo.svg";
-
-export default function CreateGroup({
-  username,
-  token,
-  profile,
-  appProfile,
-  isPreferencesView,
-  tab,
-  setTab,
-  isFriendProfileView,
-}) {
+export default function CreateGroup({ username }) {
   const [groupName, setGroupName] = useState("");
   const [description, setDescription] = useState("");
   const [isPrivate, setIsPrivate] = useState(false);

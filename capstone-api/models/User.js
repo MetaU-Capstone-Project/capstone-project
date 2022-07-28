@@ -12,18 +12,30 @@ class User {
     this.super();
   }
 
+  /**
+   * Retrieve information about user that is currently logged in
+   */
   static getCurrentUser() {
     Parse.User.enableUnsafeCurrentUser();
     return Parse.User.current();
   }
 
-  static async logUserIn(usernameValue, passwordValue) {
+  /**
+   * Logs user in
+   * @param {string} username of user trying to log in
+   * @param {string} password of user trying to log in
+   */
+  static async logUserIn(username, password) {
     Parse.User.enableUnsafeCurrentUser();
-    return await Parse.User.logIn(usernameValue, passwordValue);
+    return await Parse.User.logIn(username, password);
   }
 
-  static async registerUser(userValue) {
-    let { username, password, email, spotifyURL, imageURL } = userValue;
+  /**
+   * Registers a new user
+   * @param {object} userInfo contains user's different fields
+   */
+  static async registerUser(userInfo) {
+    let { username, password, email, spotifyURL, imageURL } = userInfo;
     let user = new Parse.User();
 
     user.set("username", username);
@@ -48,12 +60,17 @@ class User {
     try {
       await userPreferences.save();
     } catch (error) {
-      return `Error with ${username} saving preferences`;
+      return `Error with ${username} saving preferences while registering`;
     }
 
     return true;
   }
 
+  /**
+   * Creates general post (not associated with a group)
+   * @param {string} username of user trying to post
+   * @param {string} trackId id of song to be posted
+   */
   static async createPost(username, trackId) {
     let Post = new Parse.Object("Post");
     Post.set("username", username);
@@ -66,11 +83,18 @@ class User {
     }
   }
 
+  /**
+   * Retrieves posts from all users
+   */
   static async getPosts() {
     const query = new Parse.Query("Post");
     return await query.find();
   }
 
+  /**
+   * Gets all posts from specified user
+   * @param {string} username of user whose posts are being requested
+   */
   static async getTimeline(username) {
     const query = new Parse.Query("Post");
     query.equalTo("username", username);
@@ -78,6 +102,11 @@ class User {
     return await query.find();
   }
 
+  /**
+   * Gets an individual from specified user
+   * @param {string} username of user who created the specified post
+   * @param {string} trackId id of song associated with requested post
+   */
   static async getPost(username, trackId) {
     const query = new Parse.Query("Post");
     query.equalTo("username", username);
@@ -85,31 +114,50 @@ class User {
     return await query.first();
   }
 
+  /**
+   * Gets all app users
+   */
   static async getUsers() {
     const query = new Parse.Query("User");
     return await query.find();
   }
 
-  static async followUser(currUsername, followUsername) {
+  /**
+   * Appends friend to current user's followers list
+   * @param {string} followUsername username of friend that current user wants to follow
+   */
+  static async followUser(followUsername) {
     let user = Parse.User.current();
     user.addUnique("followers", followUsername);
     await user.save();
     return true;
   }
 
-  static async unfollowUser(currUsername, unfollowUsername) {
+  /**
+   * Removes friend from current user's followers list
+   * @param {string} unfollowUsername username of friend that current user wants to unfollow
+   */
+  static async unfollowUser(unfollowUsername) {
     let user = Parse.User.current();
     user.remove("followers", unfollowUsername);
     await user.save();
     return true;
   }
 
+  /**
+   * Gets all followers of a specified user
+   * @param {string} username of user specified
+   */
   static async getFollowers(username) {
     const query = new Parse.Query("User");
     query.equalTo("username", username);
     return (await query.first({})).get("followers");
   }
 
+  /**
+   * Gets all posts of specified user in descending chronological order
+   * @param {string} username of user specified
+   */
   static async getFeed(username) {
     let followers = await this.getFollowers(username);
     let result = [];
@@ -126,13 +174,16 @@ class User {
       if (timeA > timeB) {
         return -1;
       }
-
       return 0;
     });
 
     return result;
   }
 
+  /**
+   * Deletes all information associated with specified user
+   * @param {string} username of user specified
+   */
   static async deleteUser(username) {
     const userQuery = new Parse.Query("User");
     userQuery.equalTo("username", username);
@@ -151,72 +202,102 @@ class User {
     return true;
   }
 
+  /**
+   * Retrieves the app account information of user specified
+   * @param {string} username of user specified
+   */
   static async getAppProfile(username) {
     const query = new Parse.Query("User");
     query.equalTo("username", username);
     return await query.first({});
   }
 
+  /**
+   * Returns if specified email is already registered with an app account
+   * @param {string} email of user specified
+   */
   static async getUserExists(email) {
     let appUsers = await this.getUsers();
-    let found = false;
     for (let i = 0; i < appUsers.length; i++) {
       if (appUsers[i].get("email") == email) {
-        found = true;
-        break;
+        return true;
       }
     }
-    return found;
+    return false;
   }
 
-  static async getProfileBySpotifyUsername(spotifyUsername) {
-    const query = new Parse.Query("User");
-    query.equalTo("spotifyUsername", spotifyUsername);
-    return await query.first({});
-  }
-
+  /**
+   * Gets profile of user associated with specified email
+   * @param {string} email of user specified
+   */
   static async getProfileByEmail(email) {
     const query = new Parse.Query("User");
     query.equalTo("email", email);
     return await query.first({});
   }
 
+  /**
+   * Gets password of user associated with specified username
+   * @param {string} username of user specified
+   */
   static async getPassword(username) {
     const query = new Parse.Query("User");
     query.equalTo("username", username);
     return (await query.first({})).get("appPassword");
   }
 
+  /**
+   * Sets user's genre preferences used for recommending users
+   * @param {string} username of user specified
+   * @param {Arrray<string>} genres that user prefers
+   */
   static async setTopGenres(username, genres) {
     const query = new Parse.Query("Preferences");
     query.equalTo("username", username);
-    let result = await query.first({});
-    result.set("topGenres", genres);
-    await result.save();
-    return result.get("topGenres");
+    let user = await query.first({});
+    user.set("topGenres", genres);
+    await user.save();
+    return user.get("topGenres");
   }
 
+  /**
+   * Sets user's artist preferences used for recommending users
+   * @param {string} username of user specified
+   * @param {Arrray<string>} artists that user prefers
+   */
   static async setTopArtists(username, artists) {
     const query = new Parse.Query("Preferences");
     query.equalTo("username", username);
-    let result = await query.first({});
-    result.set("topArtists", artists);
-    await result.save();
-    return result.get("topArtists");
+    let user = await query.first({});
+    user.set("topArtists", artists);
+    await user.save();
+    return user.get("topArtists");
   }
 
+  /**
+   * Retrieves user's genre preferences used for recommending users
+   * @param {string} username of user specified
+   */
   static async getTopGenres(username) {
     const query = new Parse.Query("Preferences");
     query.equalTo("username", username);
     return (await query.first({})).get("topGenres");
   }
 
+  /**
+   * Retrieves user's artist preferences used for recommending users
+   * @param {string} username of user specified
+   */
   static async getTopArtists(username) {
     const query = new Parse.Query("Preferences");
     query.equalTo("username", username);
     return (await query.first({})).get("topArtists");
   }
 
+  /**
+   * Creates a group
+   * @param {object} groupInfo contains group information to be registered
+   */
   static async createGroup(groupInfo) {
     let { username, groupName, description, isPrivate, genres, isAdmin } =
       groupInfo;
@@ -247,18 +328,31 @@ class User {
     return true;
   }
 
+  /**
+   * Retrieves a specified group's information
+   * @param {string} groupName name of group requested
+   */
   static async getGroup(groupName) {
     const query = new Parse.Query("Group");
     query.equalTo("name", groupName);
     return await query.first({});
   }
 
+  /**
+   * Gets all the groups that a specified user is a member of in descending chronological order
+   * @param {string} username of specified user
+   */
   static async getGroups(username) {
     const query = new Parse.Query("UserGroup");
     query.equalTo("username", username).descending("createdAt");
     return await query.find();
   }
 
+  /**
+   * Adds a user to a specified group as a member
+   * @param {string} username of specified user
+   * @param {string} groupName name of specified group
+   */
   static async joinGroup(username, groupName) {
     let relationship = new Parse.Object("UserGroup");
     relationship.set("username", username);
@@ -282,6 +376,11 @@ class User {
     }
   }
 
+  /**
+   * Removes a user from a specified group
+   * @param {string} username of specified user
+   * @param {string} groupName name of specified group
+   */
   static async leaveGroup(username, groupName) {
     let query = new Parse.Query("UserGroup");
     query.equalTo("username", username);
@@ -290,6 +389,11 @@ class User {
     result.destroy({});
   }
 
+  /**
+   * Sends a user an invite to join a specified group
+   * @param {string} username of specified user
+   * @param {string} groupName name of specified group
+   */
   static async sendInvite(username, groupName) {
     let invite = new Parse.Object("Invite");
     invite.set("username", username);
@@ -303,6 +407,10 @@ class User {
     }
   }
 
+  /**
+   * Retrieves all the invites of a specified user
+   * @param {string} username of specified user
+   */
   static async getInbox(username) {
     const query = new Parse.Query("Invite");
     query.equalTo("username", username).descending("createdAt");

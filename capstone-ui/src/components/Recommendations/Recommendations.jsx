@@ -19,13 +19,13 @@ export default function Recommendations({
       <div className="recommendations-wrapper">
         {recs &&
           recs.length > 0 &&
-          recs.map((element) => (
+          recs.map((rec) => (
             <ProfileHeader
-              profile={element.username}
-              key={element.username}
+              profile={rec.username}
+              key={rec.username}
               token={token}
               isFollowersView={true}
-              username={element.username}
+              username={rec.username}
               currentUserUsername={username}
               setShouldUpdateFeed={setShouldUpdateFeed}
             ></ProfileHeader>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import FeedPost from "../FeedPost/FeedPost";
 import "./FeedResults.css";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";

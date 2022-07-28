@@ -71,7 +71,6 @@ export default function ProfileHeader({
     e.preventDefault();
     axios
       .post("http://localhost:3001/user/followUser", {
-        currUsername: username,
         followUsername: followUsername,
       })
       .then(function (response) {
@@ -99,7 +98,6 @@ export default function ProfileHeader({
     e.preventDefault();
     axios
       .post("http://localhost:3001/user/unfollowUser", {
-        currUsername: username,
         unfollowUsername: unfollowUsername,
       })
       .then(function (response) {

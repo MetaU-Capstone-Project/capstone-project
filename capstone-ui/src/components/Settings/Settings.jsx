@@ -81,9 +81,6 @@ export default function Settings({ username, token, profile, isRegisterView }) {
     if (genresResult === null) {
       genresResult = [];
     }
-    let topArtists = artistsResult.join(",");
-    let topGenres = genresResult.join(",");
-    postedSongs = postedSongs.map((element) => element.trackId);
 
     let recs = await getRecommendedUsers(
       username,
@@ -133,7 +130,7 @@ export default function Settings({ username, token, profile, isRegisterView }) {
               </button>
             </div>
           )}
-          {recommendations && (
+          {recommendations != null && (
             <span className="recommendations-heading">Recommendations</span>
           )}
           <Recommendations recs={recommendations}></Recommendations>

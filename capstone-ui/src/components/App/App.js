@@ -1,23 +1,12 @@
-import logo from "../../logo.svg";
-import Login from "../Login/Login";
-import Register from "../Register/Register";
 import Home from "../Home/Home";
 import React, { useState, useEffect } from "react";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import { Navigate } from "react-router-dom";
-import {
-  accessToken,
-  getCurrentUserProfile,
-  logout,
-  deleteTokens,
-} from "../../spotify";
-import { catchErrors } from "../../utils";
 import Authorization from "../Authorization/Authorization";
 import Main from "../Main/Main";
 import RegistrationPreferences from "../RegistrationPreferences/RegistrationPreferences";
 import Error from "../Error/Error";
 
-import axios from "axios";
 import "./App.css";
 
 const Parse = require("parse");

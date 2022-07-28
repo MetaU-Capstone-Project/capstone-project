@@ -4,12 +4,7 @@ import "./Followers.css";
 import axios from "axios";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 
-export default function Followers({
-  username,
-  token,
-  profile,
-  currentUserUsername,
-}) {
+export default function Followers({ username, token, currentUserUsername }) {
   const [followers, setFollowers] = useState(null);
   const [shouldUpdate, setShouldUpdate] = useState(false);
 
