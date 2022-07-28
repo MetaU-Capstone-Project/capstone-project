@@ -36,6 +36,8 @@ export default function FeedPost({ username, token, post }) {
               token={token}
               isFeedView={true}
               isSearchView={false}
+              handleMouseOut={() => {}}
+              handleMouseOver={() => {}}
             ></ProfileHeader>
             <span className="timeline-view-date">
               {formatDate(post.createdAt)}

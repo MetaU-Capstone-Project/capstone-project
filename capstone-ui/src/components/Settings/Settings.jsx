@@ -84,8 +84,6 @@ export default function Settings({ username, token, profile, isRegisterView }) {
     if (genresResult === null) {
       genresResult = [];
     }
-    let topArtists = artistsResult.join(",");
-    let topGenres = genresResult.join(",");
 
     let recs = await getRecommendedUsers(username, genresResult, artistsResult);
     setRecommendations(recs);
@@ -136,7 +134,7 @@ export default function Settings({ username, token, profile, isRegisterView }) {
               {<LoadingSpinner></LoadingSpinner>}
             </div>
           )}
-          {!isFetchingRecs && recommendations && (
+          {!isFetchingRecs && recommendations != null && (
             <>
               <span className="recommendations-heading">Recommendations</span>
               <Recommendations recs={recommendations}></Recommendations>

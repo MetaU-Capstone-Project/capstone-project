@@ -13,6 +13,8 @@ export default function Recommendations({
   profile,
   recs,
   setShouldUpdateFeed,
+  handleMouseOut,
+  handleMouseOver,
 }) {
   return (
     <div className="recommendations-component">
@@ -22,15 +24,17 @@ export default function Recommendations({
         )}
         {recs &&
           recs.length > 0 &&
-          recs.map((element) => (
+          recs.map((rec) => (
             <ProfileHeader
-              profile={element.username}
-              key={element.username}
+              profile={rec.username}
+              key={rec.username}
               token={token}
               isFollowersView={true}
-              username={element.username}
+              username={rec.username}
               currentUserUsername={username}
               setShouldUpdateFeed={setShouldUpdateFeed}
+              handleMouseOut={handleMouseOut}
+              handleMouseOver={handleMouseOver}
             ></ProfileHeader>
           ))}
       </div>

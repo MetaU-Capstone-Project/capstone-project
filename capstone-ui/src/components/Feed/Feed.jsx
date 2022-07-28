@@ -4,13 +4,31 @@ import "./Feed.css";
 import axios from "axios";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 import Recommendations from "../Recommendations/Recommendations";
-import { catchErrors } from "../../utils";
+import { catchErrors, showPopup, hidePopup } from "../../utils";
 import { getRecommendedUsers } from "../../recommendationUtils";
+import ProfileDetails from "../ProfileDetails/ProfileDetails";
 
 export default function Feed({ username, profile, token }) {
   const [feed, setFeed] = useState(null);
   const [recommendations, setRecommendations] = useState(null);
   const [shouldUpdateFeed, setShouldUpdateFeed] = useState(false);
+  const [isHovering, setIsHovering] = useState(false);
+  const [hoverUsername, setHoverUsername] = useState(null);
+  const [shouldUpdateProfileDetails, setShouldUpdateProfileDetails] =
+    useState(false);
+
+  const handleMouseOver = (username) => {
+    setIsHovering(true);
+    showPopup();
+    setHoverUsername(username);
+    setShouldUpdateProfileDetails(true);
+  };
+
+  const handleMouseOut = () => {
+    setIsHovering(false);
+    hidePopup();
+    setShouldUpdateProfileDetails(false);
+  };
 
   React.useEffect(() => {
     const fetchData = async () => {
@@ -42,6 +60,16 @@ export default function Feed({ username, profile, token }) {
     <>
       {feed ? (
         <>
+          <div id="overlay">
+            <div className="profile-details-wrapper">
+              {hoverUsername && (
+                <ProfileDetails
+                  username={hoverUsername}
+                  setShouldUpdateProfileDetails={shouldUpdateProfileDetails}
+                ></ProfileDetails>
+              )}
+            </div>
+          </div>
           <div className="feed-page">
             {recommendations && (
               <div className="recommendation-component-wrapper">
@@ -54,6 +82,8 @@ export default function Feed({ username, profile, token }) {
                   recs={recommendations}
                   username={username}
                   setShouldUpdateFeed={setShouldUpdateFeed}
+                  handleMouseOut={handleMouseOut}
+                  handleMouseOver={handleMouseOver}
                 ></Recommendations>
               </div>
             )}

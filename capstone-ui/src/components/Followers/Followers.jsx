@@ -9,6 +9,8 @@ export default function Followers({
   token,
   profile,
   currentUserUsername,
+  handleMouseOut,
+  handleMouseOver,
 }) {
   const [followers, setFollowers] = useState(null);
   const [shouldUpdate, setShouldUpdate] = useState(false);
@@ -37,6 +39,8 @@ export default function Followers({
             username={username}
             currentUserUsername={currentUserUsername}
             setShouldUpdate={setShouldUpdate}
+            handleMouseOut={handleMouseOut}
+            handleMouseOver={handleMouseOver}
           />
         ))
       ) : (
