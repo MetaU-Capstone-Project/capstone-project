@@ -200,6 +200,21 @@ router.post("/groupdescription", async (req, res) => {
   res.send(await User.setGroupDescription(groupName, description));
 });
 
+router.get("/groupfeed/:groupname", async (req, res) => {
+  const groupName = req.params.groupname;
+  res.send(await User.getGroupFeed(groupName));
+});
+
+router.post("/grouppost", async (req, res) => {
+  const { username, trackId, groupName } = req.body;
+  const result = await User.createGroupPost(username, trackId, groupName);
+  if (result === true) {
+    res.send(201);
+  } else {
+    res.send(400).send({ errorMessage: result });
+  }
+});
+
 router.get("/", (req, res) => {
   try {
     let currUser = User.getCurrentUser();
