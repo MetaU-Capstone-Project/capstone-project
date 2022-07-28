@@ -8,6 +8,7 @@ function rankUsers(recommendedUsers) {
   });
 }
 
+// calculates the similarity score between two users and updates the score determined previously by genre/artist preferences
 function calculateAudioFeaturesSimilarity(
   username,
   currUserAudioAverage,
@@ -27,6 +28,7 @@ function calculateAudioFeaturesSimilarity(
   return userResult;
 }
 
+// computes the average of all audio features given song IDs
 async function getAudioFeaturesAverage(songIds) {
   let audioFeaturesResponse = await axios.get(
     "https://api.spotify.com/v1/audio-features",
@@ -71,6 +73,7 @@ async function getAudioFeaturesAverage(songIds) {
   return avgAudioFeatures;
 }
 
+// returns the recommended users determined by shared artist/genree preferences, similar audio features in timeline songs, and similar recent searches
 export const getRecommendedUsers = async (username, topGenres, topArtists) => {
   let userRecentSearchesResponse = await axios.get(
     `http://localhost:3001/user/recentsearches/${username}`
@@ -107,7 +110,7 @@ export const getRecommendedUsers = async (username, topGenres, topArtists) => {
       `http://localhost:3001/user/recentsearches/${friendUsername}`
     );
 
-    // weight shared artist preferences more heavily than genres since more rare to like a specific artist
+    // weigh shared artist preferences more heavily than genres since more rare to like a specific artist
     for (let j = 0; j < friendArtists.data.length; j++) {
       let currArtist = friendArtists.data[j];
       let hasSameArtist = topArtists.some((e) => e.value === currArtist.value);

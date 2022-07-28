@@ -67,7 +67,9 @@ export default function Search({ username, token }) {
           },
         }
       )
-      .catch((error) => {});
+      .catch((error) => {
+        alert(`Error searching for ${trueSearchValue}.`);
+      });
 
     let newResults = data.tracks.items;
     let addedResults = oldSearchResults.concat(newResults);

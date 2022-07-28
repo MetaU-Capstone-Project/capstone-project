@@ -322,16 +322,15 @@ class User {
     const user = await query.first({});
 
     // logic to remove oldest search from queue - have to specifically remove the first element to get the first element to delete
-    let oldestSearch = "";
     if (user.get("recentSearches").length >= 10) {
-      oldestSearch = user.get("recentSearches")[0];
+      let oldestSearch = user.get("recentSearches")[0];
       user.remove("recentSearches", oldestSearch);
-    }
 
-    try {
-      await user.save();
-    } catch (error) {
-      return `Error with ${username} deleting oldest search value ${oldestSearch}`;
+      try {
+        await user.save();
+      } catch (error) {
+        return `Error with ${username} deleting oldest search value ${oldestSearch}`;
+      }
     }
 
     // adding newest search to recent searches - needs a separate save after each operation to the array
