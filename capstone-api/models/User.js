@@ -114,7 +114,7 @@ class User {
     let followers = await this.getFollowers(username);
     let result = [];
     for (let i = 0; i < followers.length; i++) {
-      let userPosts = await this.timeline(followers[i]);
+      let userPosts = await this.getTimeline(followers[i]);
       result = result.concat(userPosts);
     }
     result.sort(function (a, b) {

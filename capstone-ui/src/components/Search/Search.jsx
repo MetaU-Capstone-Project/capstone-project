@@ -4,6 +4,7 @@ import SearchResults from "../SearchResults/SearchResults";
 import ProfileDetails from "../ProfileDetails/ProfileDetails";
 
 import axios from "axios";
+import TrieSearch from "trie-search";
 
 import "./Search.css";
 
@@ -18,6 +19,20 @@ export default function Search({ username, token }) {
   const [hoverUsername, setHoverUsername] = useState(null);
   const [shouldUpdateProfileDetails, setShouldUpdateProfileDetails] =
     useState(false);
+  const [tab, setTab] = useState("search-songs");
+
+  React.useEffect(() => {
+    if (tab === "search-profiles") {
+      searchProfiles();
+    }
+  }, [searchInput]);
+
+  function handleTabChange(e) {
+    setSearchInput("");
+    setSongResults([]);
+    setTab(e.target.id);
+    e.target.className = "is-active-search";
+  }
 
   const handleMouseOver = (username) => {
     setIsHovering(true);
@@ -32,72 +47,71 @@ export default function Search({ username, token }) {
     setShouldUpdateProfileDetails(false);
   };
 
-  const searchSongs = async (e) => {
-    if (searchInput != "") {
-      let temp = searchInput;
-      if (searchInput === "") {
-        temp = searchInputValue;
-      }
-      setSearchInputValue(temp);
-
-      setProfileResults([]);
-
-      e.preventDefault();
-      if (!isSongResults) {
-        setOffset(0);
-      }
-
-      let oldResults = songResults;
-      const { data } = await axios
-        .get(
-          "https://api.spotify.com/v1/search",
-          {
-            params: {
-              q: temp,
-              type: "track",
-              include_external: "audio",
-              limit: 5,
-              offset: offset,
-            },
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        )
-        .catch((error) => {});
-
-      let newResults = data.tracks.items;
-      let addedResults = oldResults.concat(newResults);
-      setSongResults(addedResults);
-      setIsSongResults(true);
-      setOffset((previousValue) => previousValue + 5);
-      setSearchInput("");
+  const searchSongs = async () => {
+    let trueSearchValue = searchInput;
+    let oldResults = songResults;
+    if (searchInput === "") {
+      trueSearchValue = searchInputValue;
+    } else {
+      oldResults = [];
     }
+
+    const { data } = await axios
+      .get(
+        "https://api.spotify.com/v1/search",
+        {
+          params: {
+            q: trueSearchValue,
+            type: "track",
+            include_external: "audio",
+            limit: 5,
+            offset: offset,
+          },
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .catch((error) => {});
+
+    let newResults = data.tracks.items;
+    let addedResults = oldResults.concat(newResults);
+    setSongResults(addedResults);
+    setIsSongResults(true);
+    setOffset((previousValue) => previousValue + 5);
+    setSearchInputValue(trueSearchValue);
+    setSearchInput("");
   };
 
   const searchProfiles = async (e) => {
+    let trueSearchValue = searchInput;
+    if (searchInput == "") {
+      trueSearchValue = searchInputValue;
+    } else {
+    }
+
     setSongResults([]);
-    e.preventDefault();
     if (!isSongResults) {
       setOffset(0);
     }
 
-    const results = await axios
-      .get("http://localhost:3001/user/users")
-      .catch((error) => {});
+    const trie = new TrieSearch();
+    const profiles = (
+      await axios
+        .get("http://localhost:3001/user/users")
+        .catch((error) => alert("Error searching for profiles."))
+    ).data.filter((profile) => profile.username !== username);
+    for (let i = 0; i < profiles.length; i++) {
+      trie.map(profiles[i].username, profiles[i].username);
+    }
 
-    let tempArray = results.data.filter(
-      (element) => element.username !== username
-    );
-
-    setProfileResults(tempArray);
+    setProfileResults(trie.search(trueSearchValue));
     setIsSongResults(false);
   };
 
   const loadMore = (e) => {
-    setOffset((previousValue) => previousValue + 5);
     if (isSongResults) {
       searchSongs(e);
     } else {
@@ -130,6 +144,8 @@ export default function Search({ username, token }) {
         setSearchInput={setSearchInput}
         searchProfiles={searchProfiles}
         searchInput={searchInput}
+        tab={tab}
+        handleTabChange={handleTabChange}
       ></SearchBar>
       <SearchResults
         username={username}
@@ -141,13 +157,14 @@ export default function Search({ username, token }) {
         handleMouseOut={handleMouseOut}
         handleMouseOver={handleMouseOver}
       ></SearchResults>
-      {(songResults.length != 0 || profileResults.length != 0) && (
-        <div className="load-more-button-wrapper">
-          <button className="load-more-button" onClick={loadMore}>
-            Load More
-          </button>
-        </div>
-      )}
+      {(songResults.length != 0 || profileResults.length != 0) &&
+        tab === "search-songs" && (
+          <div className="load-more-button-wrapper">
+            <button className="load-more-button" onClick={loadMore}>
+              Load More
+            </button>
+          </div>
+        )}
     </div>
   );
 }

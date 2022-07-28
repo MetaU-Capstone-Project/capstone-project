@@ -21,7 +21,9 @@ export default function Error() {
       </div>
       <div className="submission-wrapper">
         <span className="instruction">Error</span>
-        <button onClick={handleBackToAuthorization}>Back</button>
+        <button className="error-button" onClick={handleBackToAuthorization}>
+          Back
+        </button>
       </div>
     </div>
   );

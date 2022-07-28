@@ -5,19 +5,43 @@ export default function SearchBar({
   setSearchInput,
   searchProfiles,
   searchInput,
+  tab,
+  handleTabChange,
 }) {
+  if (document.getElementById("search-input")) {
+    document.getElementById("search-input").onkeydown = function (e) {
+      var keyCode = e.code || e.key;
+      if (keyCode == "Enter") {
+        searchSongs();
+      }
+    };
+  }
+
   return (
     <div className="searchbar-component">
       <input
+        id="search-input"
         className="search-input"
         onChange={(e) => setSearchInput(e.target.value)}
         value={searchInput}
       ></input>
-      <button className="search-button" onClick={searchSongs}>
-        Search Songs
+      <button
+        id="search-songs"
+        className={
+          tab === "search-songs" ? "is-active-search" : "search-button"
+        }
+        onClick={handleTabChange}
+      >
+        Songs
       </button>
-      <button className="search-button" onClick={searchProfiles}>
-        Search Profiles
+      <button
+        id="search-profiles"
+        className={
+          tab === "search-profiles" ? "is-active-search" : "search-button"
+        }
+        onClick={handleTabChange}
+      >
+        Profiles
       </button>
     </div>
   );
