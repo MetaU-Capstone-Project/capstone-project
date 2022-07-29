@@ -48,6 +48,7 @@ class User {
 
     try {
       await userPreferences.save();
+      return true;
     } catch (error) {
       return `Error with ${username} saving preferences`;
     }

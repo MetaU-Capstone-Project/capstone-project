@@ -37,7 +37,7 @@ export default function Groups({ username }) {
 
   return (
     <div className="groups-page">
-      {isFetching === false ? (
+      {!isFetching ? (
         <>
           <div className="group-inbox-wrapper">
             <GroupInbox
