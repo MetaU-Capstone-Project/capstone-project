@@ -150,7 +150,7 @@ function App() {
           />
           <Route
             exact
-            path="/group/:name"
+            path="/group/:groupname"
             element={
               <Home
                 page={"group"}

@@ -51,8 +51,6 @@ class User {
     } catch (error) {
       return `Error with ${username} saving preferences`;
     }
-
-    return true;
   }
 
   static async createPost(username, trackId) {
@@ -223,6 +221,21 @@ class User {
       groupInfo;
     let group = new Parse.Object("Group");
 
+    if (groupName === "") {
+      return "Name cannot be empty!";
+    }
+
+    let uniqueNameQuery = new Parse.Query("Group");
+    uniqueNameQuery.equalTo("name", groupName);
+    let uniqueNameResult = await uniqueNameQuery.find({});
+    if (uniqueNameResult.length !== 0) {
+      return "Group exists with that name already!";
+    }
+
+    if (description === "") {
+      return "Description cannot be empty!";
+    }
+
     group.set("name", groupName);
     group.set("description", description);
     group.set("isPrivate", isPrivate);
@@ -231,7 +244,7 @@ class User {
     let relationship = new Parse.Object("UserGroup");
     relationship.set("username", username);
     relationship.set("groupName", groupName);
-    relationship.set("isAdmin", isAdmin);
+    relationship.set("isAdmin", true);
 
     try {
       await group.save();
@@ -307,6 +320,64 @@ class User {
   static async getInbox(username) {
     const query = new Parse.Query("Invite");
     query.equalTo("username", username).descending("createdAt");
+    return await query.find();
+  }
+
+  static async getMembers(groupName) {
+    const query = new Parse.Query("UserGroup");
+    query.equalTo("groupName", groupName);
+    return (await query.find({})).map((element) => {
+      return {
+        username: element.get("username"),
+        isAdmin: element.get("isAdmin"),
+      };
+    });
+  }
+
+  static async setGroupGenres(groupName, genres) {
+    const query = new Parse.Query("Group");
+    query.equalTo("name", groupName);
+    let group = await query.first({});
+    group.set("genres", genres);
+    await group.save();
+    return group.get("genres");
+  }
+
+  static async getMembershipStatus(username, groupName) {
+    let usernameQuery = new Parse.Query("UserGroup");
+    usernameQuery.equalTo("username", username);
+    let groupNameQuery = new Parse.Query("UserGroup");
+    groupNameQuery.equalTo("groupName", groupName);
+    let compoundQuery = Parse.Query.and(usernameQuery, groupNameQuery);
+    return await compoundQuery.first({});
+  }
+
+  static async setGroupDescription(groupName, description) {
+    const query = new Parse.Query("Group");
+    query.equalTo("name", groupName);
+    let group = await query.first({});
+    group.set("description", description);
+    await group.save();
+    return group.get("description");
+  }
+
+  static async createGroupPost(username, trackId, groupName) {
+    let Post = new Parse.Object("Post");
+    Post.set("username", username);
+    Post.set("trackId", trackId);
+    Post.set("groupName", groupName);
+    try {
+      await Post.save();
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
+
+  static async getGroupFeed(groupName) {
+    const query = new Parse.Query("Post");
+    query.equalTo("groupName", groupName);
+    query.descending("createdAt");
     return await query.find();
   }
 

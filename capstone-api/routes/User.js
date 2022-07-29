@@ -35,21 +35,21 @@ router.post("/login", async (req, res) => {
 
 router.post("/register", async (req, res) => {
   const infoUser = req.body;
-  const registrationResult = await User.registerUser(req.body);
-  if (registrationResult === true) {
+  const isRegisterUserSuccessful = await User.registerUser(req.body);
+  if (isRegisterUserSuccessful === true) {
     res.status(201).send(infoUser);
   } else {
-    res.status(400).send({ errorMessage: registrationResult });
+    res.status(400).send({ errorMessage: isRegisterUserSuccessful });
   }
 });
 
 router.post("/post", async (req, res) => {
   const { username, trackId } = req.body;
-  const result = await User.createPost(username, trackId);
-  if (result === true) {
+  const isCreatePostSuccessful = await User.createPost(username, trackId);
+  if (isCreatePostSuccessful === true) {
     res.send(201);
   } else {
-    res.send(400).send({ errorMessage: result });
+    res.send(400).send({ errorMessage: isCreatePostSuccessful });
   }
 });
 
@@ -137,11 +137,11 @@ router.get("/topartists/:username", async (req, res) => {
 });
 
 router.post("/group", async (req, res) => {
-  const result = await User.createGroup(req.body);
-  if (result === true) {
+  const isCreateGroupSuccessful = await User.createGroup(req.body);
+  if (isCreateGroupSuccessful === true) {
     res.status(201).send(req.body);
   } else {
-    res.status(400).send({ errorMessage: result });
+    res.status(400).send({ errorMessage: isCreateGroupSuccessful });
   }
 });
 
@@ -150,8 +150,8 @@ router.get("/groups/:username", async (req, res) => {
   res.send(await User.getGroups(username));
 });
 
-router.get("/group/:name", async (req, res) => {
-  const groupName = req.params.name;
+router.get("/group/:groupname", async (req, res) => {
+  const groupName = req.params.groupname;
   res.send(await User.getGroup(groupName));
 });
 
@@ -167,17 +167,56 @@ router.post("/leavegroup", async (req, res) => {
 
 router.post("/invite", async (req, res) => {
   const { username, groupName } = req.body;
-  const result = await User.sendInvite(username, groupName);
-  if (result === true) {
+  const isSendInviteSuccessful = await User.sendInvite(username, groupName);
+  if (isSendInviteSuccessful === true) {
     res.status(201).send(req.body);
   } else {
-    res.status(400).send({ errorMessage: result });
+    res.status(400).send({ errorMessage: isSendInviteSuccessful });
   }
 });
 
 router.get("/inbox/:username", async (req, res) => {
   const username = req.params.username;
   res.send(await User.getInbox(username));
+});
+
+router.get("/members/:groupname", async (req, res) => {
+  const groupName = req.params.groupname;
+  res.send(await User.getMembers(groupName));
+});
+
+router.post("/groupgenres", async (req, res) => {
+  let { groupName, genres } = req.body;
+  res.send(await User.setGroupGenres(groupName, genres));
+});
+
+router.post("/membershipstatus", async (req, res) => {
+  let { username, groupName } = req.body;
+  res.send(await User.getMembershipStatus(username, groupName));
+});
+
+router.post("/groupdescription", async (req, res) => {
+  let { groupName, description } = req.body;
+  res.send(await User.setGroupDescription(groupName, description));
+});
+
+router.get("/groupfeed/:groupname", async (req, res) => {
+  const groupName = req.params.groupname;
+  res.send(await User.getGroupFeed(groupName));
+});
+
+router.post("/grouppost", async (req, res) => {
+  const { username, trackId, groupName } = req.body;
+  const isCreateGroupPostSuccessful = await User.createGroupPost(
+    username,
+    trackId,
+    groupName
+  );
+  if (isCreateGroupPostSuccessful === true) {
+    res.send(201);
+  } else {
+    res.send(400).send({ errorMessage: isCreateGroupPostSuccessful });
+  }
 });
 
 router.get("/recentsearches/:username", async (req, res) => {
@@ -205,7 +244,7 @@ router.get("/clearrecentsearches/:username", async (req, res) => {
 
 router.get("/", (req, res) => {
   try {
-    const currUser = User.getCurrentUser();
+    let currUser = User.getCurrentUser();
     res.send(currUser);
   } catch {
     res.status(400).send();
