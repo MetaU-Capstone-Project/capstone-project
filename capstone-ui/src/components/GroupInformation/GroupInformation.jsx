@@ -16,7 +16,7 @@ export default function GroupInformation({ username, groupName }) {
   const [genreOptions, setGenreOptions] = useState(null);
   const [selectedGenres, setSelectedGenres] = useState(null);
   const [description, setDescription] = useState(null);
-  const [isAdmin, setIsAdmin] = useState(null);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [memberOptions, setMemberOptions] = useState(null);
   const [selectedMembers, setSelectedMembers] = useState([]);
 
@@ -99,12 +99,12 @@ export default function GroupInformation({ username, groupName }) {
 
   return (
     <div className="groupinformation-component">
-      {description != null && genreOptions != null && isAdmin != undefined ? (
+      {description != null && genreOptions != null ? (
         <>
           <div className="preferences">
             <div className="groupinformation-wrapper">
               <span className="preference-heading">Description</span>
-              {isAdmin === true && (
+              {isAdmin && (
                 <textarea
                   className="description-input"
                   onChange={handleDescriptionChange}
@@ -112,7 +112,7 @@ export default function GroupInformation({ username, groupName }) {
                   placeholder="Description"
                 ></textarea>
               )}
-              {isAdmin === false && (
+              {!isAdmin && (
                 <textarea
                   className="description-input"
                   value={description}
@@ -123,7 +123,7 @@ export default function GroupInformation({ username, groupName }) {
             </div>
             <div className="groupinformation-wrapper">
               <span className="preference-heading">Genres</span>
-              {isAdmin === true && (
+              {isAdmin && (
                 <Select
                   className="preference-select"
                   closeMenuOnSelect={false}
@@ -133,7 +133,7 @@ export default function GroupInformation({ username, groupName }) {
                   onChange={handleGenreChange}
                 />
               )}
-              {isAdmin === false && (
+              {!isAdmin && (
                 <Select
                   className="preference-select"
                   closeMenuOnSelect={false}
@@ -141,7 +141,7 @@ export default function GroupInformation({ username, groupName }) {
                 />
               )}
             </div>
-            {isAdmin === true && (
+            {isAdmin && (
               <div className="groupinformation-wrapper">
                 <span className="preference-heading">Invite</span>
                 <Select

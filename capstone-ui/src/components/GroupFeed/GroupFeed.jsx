@@ -27,7 +27,7 @@ export default function GroupFeed({ profile, groupName }) {
 
   return (
     <div className="groupfeed-component">
-      {groupFeed ? (
+      {groupFeed != null ? (
         groupFeed.map((post) => (
           <PostHeader
             username={post.username}
