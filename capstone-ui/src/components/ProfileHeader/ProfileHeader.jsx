@@ -35,7 +35,7 @@ export default function ProfileHeader({
       setFollowers(response.data);
 
       let viewUsername = profile.username;
-      // TODO first condition is for search view, second condition is for profile view - refactor
+      // first condition is for search view, second condition is for profile view - refactor
       if (
         response.data.includes(viewUsername) ||
         response.data.includes(profile)

@@ -35,21 +35,21 @@ router.post("/login", async (req, res) => {
 
 router.post("/register", async (req, res) => {
   const infoUser = req.body;
-  const registrationResult = await User.registerUser(req.body);
-  if (registrationResult === true) {
+  const isRegisterUserSuccessful = await User.registerUser(req.body);
+  if (isRegisterUserSuccessful === true) {
     res.status(201).send(infoUser);
   } else {
-    res.status(400).send({ errorMessage: registrationResult });
+    res.status(400).send({ errorMessage: isRegisterUserSuccessful });
   }
 });
 
 router.post("/post", async (req, res) => {
   const { username, trackId } = req.body;
-  const result = await User.createPost(username, trackId);
-  if (result === true) {
+  const isCreatePostSuccessful = await User.createPost(username, trackId);
+  if (isCreatePostSuccessful === true) {
     res.send(201);
   } else {
-    res.send(400).send({ errorMessage: result });
+    res.send(400).send({ errorMessage: isCreatePostSuccessful });
   }
 });
 
@@ -137,11 +137,11 @@ router.get("/topartists/:username", async (req, res) => {
 });
 
 router.post("/group", async (req, res) => {
-  const result = await User.createGroup(req.body);
-  if (result === true) {
+  const isCreateGroupSuccessful = await User.createGroup(req.body);
+  if (isCreateGroupSuccessful === true) {
     res.status(201).send(req.body);
   } else {
-    res.status(400).send({ errorMessage: result });
+    res.status(400).send({ errorMessage: isCreateGroupSuccessful });
   }
 });
 
@@ -167,11 +167,11 @@ router.post("/leavegroup", async (req, res) => {
 
 router.post("/invite", async (req, res) => {
   const { username, groupName } = req.body;
-  const result = await User.sendInvite(username, groupName);
-  if (result === true) {
+  const isSendInviteSuccessful = await User.sendInvite(username, groupName);
+  if (isSendInviteSuccessful === true) {
     res.status(201).send(req.body);
   } else {
-    res.status(400).send({ errorMessage: result });
+    res.status(400).send({ errorMessage: isSendInviteSuccessful });
   }
 });
 
@@ -207,12 +207,39 @@ router.get("/groupfeed/:groupname", async (req, res) => {
 
 router.post("/grouppost", async (req, res) => {
   const { username, trackId, groupName } = req.body;
-  const result = await User.createGroupPost(username, trackId, groupName);
-  if (result === true) {
+  const isCreateGroupPostSuccessful = await User.createGroupPost(
+    username,
+    trackId,
+    groupName
+  );
+  if (isCreateGroupPostSuccessful === true) {
     res.send(201);
   } else {
-    res.send(400).send({ errorMessage: result });
+    res.send(400).send({ errorMessage: isCreateGroupPostSuccessful });
   }
+});
+
+router.get("/recentsearches/:username", async (req, res) => {
+  const username = req.params.username;
+  res.send(await User.getRecentSearches(username));
+});
+
+router.post("/addrecentsearch", async (req, res) => {
+  const { username, searchValue } = req.body;
+  const isAddRecentSearchSuccessful = await User.addRecentSearch(
+    username,
+    searchValue
+  );
+  if (isAddRecentSearchSuccessful === true) {
+    res.status(201).send(req.body);
+  } else {
+    res.status(400).send({ errorMessage: isAddRecentSearchSuccessful });
+  }
+});
+
+router.get("/clearrecentsearches/:username", async (req, res) => {
+  const username = req.params.username;
+  res.send(await User.clearRecentSearches(username));
 });
 
 router.get("/", (req, res) => {

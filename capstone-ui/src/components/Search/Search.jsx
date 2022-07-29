@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import SearchBar from "../SearchBar/SearchBar";
 import SearchResults from "../SearchResults/SearchResults";
 import ProfileDetails from "../ProfileDetails/ProfileDetails";
-
+import { showPopup, hidePopup } from "../../utils";
 import axios from "axios";
 
 import "./Search.css";
@@ -21,60 +21,64 @@ export default function Search({ username, token }) {
 
   const handleMouseOver = (username) => {
     setIsHovering(true);
-    on();
+    showPopup();
     setHoverUsername(username);
     setShouldUpdateProfileDetails(true);
   };
 
   const handleMouseOut = () => {
     setIsHovering(false);
-    off();
+    hidePopup();
     setShouldUpdateProfileDetails(false);
   };
 
   const searchSongs = async (e) => {
-    if (searchInput != "") {
-      let temp = searchInput;
-      if (searchInput === "") {
-        temp = searchInputValue;
-      }
-      setSearchInputValue(temp);
-
-      setProfileResults([]);
-
-      e.preventDefault();
-      if (!isSongResults) {
-        setOffset(0);
-      }
-
-      let oldResults = songResults;
-      const { data } = await axios
-        .get(
-          "https://api.spotify.com/v1/search",
-          {
-            params: {
-              q: temp,
-              type: "track",
-              include_external: "audio",
-              limit: 5,
-              offset: offset,
-            },
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        )
-        .catch((error) => {});
-
-      let newResults = data.tracks.items;
-      let addedResults = oldResults.concat(newResults);
-      setSongResults(addedResults);
-      setIsSongResults(true);
-      setOffset((previousValue) => previousValue + 5);
-      setSearchInput("");
+    let oldSearchResults;
+    let trueSearchValue = searchInput;
+    if (searchInput == "") {
+      trueSearchValue = searchInputValue;
+      oldSearchResults = songResults;
+    } else {
+      oldSearchResults = [];
     }
+
+    let postRequest = {
+      username: username,
+      searchValue: trueSearchValue,
+    };
+    const searchResponse = await axios
+      .post(`http://localhost:3001/user/addrecentsearch`, postRequest)
+      .catch((error) => alert(`Error! ${error.message}`));
+
+    const { data } = await axios
+      .get(
+        "https://api.spotify.com/v1/search",
+        {
+          params: {
+            q: trueSearchValue,
+            type: "track",
+            include_external: "audio",
+            limit: 5,
+            offset: offset,
+          },
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .catch((error) => {
+        alert(`Error searching for ${trueSearchValue}.`);
+      });
+
+    let newResults = data.tracks.items;
+    let addedResults = oldSearchResults.concat(newResults);
+    setSongResults(addedResults);
+    setIsSongResults(true);
+    setOffset((previousValue) => previousValue + 5);
+    setSearchInputValue(trueSearchValue);
+    setSearchInput("");
   };
 
   const searchProfiles = async (e) => {
@@ -97,7 +101,6 @@ export default function Search({ username, token }) {
   };
 
   const loadMore = (e) => {
-    setOffset((previousValue) => previousValue + 5);
     if (isSongResults) {
       searchSongs(e);
     } else {
@@ -105,19 +108,11 @@ export default function Search({ username, token }) {
     }
   };
 
-  function on() {
-    document.getElementById("overlay").style.display = "block";
-  }
-
-  function off() {
-    document.getElementById("overlay").style.display = "none";
-  }
-
   return (
     <div className="search-page">
       <div id="overlay">
         <div className="profile-details-wrapper">
-          {hoverUsername && (
+          {hoverUsername != null && (
             <ProfileDetails
               username={hoverUsername}
               setShouldUpdateProfileDetails={shouldUpdateProfileDetails}

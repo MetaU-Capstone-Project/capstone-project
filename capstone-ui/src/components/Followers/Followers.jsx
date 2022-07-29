@@ -9,6 +9,8 @@ export default function Followers({
   token,
   profile,
   currentUserUsername,
+  handleMouseOut,
+  handleMouseOver,
 }) {
   const [followers, setFollowers] = useState(null);
   const [shouldUpdate, setShouldUpdate] = useState(false);
@@ -28,15 +30,17 @@ export default function Followers({
   return (
     <div className="followers-component">
       {followers ? (
-        followers.map((element) => (
+        followers.map((follower) => (
           <ProfileHeader
-            profile={element}
-            key={element}
+            profile={follower}
+            key={follower}
             token={token}
             isFollowersView={true}
             username={username}
             currentUserUsername={currentUserUsername}
             setShouldUpdate={setShouldUpdate}
+            handleMouseOut={handleMouseOut}
+            handleMouseOver={handleMouseOver}
           />
         ))
       ) : (

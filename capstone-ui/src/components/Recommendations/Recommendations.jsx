@@ -13,26 +13,37 @@ export default function Recommendations({
   profile,
   recs,
   setShouldUpdateFeed,
+  handleMouseOut,
+  handleMouseOver,
+  isFeedView,
 }) {
   return (
-    <div className="recommendations-component">
+    <div
+      className={
+        isFeedView
+          ? "feed-view-recommendations-component"
+          : "recommendations-component"
+      }
+    >
       <div className="recommendations-wrapper">
-        {recs &&
+        {recs != null && recs.length === 0 && (
+          <span>No recommended users.</span>
+        )}
+        {recs != null &&
           recs.length > 0 &&
-          recs.map((element) => (
+          recs.map((rec) => (
             <ProfileHeader
-              profile={element.username}
-              key={element.username}
+              profile={rec.username}
+              key={rec.username}
               token={token}
               isFollowersView={true}
-              username={element.username}
+              username={rec.username}
               currentUserUsername={username}
               setShouldUpdateFeed={setShouldUpdateFeed}
+              handleMouseOut={handleMouseOut}
+              handleMouseOver={handleMouseOver}
             ></ProfileHeader>
           ))}
-        {recs != null && recs.length === 0 && (
-          <span className="no-recommendations-text">No recommended users.</span>
-        )}
       </div>
     </div>
   );
