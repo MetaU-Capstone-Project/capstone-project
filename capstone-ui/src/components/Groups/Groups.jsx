@@ -1,16 +1,18 @@
 import React, { useState } from "react";
 import "./Groups.css";
-import SearchBar from "../SearchBar/SearchBar";
-import GroupHeader from "../GroupHeader/GroupHeader";
 import CreateGroup from "../CreateGroup/CreateGroup";
 import GroupInbox from "../GroupInbox/GroupInbox";
 import axios from "axios";
 import { catchErrors } from "../../utils";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 
+/**
+ * Page for displaying current user's groups/invites and creating new groups
+ * @param {object} props Component props
+ * @param {string} props.username Username of current user
+ */
 export default function Groups({ username }) {
   const [shouldUpdateGroupPage, setShouldUpdateGroupPage] = useState(false);
-
   const [inbox, setInbox] = React.useState(null);
   const [myGroups, setMyGroups] = React.useState(null);
   const [isFetching, setIsFetching] = React.useState(false);
@@ -19,26 +21,23 @@ export default function Groups({ username }) {
     const fetchData = async () => {
       setIsFetching(true);
 
-      const { data } = await axios.get(
-        `http://localhost:3001/user/inbox/${username}`
-      );
-      setInbox(data);
+      // Populates inbox with current user's invites
+      setInbox(await axios.get(`http://localhost:3001/user/inbox/${username}`));
 
-      let myGroupsResponse = await axios.get(
-        `http://localhost:3001/user/groups/${username}`
+      // Retrieves all the groups current user is a member of
+      setMyGroups(
+        (await axios.get(`http://localhost:3001/user/groups/${username}`)).data
       );
-      setMyGroups(myGroupsResponse.data);
     };
 
     catchErrors(fetchData());
     setShouldUpdateGroupPage(false);
-
     setIsFetching(false);
   }, [shouldUpdateGroupPage]);
 
   return (
     <div className="groups-page">
-      {!isFetching ? (
+      {isFetching === false ? (
         <>
           <div className="group-inbox-wrapper">
             <GroupInbox

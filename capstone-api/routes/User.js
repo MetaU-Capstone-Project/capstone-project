@@ -150,8 +150,8 @@ router.get("/groups/:username", async (req, res) => {
   res.send(await User.getGroups(username));
 });
 
-router.get("/group/:name", async (req, res) => {
-  const groupName = req.params.name;
+router.get("/group/:groupname", async (req, res) => {
+  const groupName = req.params.groupname;
   res.send(await User.getGroup(groupName));
 });
 

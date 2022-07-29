@@ -9,7 +9,6 @@ import ProfileDetails from "../ProfileDetails/ProfileDetails";
 export default function ProfileHeader({
   username,
   profile,
-  token,
   isSearchView,
   isFollowersView,
   isFeedView,
@@ -17,7 +16,7 @@ export default function ProfileHeader({
   currentUserUsername,
   handleMouseOver,
   handleMouseOut,
-  setShouldUpdate,
+  setShouldUpdateProfileHeader,
   setShouldUpdateFeed,
 }) {
   const [isFollowing, setIsFollowing] = useState(false);
@@ -82,8 +81,11 @@ export default function ProfileHeader({
         alert(`Error! ${error.message}`);
       });
 
-    if (setShouldUpdate && typeof setShouldUpdate == "function") {
-      setShouldUpdate(true);
+    if (
+      setShouldUpdateProfileHeader &&
+      typeof setShouldUpdateProfileHeader == "function"
+    ) {
+      setShouldUpdateProfileHeader(true);
     }
 
     if (setShouldUpdateFeed && typeof setShouldUpdateFeed == "function") {
@@ -110,8 +112,11 @@ export default function ProfileHeader({
         alert(`Error! ${error.message}`);
       });
 
-    if (setShouldUpdate && typeof setShouldUpdate == "function") {
-      setShouldUpdate(true);
+    if (
+      setShouldUpdateProfileHeader &&
+      typeof setShouldUpdateProfileHeader == "function"
+    ) {
+      setShouldUpdateProfileHeader(true);
     }
 
     if (setShouldUpdateFeed && typeof setShouldUpdateFeed == "function") {

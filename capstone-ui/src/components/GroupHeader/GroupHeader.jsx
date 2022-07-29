@@ -3,24 +3,30 @@ import "./GroupHeader.css";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
+/**
+ * Component to display individual group name and current user's membership status with group
+ * @param {object} props Component props
+ * @param {string} props.username Username of current user
+ * @param {object} props.group Information about specified group
+ * @param {Function} props.setShouldUpdateGroupPage Handler for triggering rerendering of group page after user changes membership status (joins/leaves)
+ */
 export default function GroupHeader({
   username,
-  token,
-  profile,
   group,
   setShouldUpdateGroupPage,
 }) {
   const [isMember, setIsMember] = useState(false);
-  const [members, setMembers] = useState([]);
 
+  // Checks if the current user is a member of the group to mark membership status
   React.useEffect(() => {
     async function getMembers() {
-      const response = await axios.get(
-        `http://localhost:3001/user/members/${group.groupName}`
-      );
-      setMembers(response.data);
-
-      if (response.data.some((member) => member.username === username)) {
+      if (
+        (
+          await axios.get(
+            `http://localhost:3001/user/members/${group.groupName}`
+          )
+        ).data.some((member) => member.username === username)
+      ) {
         setIsMember(true);
       } else {
         setIsMember(false);

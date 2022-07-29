@@ -243,7 +243,7 @@ class User {
     let relationship = new Parse.Object("UserGroup");
     relationship.set("username", username);
     relationship.set("groupName", groupName);
-    relationship.set("isAdmin", isAdmin);
+    relationship.set("isAdmin", true);
 
     try {
       await group.save();

@@ -3,18 +3,16 @@ import Select from "react-select";
 import "./GroupInformation.css";
 import axios from "axios";
 import { catchErrors } from "../../utils";
-import { getTopArtists, getGenres, getRecommendations } from "../../spotify";
+import { getGenres } from "../../spotify";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
-import { getRecommendedUsers } from "../../recommendationUtils";
-import Recommendations from "../Recommendations/Recommendations";
 
-export default function GroupInformation({
-  username,
-  token,
-  profile,
-  isRegisterView,
-  groupName,
-}) {
+/**
+ * Component to display individual group's information (members, preferences, etc.)
+ * @param {object} props Component props
+ * @param {string} props.username Username of current user
+ * @param {string} props.groupName Name of specified group
+ */
+export default function GroupInformation({ username, groupName }) {
   const [genreOptions, setGenreOptions] = useState(null);
   const [selectedGenres, setSelectedGenres] = useState(null);
   const [description, setDescription] = useState(null);
@@ -24,12 +22,14 @@ export default function GroupInformation({
 
   React.useEffect(() => {
     const fetchData = async () => {
-      const allGenres = await getGenres();
-      let genreResults = allGenres.data.genres.map((element) => {
-        return { value: element, label: element };
-      });
-      setGenreOptions(genreResults);
+      // Populates the genre options for the genre preference dropdown button
+      setGenreOptions(
+        (await getGenres()).data.genres.map((genre) => {
+          return { value: genre, label: genre };
+        })
+      );
 
+      // Retrieve and set the values for the group description and genre preferences
       let groupInfo = await axios.get(
         `http://localhost:3001/user/group/${groupName}`
       );
@@ -37,65 +37,60 @@ export default function GroupInformation({
       setDescription(groupInfo.data.description);
       setSelectedGenres(groupInfo.data.genres);
 
-      let postRequest = {
-        username: username,
-        groupName: groupName,
-      };
-      let membershipStatus = await axios.post(
-        `http://localhost:3001/user/membershipstatus`,
-        postRequest
-      );
-      setIsAdmin(membershipStatus.data.isAdmin);
-
-      const memberResponse = await axios.get(
-        `http://localhost:3001/user/followers/${username}`
+      // Checks if the user is a member or admin of the group
+      setIsAdmin(
+        (
+          await axios.post(`http://localhost:3001/user/membershipstatus`, {
+            username: username,
+            groupName: groupName,
+          })
+        ).data.isAdmin
       );
 
-      let memberResults = memberResponse.data.map((element) => {
-        return { value: element, label: element };
-      });
-      setMemberOptions(memberResults);
+      // Populates the member options for the invite dropdown button with the user's friends
+      setMemberOptions(
+        (
+          await axios.get(`http://localhost:3001/user/followers/${username}`)
+        ).data.map((member) => {
+          return { value: member, label: member };
+        })
+      );
     };
 
     catchErrors(fetchData());
   }, []);
 
+  // Saves the selected genres as group's genre preferences in Parse
   async function handleGenreChange(e) {
-    let postRequest = {
-      groupName: groupName,
-      genres: e,
-    };
-    let { data } = await axios.post(
-      "http://localhost:3001/user/groupgenres",
-      postRequest
+    setSelectedGenres(
+      await axios.post("http://localhost:3001/user/groupgenres", {
+        groupName: groupName,
+        genres: e,
+      })
     );
-    setSelectedGenres(data);
   }
 
+  // Saves the description as group's description in Parse
   async function handleDescriptionChange(e) {
     setDescription(e.target.value);
-    let postRequest = {
+    await axios.post("http://localhost:3001/user/groupdescription", {
       groupName: groupName,
       description: e.target.value,
-    };
-    let { data } = await axios.post(
-      "http://localhost:3001/user/groupdescription",
-      postRequest
-    );
-    setDescription(data);
+    });
   }
 
+  // Sets the selected members to be invited to reflect the selections user makes
   async function handleMemberChange(e) {
     setSelectedMembers(e);
   }
 
+  // Sends invites to all the members selected in the invite dropdown button
   async function inviteMembers() {
     for (let i = 0; i < selectedMembers.length; i++) {
-      let inviteRequest = {
+      axios.post("http://localhost:3001/user/invite", {
         username: selectedMembers[i].value,
         groupName: groupName,
-      };
-      axios.post("http://localhost:3001/user/invite", inviteRequest).then();
+      });
     }
 
     alert(`Sent invites for ${groupName}!`);
@@ -104,7 +99,7 @@ export default function GroupInformation({
 
   return (
     <div className="groupinformation-component">
-      {description && genreOptions && isAdmin !== undefined ? (
+      {description != null && genreOptions != null && isAdmin != undefined ? (
         <>
           <div className="preferences">
             <div className="groupinformation-wrapper">

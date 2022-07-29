@@ -1,27 +1,23 @@
-import React, { useState } from "react";
-import ProfileHeader from "../ProfileHeader/ProfileHeader";
 import "./GroupCard.css";
-import { Link } from "react-router-dom";
 import axios from "axios";
 import { logout } from "../../spotify";
 import { formatDate } from "../../utils";
 
-import logo from "../../logo.svg";
-
-export default function GroupCard({
-  username,
-  token,
-  profile,
-  appProfile,
-  tab,
-  setTab,
-  group,
-}) {
+/**
+ * Component to display individual group information and tabs to learn more
+ * @param {object} props Component props
+ * @param {string} props.username Username of current user
+ * @param {string} props.tab Identifier of tab that user is currently viewing
+ * @param {object} props.group Information about the group the user is viewing
+ */
+export default function GroupCard({ username, tab, setTab, group }) {
+  // Highlights the tab that the user is currently on
   function handleTabChange(e) {
     setTab(e.target.id);
     e.target.className = "is-active";
   }
 
+  // Alerts user that they have left the current group
   const leaveGroup = async (e) => {
     axios
       .post(`http://localhost:3001/user/leavegroup`, {
