@@ -33,6 +33,7 @@ class User {
     user.set("appPassword", password);
     user.set("spotifyURL", spotifyURL);
     user.set("imageURL", imageURL);
+    user.set("recentSearches", []);
 
     let userPreferences = new Parse.Object("Preferences");
     userPreferences.set("topGenres", []);
@@ -114,7 +115,7 @@ class User {
     let followers = await this.getFollowers(username);
     let result = [];
     for (let i = 0; i < followers.length; i++) {
-      let userPosts = await this.timeline(followers[i]);
+      let userPosts = await this.getTimeline(followers[i]);
       result = result.concat(userPosts);
     }
     result.sort(function (a, b) {

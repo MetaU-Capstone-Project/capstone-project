@@ -26,7 +26,6 @@ img {
     flex: 0.5;
     display: flex;
     flex-direction: column;
-    /* added below here - make id? */
     justify-content: center;
     align-items: center;
 }

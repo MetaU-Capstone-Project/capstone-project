@@ -43,6 +43,8 @@ export default function PostHeader({
           isSearchView={false}
           username={username}
           isTimelineView={isTimelineView}
+          handleMouseOut={() => {}}
+          handleMouseOver={() => {}}
         ></ProfileHeader>
         <span className="timeline-view-date">{formatDate(post.createdAt)}</span>
       </div>

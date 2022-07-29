@@ -6,13 +6,13 @@ import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 export default function FeedResults({ username, feed, token }) {
   return (
     <div className="feed-results-component">
-      {feed && username ? (
-        feed.map((element) => {
+      {feed != null && username != null ? (
+        feed.map((post) => {
           return (
             <FeedPost
               username={username}
-              post={element}
-              key={element.objectId}
+              post={post}
+              key={post.objectId}
               token={token}
             ></FeedPost>
           );

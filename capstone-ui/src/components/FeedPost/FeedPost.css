@@ -7,7 +7,7 @@
 .feedpost-component {
     display: flex;
     background-color: lightgray;
-    width: 60%;
+    width: 50%;
     border: solid #000;
     border-width: 0.3rem;
 }
