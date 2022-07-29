@@ -1,7 +1,5 @@
 import axios from "axios";
 
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-
 export const authorizationEndpoint = "https://accounts.spotify.com/authorize";
 const redirectURI = "http://localhost:3000/home/";
 const clientId = "df31a108deeb4f8698d7936b772522bb";
@@ -142,13 +140,11 @@ const getAccessToken = () => {
     for (const property in queryParams) {
       window.localStorage.setItem(property, queryParams[property]);
     }
-    // Set timestamp
     window.localStorage.setItem(LOCALSTORAGE_KEYS.timestamp, Date.now());
     // Return access token from query params
     return queryParams[LOCALSTORAGE_KEYS.accessToken];
   }
 
-  // We should never get here!
   return false;
 };
 

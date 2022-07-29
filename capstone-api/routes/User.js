@@ -187,11 +187,14 @@ router.get("/recentsearches/:username", async (req, res) => {
 
 router.post("/addrecentsearch", async (req, res) => {
   const { username, searchValue } = req.body;
-  const result = await User.addRecentSearch(username, searchValue);
-  if (result === true) {
+  const isAddRecentSearchSuccessful = await User.addRecentSearch(
+    username,
+    searchValue
+  );
+  if (isAddRecentSearchSuccessful === true) {
     res.status(201).send(req.body);
   } else {
-    res.status(400).send({ errorMessage: result });
+    res.status(400).send({ errorMessage: isAddRecentSearchSuccessful });
   }
 });
 

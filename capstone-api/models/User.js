@@ -113,12 +113,12 @@ class User {
 
   static async getFeed(username) {
     let followers = await this.getFollowers(username);
-    let result = [];
+    let feed = [];
     for (let i = 0; i < followers.length; i++) {
       let userPosts = await this.getTimeline(followers[i]);
-      result = result.concat(userPosts);
+      feed = feed.concat(userPosts);
     }
-    result.sort(function (a, b) {
+    feed.sort(function (a, b) {
       const timeA = a.createdAt;
       const timeB = b.createdAt;
       if (timeA < timeB) {
@@ -131,7 +131,7 @@ class User {
       return 0;
     });
 
-    return result;
+    return feed;
   }
 
   static async deleteUser(username) {
@@ -145,8 +145,8 @@ class User {
 
     const postsQuery = new Parse.Query("Post");
     postsQuery.equalTo("username", username);
-    postsQuery.find().then(function (results) {
-      return Parse.Object.destroyAll(results);
+    postsQuery.find().then(function (posts) {
+      return Parse.Object.destroyAll(posts);
     });
 
     return true;
@@ -191,19 +191,19 @@ class User {
   static async setTopGenres(username, genres) {
     const query = new Parse.Query("Preferences");
     query.equalTo("username", username);
-    let result = await query.first({});
-    result.set("topGenres", genres);
-    await result.save();
-    return result.get("topGenres");
+    let user = await query.first({});
+    user.set("topGenres", genres);
+    await user.save();
+    return user.get("topGenres");
   }
 
   static async setTopArtists(username, artists) {
     const query = new Parse.Query("Preferences");
     query.equalTo("username", username);
-    let result = await query.first({});
-    result.set("topArtists", artists);
-    await result.save();
-    return result.get("topArtists");
+    let user = await query.first({});
+    user.set("topArtists", artists);
+    await user.save();
+    return user.get("topArtists");
   }
 
   static async getTopGenres(username) {
@@ -272,8 +272,8 @@ class User {
     groupNameQuery.equalTo("groupName", groupName);
 
     let compoundQuery = Parse.Query.and(usernameQuery, groupNameQuery);
-    let result = await compoundQuery.first({});
-    result.destroy({});
+    let invite = await compoundQuery.first({});
+    invite.destroy({});
 
     try {
       await relationship.save();
@@ -287,8 +287,8 @@ class User {
     let query = new Parse.Query("UserGroup");
     query.equalTo("username", username);
     query.equalTo("groupName", groupName);
-    let result = await query.first({});
-    result.destroy({});
+    let relationship = await query.first({});
+    relationship.destroy({});
   }
 
   static async sendInvite(username, groupName) {
@@ -321,7 +321,7 @@ class User {
     query.equalTo("username", username);
     const user = await query.first({});
 
-    // logic to remove oldest search from queue - have to specifically remove the first element to get the first element to delete
+    // Ensures that only the 10 most recent searches are saved
     if (user.get("recentSearches").length >= 10) {
       let oldestSearch = user.get("recentSearches")[0];
       user.remove("recentSearches", oldestSearch);
@@ -333,7 +333,6 @@ class User {
       }
     }
 
-    // adding newest search to recent searches - needs a separate save after each operation to the array
     user.addUnique("recentSearches", searchValue);
 
     try {

@@ -15,7 +15,6 @@
 .postcard-component {
     display: flex;
     background-color: lightgray;
-    /* added */
     border: solid #000;
     border-width: 0.3rem;
 }
