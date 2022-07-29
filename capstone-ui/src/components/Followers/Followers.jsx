@@ -13,7 +13,7 @@ export default function Followers({
   handleMouseOver,
 }) {
   const [followers, setFollowers] = useState(null);
-  const [shouldUpdate, setShouldUpdate] = useState(false);
+  const [shouldUpdateFollowers, setShouldUpdateFollowers] = useState(false);
 
   React.useEffect(() => {
     async function getFollowers() {
@@ -24,8 +24,8 @@ export default function Followers({
       setFollowers(response.data);
     }
     getFollowers();
-    setShouldUpdate(false);
-  }, [shouldUpdate]);
+    setShouldUpdateFollowers(false);
+  }, [shouldUpdateFollowers]);
 
   return (
     <div className="followers-component">
@@ -38,7 +38,7 @@ export default function Followers({
             isFollowersView={true}
             username={username}
             currentUserUsername={currentUserUsername}
-            setShouldUpdate={setShouldUpdate}
+            setShouldUpdateFollowers={setShouldUpdateFollowers}
             handleMouseOut={handleMouseOut}
             handleMouseOver={handleMouseOver}
           />

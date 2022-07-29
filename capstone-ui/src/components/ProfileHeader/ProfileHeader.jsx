@@ -18,6 +18,7 @@ export default function ProfileHeader({
   handleMouseOut,
   setShouldUpdateProfileHeader,
   setShouldUpdateFeed,
+  setShouldUpdateFollowers,
 }) {
   const [isFollowing, setIsFollowing] = useState(false);
   const [followers, setFollowers] = useState([]);
@@ -91,6 +92,13 @@ export default function ProfileHeader({
     if (setShouldUpdateFeed && typeof setShouldUpdateFeed == "function") {
       setShouldUpdateFeed(true);
     }
+
+    if (
+      setShouldUpdateFollowers &&
+      typeof setShouldUpdateFollowers == "function"
+    ) {
+      setShouldUpdateFollowers(true);
+    }
   };
 
   // unfollows user on success and displays message, and rerenders the parent component if successful
@@ -121,6 +129,13 @@ export default function ProfileHeader({
 
     if (setShouldUpdateFeed && typeof setShouldUpdateFeed == "function") {
       setShouldUpdateFeed(true);
+    }
+
+    if (
+      setShouldUpdateFollowers &&
+      typeof setShouldUpdateFollowers == "function"
+    ) {
+      setShouldUpdateFollowers(true);
     }
   };
 
