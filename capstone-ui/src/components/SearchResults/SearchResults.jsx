@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import "./SearchResults.css";
-
 import ProfileHeader from "../ProfileHeader/ProfileHeader";
 import SongHeader from "../SongHeader/SongHeader";
-import ProfileDetails from "../ProfileDetails/ProfileDetails";
 
 export default function SearchResults({
   username,
@@ -11,34 +9,26 @@ export default function SearchResults({
   profileResults,
   token,
   isSongResults,
-  isHovering,
   handleMouseOut,
   handleMouseOver,
 }) {
-  let results;
-  if (isSongResults) {
-    results = songResults;
-  } else {
-    results = profileResults;
-  }
-
   return (
     <div className="searchresults-component">
       <div className="searchresults-grid">
-        {isSongResults &&
-          results &&
-          results.length > 0 &&
-          results.map((element) => (
-            <SongHeader key={element.id} song={element}></SongHeader>
+        {isSongResults != null &&
+          songResults &&
+          songResults.length > 0 &&
+          songResults.map((song) => (
+            <SongHeader key={song.id} song={song}></SongHeader>
           ))}
         {!isSongResults &&
-          results &&
-          results.length > 0 &&
-          results.map((element) => (
+          profileResults != null &&
+          profileResults.length > 0 &&
+          profileResults.map((profile) => (
             <ProfileHeader
               username={username}
-              key={element.username}
-              profile={element}
+              key={profile.username}
+              profile={profile}
               isSearchView={true}
               handleMouseOut={handleMouseOut}
               handleMouseOver={handleMouseOver}

@@ -1,7 +1,4 @@
 import "./SongHeaderView.css";
-import { Link } from "react-router-dom";
-
-import logo from "../../logo.svg";
 
 export default function SongHeaderView({ song }) {
   function getArtists(artists) {

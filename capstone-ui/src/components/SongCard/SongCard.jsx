@@ -1,10 +1,13 @@
 import "./SongCard.css";
 import SongHeaderView from "../SongHeaderView/SongHeaderView";
 
-import SongHeader from "../SongHeader/SongHeader";
-import logo from "../../logo.svg";
-
-export default function SongCard({ profile, token, song, isFeedView }) {
+/**
+ * Component for displaying song player, name, artists, and album picture
+ * @param {object} props Component props
+ * @param {object} props.song Information about song from Spotify API
+ * @param {boolean} props.isFeedView Is true if component will be rendered in the home page feed
+ */
+export default function SongCard({ song, isFeedView }) {
   return (
     <div
       className={
@@ -21,7 +24,7 @@ export default function SongCard({ profile, token, song, isFeedView }) {
             : "album-picture-wrapper"
         }
       >
-        {song.album && song.album.images && (
+        {song.album != undefined && song.album.images != undefined && (
           <img src={song.album.images[0].url} alt="album picture"></img>
         )}
       </div>

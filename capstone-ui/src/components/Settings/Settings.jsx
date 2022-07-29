@@ -24,14 +24,14 @@ export default function Settings({ username, token, profile, isRegisterView }) {
   React.useEffect(() => {
     const fetchData = async () => {
       const usersTopArtists = await getTopArtists();
-      let artistsResult = usersTopArtists.data.items.map((element) => {
-        return { value: element.id, label: element.name };
+      let artistsResult = usersTopArtists.data.items.map((artist) => {
+        return { value: artist.id, label: artist.name };
       });
       setArtistOptions(artistsResult);
 
       const allGenres = await getGenres();
-      let genreResults = allGenres.data.genres.map((element) => {
-        return { value: element, label: element };
+      let genreResults = allGenres.data.genres.map((genre) => {
+        return { value: genre, label: genre };
       });
       setGenreOptions(genreResults);
 
@@ -84,8 +84,6 @@ export default function Settings({ username, token, profile, isRegisterView }) {
     if (genresResult === null) {
       genresResult = [];
     }
-    let topArtists = artistsResult.join(",");
-    let topGenres = genresResult.join(",");
 
     let recs = await getRecommendedUsers(username, genresResult, artistsResult);
     setRecommendations(recs);
@@ -98,7 +96,7 @@ export default function Settings({ username, token, profile, isRegisterView }) {
 
   return (
     <div className="settings-component">
-      {genreOptions && artistOptions ? (
+      {genreOptions != null && artistOptions != null ? (
         <>
           <div className="preferences">
             <span className="preference-heading">Your Favorite Genres</span>
@@ -136,7 +134,7 @@ export default function Settings({ username, token, profile, isRegisterView }) {
               {<LoadingSpinner></LoadingSpinner>}
             </div>
           )}
-          {!isFetchingRecs && recommendations && (
+          {!isFetchingRecs && recommendations != null && (
             <>
               <span className="recommendations-heading">Recommendations</span>
               <Recommendations

@@ -1,15 +1,21 @@
 import "./SongHeader.css";
 import { Link } from "react-router-dom";
 
-import logo from "../../logo.svg";
-
+/**
+ * Component for displaying song player, name, and artists
+ * @param {object} props Component props
+ * @param {object} props.song Information about song from Spotify API
+ */
 export default function SongHeader({ song }) {
+  /**
+   * Formats song's artists as comma separated string
+   * @param {Array<string>} artists array of song's artists
+   */
   function getArtists(artists) {
-    if (artists) {
+    if (artists != undefined) {
       let result = "";
       for (let i = 0; i < artists.length; i++) {
-        result += artists[i].name;
-        result += ", ";
+        result += artists[i].name + ", ";
       }
 
       return result.substring(0, result.length - 2);

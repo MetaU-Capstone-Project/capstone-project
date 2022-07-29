@@ -32,8 +32,8 @@ export default function CreateGroup({
   React.useEffect(() => {
     const fetchData = async () => {
       const allGenres = await getGenres();
-      let genreResults = allGenres.data.genres.map((element) => {
-        return { value: element, label: element };
+      let genreResults = allGenres.data.genres.map((genre) => {
+        return { value: genre, label: genre };
       });
       setGenreOptions(genreResults);
 
@@ -41,8 +41,8 @@ export default function CreateGroup({
         `http://localhost:3001/user/followers/${username}`
       );
 
-      let memberResults = memberResponse.data.map((element) => {
-        return { value: element, label: element };
+      let memberResults = memberResponse.data.map((member) => {
+        return { value: member, label: member };
       });
       setMemberOptions(memberResults);
     };

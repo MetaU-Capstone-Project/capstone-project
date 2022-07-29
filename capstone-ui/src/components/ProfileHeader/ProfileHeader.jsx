@@ -122,12 +122,6 @@ export default function ProfileHeader({
   if (isSearchView || isFollowersView) {
     let username = profile.username || profile;
 
-    // error handling when not in search view
-    if (typeof handleMouseOut === "undefined") {
-      handleMouseOver = () => {};
-      handleMouseOut = () => {};
-    }
-
     return (
       <div className="search-view-profileheader-component">
         <div

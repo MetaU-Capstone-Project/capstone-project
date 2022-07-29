@@ -21,7 +21,9 @@ export default function Register({ spotifyProfile }) {
     const emailValue = spotifyProfile.email;
     const spotifyURLValue = spotifyProfile.external_urls.spotify;
     const imageURLValue =
-      spotifyProfile.images && spotifyProfile.images.length > 0
+      spotifyProfile.images != null &&
+      spotifyProfile.images != undefined &&
+      spotifyProfile.images.length > 0
         ? spotifyProfile.images[0].url
         : "logo";
 

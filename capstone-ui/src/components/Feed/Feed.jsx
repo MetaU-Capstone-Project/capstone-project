@@ -4,20 +4,38 @@ import "./Feed.css";
 import axios from "axios";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 import Recommendations from "../Recommendations/Recommendations";
-import { catchErrors } from "../../utils";
+import { catchErrors, showPopup, hidePopup } from "../../utils";
 import { getRecommendedUsers } from "../../recommendationUtils";
+import ProfileDetails from "../ProfileDetails/ProfileDetails";
 
 export default function Feed({ username, profile, token }) {
   const [feed, setFeed] = useState(null);
   const [recommendations, setRecommendations] = useState(null);
   const [shouldUpdateFeed, setShouldUpdateFeed] = useState(false);
+  const [isHovering, setIsHovering] = useState(false);
+  const [hoverUsername, setHoverUsername] = useState(null);
+  const [shouldUpdateProfileDetails, setShouldUpdateProfileDetails] =
+    useState(false);
+
+  const handleMouseOver = (username) => {
+    setIsHovering(true);
+    showPopup();
+    setHoverUsername(username);
+    setShouldUpdateProfileDetails(true);
+  };
+
+  const handleMouseOut = () => {
+    setIsHovering(false);
+    hidePopup();
+    setShouldUpdateProfileDetails(false);
+  };
 
   React.useEffect(() => {
     const fetchData = async () => {
-      const response = await axios.get(
+      const feedResult = await axios.get(
         `http://localhost:3001/user/feed/${username}`
       );
-      setFeed(response.data);
+      setFeed(feedResult.data);
 
       let genresResult = await axios.get(
         `http://localhost:3001/user/topgenres/${username}`
@@ -25,7 +43,6 @@ export default function Feed({ username, profile, token }) {
       let artistsResult = await axios.get(
         `http://localhost:3001/user/topartists/${username}`
       );
-      let postedSongs = [];
       let recs = await getRecommendedUsers(
         username,
         genresResult.data,
@@ -42,8 +59,18 @@ export default function Feed({ username, profile, token }) {
     <>
       {feed ? (
         <>
+          <div id="overlay">
+            <div className="profile-details-wrapper">
+              {hoverUsername != null && (
+                <ProfileDetails
+                  username={hoverUsername}
+                  setShouldUpdateProfileDetails={shouldUpdateProfileDetails}
+                ></ProfileDetails>
+              )}
+            </div>
+          </div>
           <div className="feed-page">
-            {recommendations && (
+            {recommendations != null && (
               <div className="recommendation-component-wrapper">
                 <div className="recommendation-heading-wrapper">
                   <span className="recommendation-heading">
@@ -54,7 +81,8 @@ export default function Feed({ username, profile, token }) {
                   recs={recommendations}
                   username={username}
                   setShouldUpdateFeed={setShouldUpdateFeed}
-                  isFeedView={true}
+                  handleMouseOut={handleMouseOut}
+                  handleMouseOver={handleMouseOver}
                 ></Recommendations>
               </div>
             )}

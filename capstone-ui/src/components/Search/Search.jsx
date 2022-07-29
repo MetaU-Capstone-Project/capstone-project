@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import SearchBar from "../SearchBar/SearchBar";
 import SearchResults from "../SearchResults/SearchResults";
 import ProfileDetails from "../ProfileDetails/ProfileDetails";
+import { showPopup, hidePopup } from "../../utils";
 import axios from "axios";
 
 import "./Search.css";
@@ -20,14 +21,14 @@ export default function Search({ username, token }) {
 
   const handleMouseOver = (username) => {
     setIsHovering(true);
-    on();
+    showPopup();
     setHoverUsername(username);
     setShouldUpdateProfileDetails(true);
   };
 
   const handleMouseOut = () => {
     setIsHovering(false);
-    off();
+    hidePopup();
     setShouldUpdateProfileDetails(false);
   };
 
@@ -107,19 +108,11 @@ export default function Search({ username, token }) {
     }
   };
 
-  function on() {
-    document.getElementById("overlay").style.display = "block";
-  }
-
-  function off() {
-    document.getElementById("overlay").style.display = "none";
-  }
-
   return (
     <div className="search-page">
       <div id="overlay">
         <div className="profile-details-wrapper">
-          {hoverUsername && (
+          {hoverUsername != null && (
             <ProfileDetails
               username={hoverUsername}
               setShouldUpdateProfileDetails={shouldUpdateProfileDetails}

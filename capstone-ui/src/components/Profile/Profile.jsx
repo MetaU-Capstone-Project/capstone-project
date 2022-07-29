@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import "./Profile.css";
 import axios from "axios";
-import { catchErrors } from "../../utils";
+import { catchErrors, showPopup, hidePopup } from "../../utils";
 import Settings from "../Settings/Settings";
 import ProfileCard from "../ProfileCard/ProfileCard";
 import Timeline from "../Timeline/Timeline";
 import Followers from "../Followers/Followers";
+import ProfileDetails from "../ProfileDetails/ProfileDetails";
 import { useParams } from "react-router-dom";
 
 const Parse = require("parse");
@@ -13,6 +14,23 @@ const Parse = require("parse");
 export default function Profile({ username, token, profile }) {
   const [appProfile, setAppProfile] = React.useState();
   const [tab, setTab] = React.useState("timeline");
+  const [isHovering, setIsHovering] = useState(false);
+  const [hoverUsername, setHoverUsername] = useState(null);
+  const [shouldUpdateProfileDetails, setShouldUpdateProfileDetails] =
+    useState(false);
+
+  const handleMouseOver = (username) => {
+    setIsHovering(true);
+    showPopup();
+    setHoverUsername(username);
+    setShouldUpdateProfileDetails(true);
+  };
+
+  const handleMouseOut = () => {
+    setIsHovering(false);
+    hidePopup();
+    setShouldUpdateProfileDetails(false);
+  };
 
   React.useEffect(() => {
     const fetchData = async () => {
@@ -27,6 +45,16 @@ export default function Profile({ username, token, profile }) {
 
   return (
     <div className="profile-page">
+      <div id="overlay">
+        <div className="profile-details-wrapper">
+          {hoverUsername && (
+            <ProfileDetails
+              username={hoverUsername}
+              setShouldUpdateProfileDetails={shouldUpdateProfileDetails}
+            ></ProfileDetails>
+          )}
+        </div>
+      </div>
       <div className="info-wrapper">
         <ProfileCard
           username={username}
@@ -65,6 +93,8 @@ export default function Profile({ username, token, profile }) {
             username={username}
             token={token}
             profile={profile}
+            handleMouseOut={handleMouseOut}
+            handleMouseOver={handleMouseOver}
           ></Followers>
         </div>
       )}
