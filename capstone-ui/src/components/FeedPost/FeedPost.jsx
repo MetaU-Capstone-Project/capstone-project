@@ -26,7 +26,7 @@ export default function FeedPost({ username, token, post }) {
 
   return (
     <div className="feedpost-component">
-      {songInfo && profile && (
+      {songInfo != null && profile != null && (
         <>
           <div className="profileheader-wrapper">
             <ProfileHeader

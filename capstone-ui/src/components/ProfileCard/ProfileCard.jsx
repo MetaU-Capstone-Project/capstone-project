@@ -41,13 +41,15 @@ export default function ProfileCard({
   return (
     <div className="profilecard-component">
       <div className="profile-picture-wrapper">
-        {appProfile &&
-          appProfile.imageURL &&
+        {appProfile != null &&
+          appProfile != undefined &&
+          appProfile.imageURL != undefined &&
           appProfile.imageURL === "logo" && (
             <img className="spotify-profile-picture" src={logo}></img>
           )}
-        {appProfile &&
-          appProfile.imageURL &&
+        {appProfile != null &&
+          appProfile != undefined &&
+          appProfile.imageURL != undefined &&
           appProfile.imageURL !== "logo" && (
             <img
               className="spotify-profile-picture"
@@ -57,7 +59,7 @@ export default function ProfileCard({
       </div>
       <div className="profile-info-wrapper">
         <span className="profile-username">Username: {username}</span>
-        {appProfile && (
+        {appProfile != null && (
           <span className="profile-join-date">
             Joined app {formatDate(appProfile.createdAt)}
           </span>

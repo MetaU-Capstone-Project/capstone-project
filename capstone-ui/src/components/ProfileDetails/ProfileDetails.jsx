@@ -35,15 +35,15 @@ export default function ProfileDetails({
 
   return (
     <div className="profiledetails-component">
-      {!isFetching && selectedGenres && (
+      {!isFetching && selectedGenres != null && (
         <>
           <div className="profiledetails-name">{username}</div>
           <div className="profiledetails-wrapper">
             Top Genres:
             <div className="profiledetails-list">
-              {selectedGenres.map((element) => (
-                <span className="profiledetails-preference" key={element.value}>
-                  {element.value}
+              {selectedGenres.map((genre) => (
+                <span className="profiledetails-preference" key={genre.value}>
+                  {genre.value}
                 </span>
               ))}
             </div>

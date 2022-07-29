@@ -33,6 +33,7 @@ class User {
     user.set("appPassword", password);
     user.set("spotifyURL", spotifyURL);
     user.set("imageURL", imageURL);
+    user.set("recentSearches", []);
 
     let userPreferences = new Parse.Object("Preferences");
     userPreferences.set("topGenres", []);

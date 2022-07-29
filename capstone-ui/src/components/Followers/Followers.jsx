@@ -30,10 +30,10 @@ export default function Followers({
   return (
     <div className="followers-component">
       {followers ? (
-        followers.map((element) => (
+        followers.map((follower) => (
           <ProfileHeader
-            profile={element}
-            key={element}
+            profile={follower}
+            key={follower}
             token={token}
             isFollowersView={true}
             username={username}

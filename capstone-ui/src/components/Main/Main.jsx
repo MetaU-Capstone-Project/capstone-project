@@ -68,7 +68,7 @@ export default function Main({
           {userExists === false && (
             <Register spotifyProfile={spotifyProfile}></Register>
           )}
-          {username && (
+          {username != null && (
             <Home
               page={"home"}
               username={username}

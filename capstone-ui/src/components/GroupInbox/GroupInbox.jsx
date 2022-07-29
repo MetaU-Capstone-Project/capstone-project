@@ -26,10 +26,10 @@ export default function GroupInbox({ username }) {
         <span className="groupinbox-heading">Inbox</span>
       </div>
       <div className="inbox-grid">
-        {inbox.map((element) => (
+        {inbox.map((invite) => (
           <GroupHeader
-            key={element.groupName}
-            group={element}
+            key={invite.groupName}
+            group={invite}
             username={username}
             setShouldUpdateInbox={setShouldUpdateInbox}
           ></GroupHeader>

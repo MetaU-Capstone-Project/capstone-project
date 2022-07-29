@@ -22,7 +22,7 @@ export default function Recommendations({
         {recs != null && recs.length === 0 && (
           <span>No recommended users.</span>
         )}
-        {recs &&
+        {recs != null &&
           recs.length > 0 &&
           recs.map((rec) => (
             <ProfileHeader

@@ -113,7 +113,7 @@ export default function Search({ username, token }) {
     <div className="search-page">
       <div id="overlay">
         <div className="profile-details-wrapper">
-          {hoverUsername && (
+          {hoverUsername != null && (
             <ProfileDetails
               username={hoverUsername}
               setShouldUpdateProfileDetails={shouldUpdateProfileDetails}
