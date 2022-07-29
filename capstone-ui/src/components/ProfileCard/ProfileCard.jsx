@@ -38,24 +38,21 @@ export default function ProfileCard({
     }
   };
 
+  const isProfileImageDefined =
+    appProfile != null && appProfile.imageURL != undefined;
+
   return (
     <div className="profilecard-component">
       <div className="profile-picture-wrapper">
-        {appProfile != null &&
-          appProfile != undefined &&
-          appProfile.imageURL != undefined &&
-          appProfile.imageURL === "logo" && (
-            <img className="spotify-profile-picture" src={logo}></img>
-          )}
-        {appProfile != null &&
-          appProfile != undefined &&
-          appProfile.imageURL != undefined &&
-          appProfile.imageURL !== "logo" && (
-            <img
-              className="spotify-profile-picture"
-              src={appProfile.imageURL}
-            ></img>
-          )}
+        {isProfileImageDefined && appProfile.imageURL === "logo" && (
+          <img className="spotify-profile-picture" src={logo}></img>
+        )}
+        {isProfileImageDefined && appProfile.imageURL !== "logo" && (
+          <img
+            className="spotify-profile-picture"
+            src={appProfile.imageURL}
+          ></img>
+        )}
       </div>
       <div className="profile-info-wrapper">
         <span className="profile-username">Username: {username}</span>
