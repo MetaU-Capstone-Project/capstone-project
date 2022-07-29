@@ -9,8 +9,6 @@ import Switch from "react-switch";
 import Select from "react-select";
 import { catchErrors } from "../../utils";
 
-import logo from "../../logo.svg";
-
 export default function CreateGroup({
   username,
   token,

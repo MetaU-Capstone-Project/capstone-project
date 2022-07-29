@@ -15,6 +15,7 @@ export default function Recommendations({
   setShouldUpdateFeed,
   handleMouseOut,
   handleMouseOver,
+  isFeedView,
 }) {
   return (
     <div

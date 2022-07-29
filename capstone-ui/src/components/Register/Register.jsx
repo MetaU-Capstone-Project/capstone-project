@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import "./Register.css";
 import axios from "axios";
 import Settings from "../Settings/Settings";
-import logo from "../../logo.svg";
+import logo from "../../logo.png";
 
 const Parse = require("parse");
 

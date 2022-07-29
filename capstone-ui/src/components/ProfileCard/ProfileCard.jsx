@@ -6,7 +6,7 @@ import axios from "axios";
 import { logout, logoutWithUsername } from "../../spotify";
 import { formatDate } from "../../utils";
 
-import logo from "../../logo.svg";
+import logo from "../../logo.png";
 
 export default function ProfileCard({
   username,

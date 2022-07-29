@@ -43,11 +43,11 @@ app.get("/callback", (req, res) => {
         const queryParams = `access_token=${access_token}&refresh_token=${refresh_token}&expires_in=${expires_in}`;
         res.redirect(`http://localhost:3000/main/?${queryParams}`);
       } else {
-        res.redirect(`http://localhost:3000`);
+        res.redirect(`http://localhost:3000/error`);
       }
     })
     .catch(function (error) {
-      res.redirect("http://localhost:3000/error");
+      res.redirect("http://localhost:3000");
     });
 });
 

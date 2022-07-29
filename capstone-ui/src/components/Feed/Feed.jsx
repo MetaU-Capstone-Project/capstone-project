@@ -83,6 +83,7 @@ export default function Feed({ username, profile, token }) {
                   setShouldUpdateFeed={setShouldUpdateFeed}
                   handleMouseOut={handleMouseOut}
                   handleMouseOver={handleMouseOver}
+                  isFeedView={true}
                 ></Recommendations>
               </div>
             )}
