@@ -13,6 +13,10 @@
     overflow-x: scroll;
 }
 
+.feed-view-recommendations-component {
+    overflow-x: auto;
+}
+
 .recommendations-component {
     max-width: 40rem;
     overflow-x: auto;

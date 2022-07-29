@@ -31,7 +31,7 @@ export default function ProfileDetails({
     };
 
     catchErrors(fetchData());
-  }, [setShouldUpdateProfileDetails]);
+  }, []);
 
   return (
     <div className="profiledetails-component">

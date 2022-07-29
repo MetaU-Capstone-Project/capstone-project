@@ -180,6 +180,29 @@ router.get("/inbox/:username", async (req, res) => {
   res.send(await User.getInbox(username));
 });
 
+router.get("/recentsearches/:username", async (req, res) => {
+  const username = req.params.username;
+  res.send(await User.getRecentSearches(username));
+});
+
+router.post("/addrecentsearch", async (req, res) => {
+  const { username, searchValue } = req.body;
+  const isAddRecentSearchSuccessful = await User.addRecentSearch(
+    username,
+    searchValue
+  );
+  if (isAddRecentSearchSuccessful === true) {
+    res.status(201).send(req.body);
+  } else {
+    res.status(400).send({ errorMessage: isAddRecentSearchSuccessful });
+  }
+});
+
+router.get("/clearrecentsearches/:username", async (req, res) => {
+  const username = req.params.username;
+  res.send(await User.clearRecentSearches(username));
+});
+
 router.get("/", (req, res) => {
   try {
     const currUser = User.getCurrentUser();
