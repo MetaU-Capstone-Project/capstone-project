@@ -8,7 +8,7 @@ import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 import { getRecommendedUsers } from "../../recommendationUtils";
 import Recommendations from "../Recommendations/Recommendations";
 
-export default function Settings({ username, token, profile, isRegisterView }) {
+export default function Settings({ username, profile, isRegisterView }) {
   const [genreOptions, setGenreOptions] = useState(null);
   const [artistOptions, setArtistOptions] = useState(null);
   const [selectedGenres, setSelectedGenres] = useState(null);

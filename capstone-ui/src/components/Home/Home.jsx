@@ -18,9 +18,7 @@ export default function Home({ username, page, token, profile, appProfile }) {
       {username ? (
         <div className="home-page">
           <Navbar username={username}></Navbar>
-          {page === "home" && (
-            <Feed username={username} profile={profile} token={token}></Feed>
-          )}
+          {page === "home" && <Feed username={username}></Feed>}
           {page === "search" && (
             <Search
               username={username}
@@ -49,12 +47,11 @@ export default function Home({ username, page, token, profile, appProfile }) {
           {page === "friendprofile" && (
             <FriendProfile
               friendUsername={username}
-              profile={profile}
-              token={token}
               followers={false}
               timeline={true}
               settings={false}
               app={appProfile}
+              profile={profile}
             ></FriendProfile>
           )}
           {page === "post" && (

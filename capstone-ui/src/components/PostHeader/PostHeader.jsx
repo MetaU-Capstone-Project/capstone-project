@@ -3,12 +3,12 @@ import "./PostHeader.css";
 import ProfileHeader from "../ProfileHeader/ProfileHeader";
 import SongHeaderView from "../SongHeaderView/SongHeaderView";
 import axios from "axios";
+import { accessToken } from "../../spotify";
 import { formatDate } from "../../utils";
 
 export default function PostHeader({
   username,
   post,
-  token,
   profile,
   isTimelineView,
 }) {
@@ -20,7 +20,7 @@ export default function PostHeader({
         `https://api.spotify.com/v1/tracks/${post.trackId}`,
         {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${accessToken}`,
           },
         }
       );
@@ -38,7 +38,6 @@ export default function PostHeader({
         }
       >
         <ProfileHeader
-          token={token}
           profile={profile}
           isSearchView={false}
           username={username}

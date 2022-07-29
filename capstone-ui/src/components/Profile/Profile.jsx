@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import "./Profile.css";
 import axios from "axios";
 import { catchErrors } from "../../utils";
@@ -6,20 +6,23 @@ import Settings from "../Settings/Settings";
 import ProfileCard from "../ProfileCard/ProfileCard";
 import Timeline from "../Timeline/Timeline";
 import Followers from "../Followers/Followers";
-import { useParams } from "react-router-dom";
 
-const Parse = require("parse");
-
-export default function Profile({ username, token, profile }) {
-  const [appProfile, setAppProfile] = React.useState();
+/**
+ * Page to display current user's profile
+ * @param {object} props Component props
+ * @param {string} props.username Username of current user
+ * @param {string} props.profile Spotify profile information to be displayed
+ */
+export default function Profile({ username, profile }) {
+  const [appProfile, setAppProfile] = React.useState(null);
   const [tab, setTab] = React.useState("timeline");
 
+  // Retrieves current user's app profile information
   React.useEffect(() => {
     const fetchData = async () => {
-      const { data } = await axios.get(
-        `http://localhost:3001/user/${username}`
+      setAppProfile(
+        (await axios.get(`http://localhost:3001/user/${username}`)).data
       );
-      setAppProfile(data);
     };
 
     catchErrors(fetchData());
@@ -30,7 +33,6 @@ export default function Profile({ username, token, profile }) {
       <div className="info-wrapper">
         <ProfileCard
           username={username}
-          token={token}
           profile={profile}
           appProfile={appProfile}
           isPreferencesView={false}
@@ -41,31 +43,19 @@ export default function Profile({ username, token, profile }) {
       {tab == "timeline" && (
         <div className="timeline-wrapper">
           <span className="timeline-heading">Timeline</span>
-          <Timeline
-            username={username}
-            token={token}
-            profile={profile}
-          ></Timeline>
+          <Timeline username={username} profile={profile}></Timeline>
         </div>
       )}
       {tab == "settings" && (
         <div className="settings-wrapper">
           <span className="settings-heading">Settings</span>
-          <Settings
-            username={username}
-            token={token}
-            profile={profile}
-          ></Settings>
+          <Settings username={username} profile={profile}></Settings>
         </div>
       )}
       {tab == "followers" && (
         <div className="followers-wrapper">
           <span className="followers-heading">Friends</span>
-          <Followers
-            username={username}
-            token={token}
-            profile={profile}
-          ></Followers>
+          <Followers username={username}></Followers>
         </div>
       )}
     </div>

@@ -4,17 +4,22 @@ import "./Followers.css";
 import axios from "axios";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 
-export default function Followers({ username, token, currentUserUsername }) {
+/**
+ * Component to display specified user's followers
+ * @param {object} props Component props
+ * @param {string} props.username Username of current user
+ */
+export default function Followers({ username, currentUserUsername }) {
   const [followers, setFollowers] = useState(null);
   const [shouldUpdate, setShouldUpdate] = useState(false);
 
+  // Retrieve all the followers of a specified user
   React.useEffect(() => {
     async function getFollowers() {
-      const response = await axios.get(
-        `http://localhost:3001/user/followers/${username}`
+      setFollowers(
+        (await axios.get(`http://localhost:3001/user/followers/${username}`))
+          .data
       );
-
-      setFollowers(response.data);
     }
     getFollowers();
     setShouldUpdate(false);
@@ -22,12 +27,11 @@ export default function Followers({ username, token, currentUserUsername }) {
 
   return (
     <div className="followers-component">
-      {followers ? (
-        followers.map((element) => (
+      {followers != null ? (
+        followers.map((follower) => (
           <ProfileHeader
-            profile={element}
-            key={element}
-            token={token}
+            profile={follower}
+            key={follower}
             isFollowersView={true}
             username={username}
             currentUserUsername={currentUserUsername}

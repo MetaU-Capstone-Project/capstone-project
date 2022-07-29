@@ -81,7 +81,6 @@ export default function Register({ spotifyProfile }) {
           <button className="register-button" onClick={() => registerUser()}>
             Register
           </button>
-          {/* </a> */}
         </div>
       </div>
     </div>

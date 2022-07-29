@@ -1,15 +1,27 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import "./ProfileHeader.css";
 import { Link } from "react-router-dom";
 import logo from "../../logo.svg";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
-import ProfileDetails from "../ProfileDetails/ProfileDetails";
 
+/**
+ * Component to display profile picture and username of specified user
+ * @param {object} props Component props
+ * @param {string} props.username Username of specified user
+ * @param {object} props.profile Spotify profile information associated with specified user
+ * @param {boolean} props.isSearchView Indicates whether component is being rendered in the search page
+ * @param {boolean} props.isFollowersView Indicates whether component is being rendered in the followers tab of the profile page
+ * @param {boolean} props.isFeedView Indicates whether component is being rendered in the feed page
+ * @param {boolean} props.isTimelineView Indicates whether component is being rendered in the timeline tab of the profile page
+ * @param {Function} props.handleMouseOver Handler to display popup with profile details if mouse hovers over component
+ * @param {Function} props.handleMouseOut Handler to hide popup if mouse stops hovering over component
+ * @param {Function} props.setShouldUpdate Handler to rerender parent component if follow/unfollow status changes
+ * @param {Function} props.setShouldUpdateFeed Handler to rerender feed page if follow/unfollow status changes
+ */
 export default function ProfileHeader({
   username,
   profile,
-  token,
   isSearchView,
   isFollowersView,
   isFeedView,
@@ -33,37 +45,31 @@ export default function ProfileHeader({
       const response = await axios.get(
         `http://localhost:3001/user/followers/${username}`
       );
-      setFollowers(response.data);
 
-      let viewUsername = profile.username;
-      // TODO first condition is for search view, second condition is for profile view - refactor
-      if (
-        response.data.includes(viewUsername) ||
-        response.data.includes(profile)
-      ) {
-        setIsFollowing(true);
-      } else {
-        setIsFollowing(false);
-      }
+      // Checks if user is following user whose profile is being displayed, and sets following status accordingly
+      setIsFollowing(
+        response.data.includes(profile.usernamee) ||
+          response.data.includes(profile)
+      );
     }
     getFollowers();
 
     async function getProfileImage(usernameParam) {
-      const response = await axios.get(
-        `http://localhost:3001/user/${usernameParam}`
+      setImageURL(
+        (await axios.get(`http://localhost:3001/user/${usernameParam}`)).data
+          .imageURL
       );
-      setImageURL(response.data.imageURL);
     }
 
+    // Retrieves profile image from Spotify profile given a username
     if (isSearchView || isFollowersView) {
-      let usernameParam = profile.username || profile;
-      getProfileImage(usernameParam);
+      getProfileImage(profile.username || profile);
     } else {
       getProfileImage(username);
     }
   }, []);
 
-  // follows user on success and displays message, and rerenders the parent component if successful
+  // Follows user on success and displays message, and rerenders the parent component if successful
   const followUser = async (e) => {
     let followUsername =
       e.target.parentNode.childNodes[1].childNodes[0].childNodes[0].innerText;
@@ -81,6 +87,7 @@ export default function ProfileHeader({
         alert(`Error! ${error.message}`);
       });
 
+    // Checks if handler functions to update parent components are defined, as some parent components should not display popups when hovering
     if (setShouldUpdate && typeof setShouldUpdate == "function") {
       setShouldUpdate(true);
     }
@@ -90,7 +97,7 @@ export default function ProfileHeader({
     }
   };
 
-  // unfollows user on success and displays message, and rerenders the parent component if successful
+  // Unfollows user on success and displays message, and rerenders the parent component if successful
   const unfollowUser = async (e) => {
     let unfollowUsername =
       e.target.parentNode.childNodes[1].childNodes[0].childNodes[0].innerText;
@@ -108,6 +115,7 @@ export default function ProfileHeader({
         alert(`Error! ${error.message}`);
       });
 
+    // Checks if handler functions to update parent components are defined, as some parent components should not display popups when hovering
     if (setShouldUpdate && typeof setShouldUpdate == "function") {
       setShouldUpdate(true);
     }
@@ -139,16 +147,17 @@ export default function ProfileHeader({
             <span className="profile-username">{username}</span>
           </div>
         </Link>
-        {((!currentUserUsername && isFollowing) ||
-          (currentUserUsername &&
+        {/* Renders follow/unfollow buttons if current user's profile is being rendered from the view of another user's followers list */}
+        {((currentUserUsername == undefined && isFollowing) ||
+          (currentUserUsername != undefined &&
             currentUserUsername != username &&
             isFollowing)) && (
           <button className="unfollow-button" onClick={unfollowUser}>
             Unfollow
           </button>
         )}
-        {((!currentUserUsername && !isFollowing) ||
-          (currentUserUsername &&
+        {((currentUserUsername == undefined && !isFollowing) ||
+          (currentUserUsername != undefined &&
             currentUserUsername != username &&
             !isFollowing)) && (
           <button className="follow-button" onClick={followUser}>
@@ -161,7 +170,7 @@ export default function ProfileHeader({
 
   return (
     <>
-      {imageURL ? (
+      {imageURL != null ? (
         <div
           className={
             isFeedView

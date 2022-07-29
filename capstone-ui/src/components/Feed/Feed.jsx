@@ -7,32 +7,36 @@ import Recommendations from "../Recommendations/Recommendations";
 import { catchErrors } from "../../utils";
 import { getRecommendedUsers } from "../../recommendationUtils";
 
-export default function Feed({ username, profile, token }) {
+/**
+ * Page to display specified user's recommended users and feed
+ * @param {object} props Component props
+ * @param {string} props.username Username of current user
+ */
+export default function Feed({ username }) {
   const [feed, setFeed] = useState(null);
   const [recommendations, setRecommendations] = useState(null);
   const [shouldUpdateFeed, setShouldUpdateFeed] = useState(false);
 
   React.useEffect(() => {
     const fetchData = async () => {
-      const response = await axios.get(
-        `http://localhost:3001/user/feed/${username}`
+      // Retrieve specified user's feed
+      setFeed(
+        (await axios.get(`http://localhost:3001/user/feed/${username}`)).data
       );
-      setFeed(response.data);
 
-      let genresResult = await axios.get(
-        `http://localhost:3001/user/topgenres/${username}`
+      // Retrieve specified user's recommended users based on their genres and artist preferences
+      setRecommendations(
+        await getRecommendedUsers(
+          username,
+          (
+            await axios.get(`http://localhost:3001/user/topgenres/${username}`)
+          ).data,
+          (
+            await axios.get(`http://localhost:3001/user/topartists/${username}`)
+          ).data,
+          []
+        )
       );
-      let artistsResult = await axios.get(
-        `http://localhost:3001/user/topartists/${username}`
-      );
-      let postedSongs = [];
-      let recs = await getRecommendedUsers(
-        username,
-        genresResult.data,
-        artistsResult.data,
-        postedSongs
-      );
-      setRecommendations(recs);
     };
 
     catchErrors(fetchData());
@@ -41,7 +45,7 @@ export default function Feed({ username, profile, token }) {
 
   return (
     <>
-      {feed ? (
+      {feed != null ? (
         <>
           <div className="feed-page">
             {recommendations && (
@@ -62,11 +66,7 @@ export default function Feed({ username, profile, token }) {
               <span className="feed-heading">Your Feed</span>
             </div>
             <div className="feed-results-wrapper">
-              <FeedResults
-                feed={feed}
-                username={username}
-                token={token}
-              ></FeedResults>
+              <FeedResults feed={feed} username={username}></FeedResults>
             </div>
           </div>
         </>

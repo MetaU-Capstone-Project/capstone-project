@@ -4,7 +4,7 @@ import SongHeaderView from "../SongHeaderView/SongHeaderView";
 import SongHeader from "../SongHeader/SongHeader";
 import logo from "../../logo.svg";
 
-export default function SongCard({ profile, token, song, isFeedView }) {
+export default function SongCard({ profile, song, isFeedView }) {
   return (
     <div
       className={
