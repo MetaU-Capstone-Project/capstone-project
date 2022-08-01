@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import PostCard from "../PostCard/PostCard";
 import "./Post.css";
-import { catchErrors } from "../../utils";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
+import { accessToken } from "../../spotify";
 import Select from "react-select";
 
-export default function Post({ username, profile, token }) {
+export default function Post({ username, profile }) {
   let { songId } = useParams();
   const [songInfo, setSongInfo] = useState(null);
   const [selectedPostAudience, setSelectedPostAudience] = useState(null);
@@ -19,7 +19,7 @@ export default function Post({ username, profile, token }) {
         `https://api.spotify.com/v1/tracks/${songId}`,
         {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${accessToken}`,
           },
         }
       );
@@ -100,7 +100,6 @@ export default function Post({ username, profile, token }) {
             <PostCard
               username={username}
               profile={profile}
-              token={token}
               song={songInfo}
             ></PostCard>
           </div>

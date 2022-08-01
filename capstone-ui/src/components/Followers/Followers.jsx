@@ -4,43 +4,41 @@ import "./Followers.css";
 import axios from "axios";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 
-export default function Followers({
-  username,
-  token,
-  profile,
-  currentUserUsername,
-  handleMouseOut,
-  handleMouseOver,
-}) {
+/**
+ * Component to display specified user's followers
+ * @param {object} props Component props
+ * @param {string} props.username Username of current user
+ */
+export default function Followers({ username, currentUserUsername }) {
   const [followers, setFollowers] = useState(null);
-  const [shouldUpdate, setShouldUpdate] = useState(false);
+  // TODO
+  // const [shouldUpdate, setShouldUpdate] = useState(false);
+  const [shouldUpdateProfileHeader, setShouldUpdateProfileHeader] =
+    useState(false);
 
+  // Retrieve all the followers of a specified user
   React.useEffect(() => {
     async function getFollowers() {
-      const response = await axios.get(
-        `http://localhost:3001/user/followers/${username}`
+      setFollowers(
+        (await axios.get(`http://localhost:3001/user/followers/${username}`))
+          .data
       );
-
-      setFollowers(response.data);
     }
     getFollowers();
-    setShouldUpdate(false);
-  }, [shouldUpdate]);
+    setShouldUpdateProfileHeader(false);
+  }, [shouldUpdateProfileHeader]);
 
   return (
     <div className="followers-component">
-      {followers ? (
+      {followers != null ? (
         followers.map((follower) => (
           <ProfileHeader
             profile={follower}
             key={follower}
-            token={token}
             isFollowersView={true}
             username={username}
             currentUserUsername={currentUserUsername}
-            setShouldUpdate={setShouldUpdate}
-            handleMouseOut={handleMouseOut}
-            handleMouseOver={handleMouseOver}
+            setShouldUpdateProfileHeader={setShouldUpdateProfileHeader}
           />
         ))
       ) : (

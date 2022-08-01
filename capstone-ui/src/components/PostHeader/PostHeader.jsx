@@ -3,6 +3,7 @@ import "./PostHeader.css";
 import ProfileHeader from "../ProfileHeader/ProfileHeader";
 import SongHeaderView from "../SongHeaderView/SongHeaderView";
 import axios from "axios";
+import { accessToken } from "../../spotify";
 import { formatDate } from "../../utils";
 import { accessToken } from "../../spotify";
 

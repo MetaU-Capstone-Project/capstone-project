@@ -1,13 +1,22 @@
 import React, { useState } from "react";
 import "./Main.css";
 import axios from "axios";
-import { accessToken, getCurrentUserProfile, logout } from "../../spotify";
+import { getCurrentUserProfile } from "../../spotify";
 import { catchErrors } from "../../utils";
 import Home from "../Home/Home";
-import { serverAuthToken } from "parse";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 import Register from "../Register/Register";
 
+/**
+ * Page to direct user to home page after logging in if they have an account, or to registration page if they don't
+ * @param {object} props Component props
+ * @param {boolean} props.userExists True if the Spotify account that user has logged in with is linked to an app profile
+ * @param {Function} props.setUserExists Handler to set if Spotify account that user is logged into is linked to an app profile
+ * @param {object} props.spotifyProfile Information about the Spotify account that is logged into after authentication
+ * @param {Function} props.setSpotifyProfile Handler to save the information about the Spotify account that is logged into after authentication
+ * @param {string} username of user trying to log in
+ * @param {Function} props.setUsername Handler to save username of user trying to log in
+ */
 export default function Main({
   userExists,
   setUserExists,
@@ -15,45 +24,38 @@ export default function Main({
   setSpotifyProfile,
   username,
   setUsername,
-  appProfile,
-  setAppProfile,
-  token,
-  setToken,
 }) {
   const [isFetching, setIsFetching] = useState(false);
 
   React.useEffect(() => {
     const fetchData = async () => {
       setIsFetching(true);
-      const { data } = await getCurrentUserProfile();
-      setSpotifyProfile(data);
 
-      let email = data.email;
-      const response = await axios.get(
-        `http://localhost:3001/user/exists/${email}`
+      // Retrieves Spotify profile information based on Spotify account logged in
+      const spotifyProfileResponse = await getCurrentUserProfile();
+      setSpotifyProfile(spotifyProfileResponse.data);
+
+      // Check if email associated with Spotify account is registered to an app account
+      const userExistsResponse = await axios.get(
+        `http://localhost:3001/user/exists/${spotifyProfileResponse.data.email}`
       );
-      setUserExists(response.data);
+      setUserExists(userExistsResponse.data);
 
-      if (response.data) {
-        const result = await axios.get(
-          `http://localhost:3001/user/profileByEmail/${email}`
+      if (userExistsResponse.data) {
+        const appProfileResponse = await axios.get(
+          `http://localhost:3001/user/profileByEmail/${spotifyProfileResponse.data.email}`
         );
-        setAppProfile(result.data);
-        setUsername(result.data.username);
-        setToken(accessToken);
+        setUsername(appProfileResponse.data.username);
 
-        const passwordData = await axios.get(
-          `http://localhost:3001/user/password/${result.data.username}`
-        );
-        const password = passwordData.data;
-
-        let postRequest = {
-          username: result.data.username,
-          password: password,
-        };
-        axios
-          .post("http://localhost:3001/user/login", postRequest)
-          .then(function (response) {});
+        // Logs user into account
+        axios.post("http://localhost:3001/user/login", {
+          username: appProfileResponse.data.username,
+          password: (
+            await axios.get(
+              `http://localhost:3001/user/password/${appProfileResponse.data.username}`
+            )
+          ).data,
+        });
       }
       setIsFetching(false);
     };
@@ -73,8 +75,6 @@ export default function Main({
               page={"home"}
               username={username}
               profile={spotifyProfile}
-              token={token}
-              appProfile={appProfile}
             ></Home>
           )}
         </>

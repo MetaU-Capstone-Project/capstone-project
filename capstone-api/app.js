@@ -5,8 +5,8 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const user = require("./routes/User");
 const axios = require("axios");
-// TODO import errors
 const dotenv = require("dotenv");
+
 dotenv.config();
 
 app.use(cors());

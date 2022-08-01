@@ -4,7 +4,7 @@ import "./Timeline.css";
 import axios from "axios";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 
-export default function Timeline({ username, token, profile }) {
+export default function Timeline({ username, profile }) {
   const [timeline, setTimeline] = useState(null);
 
   React.useEffect(() => {
@@ -26,9 +26,8 @@ export default function Timeline({ username, token, profile }) {
             username={username}
             post={post}
             key={post.objectId}
-            token={token}
-            profile={profile}
             isTimelineView={true}
+            profile={profile}
           ></PostHeader>
         ))
       ) : (

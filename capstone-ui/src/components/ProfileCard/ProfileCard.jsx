@@ -1,28 +1,33 @@
-import React, { useState } from "react";
-import ProfileHeader from "../ProfileHeader/ProfileHeader";
+import React from "react";
 import "./ProfileCard.css";
-import { Link } from "react-router-dom";
 import axios from "axios";
 import { logout, logoutWithUsername } from "../../spotify";
 import { formatDate } from "../../utils";
-
 import logo from "../../logo.svg";
 
+/**
+ * Component to display individual profile information and tabs to learn more
+ * @param {object} props Component props
+ * @param {string} props.username Username of current user
+ * @param {object} props.appProfile App profile information associated with current user
+ * @param {string} props.tab Identifier indicates which tab user is viewing
+ * @param {Function} props.setTab Handler to change which tab user is viewing
+ * @param {boolean} props.isFriendProfileView Indicates whether component is rendering a profile that isn't the current user's
+ */
 export default function ProfileCard({
   username,
-  token,
-  profile,
   appProfile,
-  isPreferencesView,
   tab,
   setTab,
   isFriendProfileView,
 }) {
+  // Set which tab is active and change color of tab that is active
   function handleTabChange(e) {
     setTab(e.target.id);
     e.target.className = "is-active";
   }
 
+  // Deletes the current user's account, only displayed if the profile is that of the current user
   const deleteAccount = async (e) => {
     axios
       .get(`http://localhost:3001/user/delete/${username}`)
@@ -33,6 +38,7 @@ export default function ProfileCard({
       });
   };
 
+  // Displays confirmation message to delete account
   const confirmDelete = async (e) => {
     if (window.confirm("Are you sure you want to delete your account?")) {
       deleteAccount();
@@ -82,6 +88,7 @@ export default function ProfileCard({
         >
           Friends
         </button>
+        {/* Renders settings tab only if profile being viewed belongs to current user */}
         {!isFriendProfileView && (
           <>
             <button

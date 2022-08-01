@@ -1,105 +1,47 @@
-import React, { useState } from "react";
+import React from "react";
 import Navbar from "../Navbar/Navbar";
 import Search from "../Search/Search";
 import Feed from "../Feed/Feed";
 import Groups from "../Groups/Groups";
 import Profile from "../Profile/Profile";
 import Post from "../Post/Post";
-import axios from "axios";
-import { catchErrors } from "../../utils";
 import "./Home.css";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 import FriendProfile from "../FriendProfile/FriendProfile";
 import Group from "../Group/Group";
 
-export default function Home({ username, page, token, profile, appProfile }) {
+/**
+ * Page that renders which page the user is currently on
+ * @param {object} props Component props
+ * @param {string} props.username of current user
+ * @param {string} props.page Identifier of which page the user is viewing
+ * @param {object} props.profile Spotify profile of current user
+ */
+export default function Home({ username, page, profile }) {
   return (
     <>
-      {username ? (
+      {username != null ? (
         <div className="home-page">
-          <Navbar username={username}></Navbar>
-          {page === "home" && (
-            <Feed username={username} profile={profile} token={token}></Feed>
-          )}
-          {page === "search" && (
-            <Search
-              username={username}
-              profile={profile}
-              token={token}
-            ></Search>
-          )}
+          <Navbar />
+          {page === "home" && <Feed username={username}></Feed>}
+          {page === "search" && <Search username={username}></Search>}
           {page === "groups" && (
-            <Groups
-              username={username}
-              profile={profile}
-              token={token}
-            ></Groups>
+            <Groups username={username} profile={profile}></Groups>
           )}
           {page === "profile" && (
-            <Profile
-              username={username}
-              profile={profile}
-              token={token}
-              followers={false}
-              timeline={true}
-              settings={false}
-              app={appProfile}
-            ></Profile>
+            <Profile username={username} profile={profile}></Profile>
           )}
           {page === "friendprofile" && (
             <FriendProfile
               friendUsername={username}
               profile={profile}
-              token={token}
-              followers={false}
-              timeline={true}
-              settings={false}
-              app={appProfile}
             ></FriendProfile>
           )}
           {page === "post" && (
-            <Post username={username} token={token} profile={profile}></Post>
-          )}
-          {page === "timeline" && (
-            <Profile
-              username={username}
-              profile={profile}
-              token={token}
-              followers={false}
-              timeline={true}
-              settings={false}
-              app={appProfile}
-            ></Profile>
-          )}
-          {page === "preferences" && (
-            <Profile
-              username={username}
-              profile={profile}
-              token={token}
-              followers={false}
-              timeline={false}
-              settings={true}
-              app={appProfile}
-            ></Profile>
-          )}
-          {page === "followers" && (
-            <Profile
-              username={username}
-              profile={profile}
-              token={token}
-              followers={true}
-              timeline={false}
-              settings={false}
-              app={appProfile}
-            ></Profile>
+            <Post username={username} profile={profile}></Post>
           )}
           {page === "group" && (
-            <Group
-              username={username}
-              profile={profile}
-              token={token}
-              app={appProfile}
-            ></Group>
+            <Group username={username} profile={profile}></Group>
           )}
         </div>
       ) : (

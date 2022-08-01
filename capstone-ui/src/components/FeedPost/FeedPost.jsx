@@ -7,18 +7,25 @@ import ProfileHeader from "../ProfileHeader/ProfileHeader";
 import SongCard from "../SongCard/SongCard";
 import { formatDate } from "../../utils";
 
-export default function FeedPost({ username, token, post }) {
+/**
+ * Component to display specified feed post
+ * @param {object} props Component props
+ * @param {string} props.username Username of current user
+ * @param {object} props.post Information about specified feed post
+ */
+export default function FeedPost({ username, post }) {
   const [songInfo, setSongInfo] = React.useState(null);
   const [profile, setProfile] = React.useState(null);
 
   React.useEffect(() => {
     const fetchData = async () => {
-      const songResponse = await getTrack(post.trackId);
-      const { data } = await axios.get(
-        `http://localhost:3001/user/${post.username}`
+      // Retrieves information from Spotify API about song associated with specified post
+      setSongInfo((await getTrack(post.trackId)).data);
+
+      // Retrieves app profile information about user associated with specified post
+      setProfile(
+        (await axios.get(`http://localhost:3001/user/${post.username}`)).data
       );
-      setSongInfo(songResponse.data);
-      setProfile(data);
     };
 
     catchErrors(fetchData());
@@ -33,7 +40,6 @@ export default function FeedPost({ username, token, post }) {
               className="feedpost-songheader"
               username={profile.username}
               profile={profile}
-              token={token}
               isFeedView={true}
               isSearchView={false}
               handleMouseOut={() => {}}
@@ -47,7 +53,6 @@ export default function FeedPost({ username, token, post }) {
             <SongCard
               username={username}
               profile={profile}
-              token={token}
               song={songInfo}
               isFeedView={true}
             ></SongCard>
