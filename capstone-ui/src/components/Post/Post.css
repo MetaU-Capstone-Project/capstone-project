@@ -1,11 +1,18 @@
+.post-select {
+    width: 20%;
+    margin: 1rem;
+}
+
 .post-button {
-    width: 25%;
+    width: 20%;
 }
 
 .post-button-wrapper {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     margin-bottom: 5rem;
+    align-items: center;
 }
 
 .postcard-wrapper {
@@ -14,16 +21,6 @@
     margin-top: 2rem;
     margin-bottom: 2rem;
 }
-
-/* .loading-wrapper {
-    display: flex;
-    justify-content: center;
-    margin-top: 2rem;
-    margin-bottom: 2rem;
-    align-items: center;
-    justify-items: center;
-    align-content: center;
-} */
 
 .post-page {
     display: flex;

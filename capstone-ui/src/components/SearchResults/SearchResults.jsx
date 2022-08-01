@@ -1,6 +1,5 @@
 import React from "react";
 import "./SearchResults.css";
-
 import ProfileHeader from "../ProfileHeader/ProfileHeader";
 import SongHeader from "../SongHeader/SongHeader";
 

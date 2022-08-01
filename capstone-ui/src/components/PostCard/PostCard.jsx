@@ -11,6 +11,8 @@ export default function PostCard({ username, profile, song }) {
           username={username}
           profile={profile}
           isSearchView={false}
+          handleMouseOut={() => {}}
+          handleMouseOver={() => {}}
         ></ProfileHeader>
       </div>
       <div className="songcard-wrapper">

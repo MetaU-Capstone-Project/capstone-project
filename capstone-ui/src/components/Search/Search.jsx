@@ -3,6 +3,7 @@ import SearchBar from "../SearchBar/SearchBar";
 import SearchResults from "../SearchResults/SearchResults";
 import ProfileDetails from "../ProfileDetails/ProfileDetails";
 import { accessToken } from "../../spotify";
+import { showPopup, hidePopup } from "../../utils";
 import axios from "axios";
 import TrieSearch from "trie-search";
 import "./Search.css";
@@ -55,7 +56,7 @@ export default function Search({ username }) {
   // Displays the popup if user is hovering over a profile result
   const handleMouseOver = (username) => {
     setIsHovering(true);
-    on();
+    showPopup();
     setHoverUsername(username);
     setShouldUpdateProfileDetails(true);
   };
@@ -63,7 +64,7 @@ export default function Search({ username }) {
   // Hides the popup if user is hovering over a profile result
   const handleMouseOut = () => {
     setIsHovering(false);
-    off();
+    hidePopup();
     setShouldUpdateProfileDetails(false);
   };
 
@@ -128,14 +129,6 @@ export default function Search({ username }) {
       searchSongs(e);
     }
   };
-
-  function on() {
-    document.getElementById("overlay").style.display = "block";
-  }
-
-  function off() {
-    document.getElementById("overlay").style.display = "none";
-  }
 
   return (
     <div className="search-page">

@@ -10,6 +10,11 @@
     justify-content: start;
 }
 
+.songheader-playing-picture {
+    width: 5rem;
+    height: 5rem;
+}
+
 .play-song-wrapper {
     flex: 0.25;
     margin: 2rem;
@@ -19,16 +24,15 @@
     flex: 0.75;
     display: flex;
     flex-direction: column;
-    width: 6rem;
+    width: 30rem;
 }
 
-.songheader-component {
+.songheader-component-songheader {
     display: flex;
-    width: auto;
-    height: auto;
+    width: 30rem;
+    height: 10rem;
     background-color: lightgray;
 }
-
 .songheader-border {
     border: solid #000;
     border-width: 0.3rem;

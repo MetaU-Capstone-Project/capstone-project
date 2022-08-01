@@ -5,13 +5,16 @@ import PostCard from "../PostCard/PostCard";
 import "./Post.css";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 import { accessToken } from "../../spotify";
+import Select from "react-select";
 
 export default function Post({ username, profile }) {
   let { songId } = useParams();
   const [songInfo, setSongInfo] = useState(null);
+  const [selectedPostAudience, setSelectedPostAudience] = useState(null);
+  const [postAudienceOptions, setPostAudienceOptions] = useState(null);
 
   React.useEffect(() => {
-    async function getTrack() {
+    const fetchData = async () => {
       const response = await axios.get(
         `https://api.spotify.com/v1/tracks/${songId}`,
         {
@@ -21,13 +24,26 @@ export default function Post({ username, profile }) {
         }
       );
       setSongInfo(response.data);
-    }
 
-    getTrack();
+      const postAudienceResponse = await axios.get(
+        `http://localhost:3001/user/groups/${username}`
+      );
+
+      let audienceOptions = ["My Feed"];
+      audienceOptions = audienceOptions.concat(
+        postAudienceResponse.data.map((group) => group.groupName)
+      );
+      audienceOptions = audienceOptions.map((groupName) => {
+        return { value: groupName, label: groupName };
+      });
+
+      setPostAudienceOptions(audienceOptions);
+    };
+
+    catchErrors(fetchData());
   }, []);
 
-  // Adds post to current user's timeline on success and displays message
-  const addPost = async function () {
+  const addPostToPersonal = async function () {
     let postRequest = {
       username: username,
       trackId: songId,
@@ -43,6 +59,39 @@ export default function Post({ username, profile }) {
       });
   };
 
+  const addPostToGroup = async function (groupName) {
+    let postRequest = {
+      username: username,
+      trackId: songId,
+      groupName: groupName,
+    };
+    axios
+      .post("http://localhost:3001/user/grouppost", postRequest)
+      .then(function (response) {
+        alert(`Success! Post was successfully created to ${groupName}`);
+      })
+      .catch((error) => {
+        alert(`Error! ${error.message}`);
+        return false;
+      });
+  };
+
+  const addPostToAudience = async function () {
+    if (selectedPostAudience === null) {
+      alert("You have not selected a feed to post to.");
+    } else {
+      if (selectedPostAudience.value === "My Feed") {
+        addPostToPersonal();
+      } else {
+        addPostToGroup(selectedPostAudience.value);
+      }
+    }
+  };
+
+  function handlePostAudienceChange(e) {
+    setSelectedPostAudience(e);
+  }
+
   return (
     <div className="post-page" key="post-page">
       {songInfo ? (
@@ -55,7 +104,14 @@ export default function Post({ username, profile }) {
             ></PostCard>
           </div>
           <div className="post-button-wrapper">
-            <button className="post-button" onClick={addPost}>
+            <Select
+              className="post-select"
+              closeMenuOnSelect={false}
+              value={selectedPostAudience}
+              options={postAudienceOptions}
+              onChange={handlePostAudienceChange}
+            />
+            <button className="post-button" onClick={addPostToAudience}>
               Post
             </button>
           </div>

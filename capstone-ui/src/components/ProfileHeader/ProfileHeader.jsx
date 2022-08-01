@@ -29,7 +29,7 @@ export default function ProfileHeader({
   currentUserUsername,
   handleMouseOver,
   handleMouseOut,
-  setShouldUpdate,
+  setShouldUpdateProfileHeader,
   setShouldUpdateFeed,
 }) {
   const [isFollowing, setIsFollowing] = useState(false);
@@ -87,9 +87,11 @@ export default function ProfileHeader({
         alert(`Error! ${error.message}`);
       });
 
-    // Checks if handler functions to update parent components are defined, as some parent components should not display popups when hovering
-    if (setShouldUpdate && typeof setShouldUpdate == "function") {
-      setShouldUpdate(true);
+    if (
+      setShouldUpdateProfileHeader &&
+      typeof setShouldUpdateProfileHeader == "function"
+    ) {
+      setShouldUpdateProfileHeader(true);
     }
 
     if (setShouldUpdateFeed && typeof setShouldUpdateFeed == "function") {
@@ -115,9 +117,11 @@ export default function ProfileHeader({
         alert(`Error! ${error.message}`);
       });
 
-    // Checks if handler functions to update parent components are defined, as some parent components should not display popups when hovering
-    if (setShouldUpdate && typeof setShouldUpdate == "function") {
-      setShouldUpdate(true);
+    if (
+      setShouldUpdateProfileHeader &&
+      typeof setShouldUpdateProfileHeader == "function"
+    ) {
+      setShouldUpdateProfileHeader(true);
     }
 
     if (setShouldUpdateFeed && typeof setShouldUpdateFeed == "function") {

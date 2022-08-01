@@ -1,7 +1,7 @@
 import React from "react";
 import "./ProfileCard.css";
 import axios from "axios";
-import { logout } from "../../spotify";
+import { logout, logoutWithUsername } from "../../spotify";
 import { formatDate } from "../../utils";
 import logo from "../../logo.svg";
 
@@ -33,6 +33,7 @@ export default function ProfileCard({
       .get(`http://localhost:3001/user/delete/${username}`)
       .then(function (response) {
         logout();
+
         window.location.href = "http://localhost:3000";
       });
   };
@@ -44,23 +45,21 @@ export default function ProfileCard({
     }
   };
 
+  const isProfileImageDefined =
+    appProfile != null && appProfile.imageURL != undefined;
+
   return (
     <div className="profilecard-component">
       <div className="profile-picture-wrapper">
-        {/* Renders logo if user has no Spotify profile picture */}
-        {appProfile != null &&
-          appProfile.imageURL != undefined &&
-          appProfile.imageURL === "logo" && (
-            <img className="spotify-profile-picture" src={logo}></img>
-          )}
-        {appProfile != null &&
-          appProfile.imageURL != undefined &&
-          appProfile.imageURL !== "logo" && (
-            <img
-              className="spotify-profile-picture"
-              src={appProfile.imageURL}
-            ></img>
-          )}
+        {isProfileImageDefined && appProfile.imageURL === "logo" && (
+          <img className="spotify-profile-picture" src={logo}></img>
+        )}
+        {isProfileImageDefined && appProfile.imageURL !== "logo" && (
+          <img
+            className="spotify-profile-picture"
+            src={appProfile.imageURL}
+          ></img>
+        )}
       </div>
       <div className="profile-info-wrapper">
         <span className="profile-username">Username: {username}</span>
@@ -105,7 +104,10 @@ export default function ProfileCard({
               <button className="delete-account-button" onClick={confirmDelete}>
                 Delete Account
               </button>
-              <button className="logout-account-button" onClick={logout}>
+              <button
+                className="logout-account-button"
+                onClick={() => logoutWithUsername(username)}
+              >
                 Logout
               </button>
             </div>

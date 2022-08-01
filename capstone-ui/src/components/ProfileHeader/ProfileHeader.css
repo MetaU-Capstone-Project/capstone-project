@@ -23,7 +23,6 @@ img {
     height: 80%;
 }
 
-/* don't delete */
 .feedview-profile-picture-wrapper {
 
 }
@@ -62,17 +61,7 @@ img {
     background-color: lightgray;
     align-items: center;
     justify-content: center;
-    /* added */
     border: solid black 0.3rem;
-}
-
-.feedview-profileheader-component {
-    display: flex;
-    flex-direction: column;
-    background-color: lightgray;
-    align-items: center;
-    justify-content: center;
-    flex: 0.3;
 }
 
 .profileheader-component {

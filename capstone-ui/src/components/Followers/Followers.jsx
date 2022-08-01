@@ -11,7 +11,10 @@ import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
  */
 export default function Followers({ username, currentUserUsername }) {
   const [followers, setFollowers] = useState(null);
-  const [shouldUpdate, setShouldUpdate] = useState(false);
+  // TODO
+  // const [shouldUpdate, setShouldUpdate] = useState(false);
+  const [shouldUpdateProfileHeader, setShouldUpdateProfileHeader] =
+    useState(false);
 
   // Retrieve all the followers of a specified user
   React.useEffect(() => {
@@ -22,8 +25,8 @@ export default function Followers({ username, currentUserUsername }) {
       );
     }
     getFollowers();
-    setShouldUpdate(false);
-  }, [shouldUpdate]);
+    setShouldUpdateProfileHeader(false);
+  }, [shouldUpdateProfileHeader]);
 
   return (
     <div className="followers-component">
@@ -35,7 +38,7 @@ export default function Followers({ username, currentUserUsername }) {
             isFollowersView={true}
             username={username}
             currentUserUsername={currentUserUsername}
-            setShouldUpdate={setShouldUpdate}
+            setShouldUpdateProfileHeader={setShouldUpdateProfileHeader}
           />
         ))
       ) : (

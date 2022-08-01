@@ -1,26 +1,31 @@
-import React, { useState } from "react";
+import React from "react";
 import "./Group.css";
 import axios from "axios";
-import GroupHeader from "../GroupHeader/GroupHeader";
 import { useParams } from "react-router-dom";
 import { catchErrors } from "../../utils";
+import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
+import GroupCard from "../GroupCard/GroupCard";
+import Members from "../Members/Members";
+import GroupInformation from "../GroupInformation/GroupInformation";
+import GroupFeed from "../GroupFeed/GroupFeed";
 
-export default function Group({
-  username,
-  token,
-  profile,
-  recs,
-  setShouldUpdateFeed,
-}) {
-  let { name } = useParams();
-  const [groupInfo, setGroupInfo] = React.useState();
+/**
+ * Page for displaying information about individual group
+ * @param {object} props Component props
+ * @param {string} props.username Username of current user
+ * @param {object} props.profile App profile information about current user
+ */
+export default function Group({ username, profile }) {
+  let { groupname } = useParams();
+  const [groupInfo, setGroupInfo] = React.useState(null);
+  const [tab, setTab] = React.useState("feed");
 
+  // Retrieves information about group identified by specified group name
   React.useEffect(() => {
     const fetchData = async () => {
-      const { data } = await axios.get(
-        `http://localhost:3001/user/group/${name}`
+      setGroupInfo(
+        (await axios.get(`http://localhost:3001/user/group/${groupname}`)).data
       );
-      setGroupInfo(data);
     };
 
     catchErrors(fetchData());
@@ -28,7 +33,59 @@ export default function Group({
 
   return (
     <div className="group-page">
-      <GroupHeader group={{ name: name }}></GroupHeader>
+      <div className="groupcard-component-wrapper">
+        {groupInfo ? (
+          <GroupCard
+            username={username}
+            group={groupInfo}
+            tab={tab}
+            setTab={setTab}
+          ></GroupCard>
+        ) : (
+          <LoadingSpinner></LoadingSpinner>
+        )}
+      </div>
+      {tab == "feed" && (
+        <div className="timeline-wrapper">
+          <span className="timeline-heading">Feed</span>
+          {groupInfo ? (
+            <GroupFeed
+              username={username}
+              profile={profile}
+              groupName={groupInfo.name}
+            ></GroupFeed>
+          ) : (
+            <LoadingSpinner></LoadingSpinner>
+          )}
+        </div>
+      )}
+      {tab == "members" && (
+        <div className="settings-wrapper">
+          <span className="settings-heading">Members</span>
+          {groupInfo ? (
+            <Members
+              username={username}
+              groupName={groupInfo.name}
+              currentUserUsername={username}
+            ></Members>
+          ) : (
+            <LoadingSpinner></LoadingSpinner>
+          )}
+        </div>
+      )}
+      {tab == "information" && (
+        <div className="followers-wrapper">
+          <span className="followers-heading">Information</span>
+          {groupInfo ? (
+            <GroupInformation
+              username={username}
+              groupName={groupInfo.name}
+            ></GroupInformation>
+          ) : (
+            <LoadingSpinner></LoadingSpinner>
+          )}
+        </div>
+      )}
     </div>
   );
 }

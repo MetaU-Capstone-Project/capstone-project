@@ -1,11 +1,12 @@
 import React from "react";
 import "./Profile.css";
 import axios from "axios";
-import { catchErrors } from "../../utils";
+import { catchErrors, showPopup, hidePopup } from "../../utils";
 import Settings from "../Settings/Settings";
 import ProfileCard from "../ProfileCard/ProfileCard";
 import Timeline from "../Timeline/Timeline";
 import Followers from "../Followers/Followers";
+import ProfileDetails from "../ProfileDetails/ProfileDetails";
 
 /**
  * Page to display current user's profile
@@ -16,6 +17,23 @@ import Followers from "../Followers/Followers";
 export default function Profile({ username, profile }) {
   const [appProfile, setAppProfile] = React.useState(null);
   const [tab, setTab] = React.useState("timeline");
+  const [isHovering, setIsHovering] = React.useState(false);
+  const [hoverUsername, setHoverUsername] = React.useState(null);
+  const [shouldUpdateProfileDetails, setShouldUpdateProfileDetails] =
+    React.useState(false);
+
+  const handleMouseOver = (username) => {
+    setIsHovering(true);
+    showPopup();
+    setHoverUsername(username);
+    setShouldUpdateProfileDetails(true);
+  };
+
+  const handleMouseOut = () => {
+    setIsHovering(false);
+    hidePopup();
+    setShouldUpdateProfileDetails(false);
+  };
 
   // Retrieves current user's app profile information
   React.useEffect(() => {
@@ -30,6 +48,16 @@ export default function Profile({ username, profile }) {
 
   return (
     <div className="profile-page">
+      <div id="overlay">
+        <div className="profile-details-wrapper">
+          {hoverUsername && (
+            <ProfileDetails
+              username={hoverUsername}
+              setShouldUpdateProfileDetails={shouldUpdateProfileDetails}
+            ></ProfileDetails>
+          )}
+        </div>
+      </div>
       <div className="info-wrapper">
         <ProfileCard
           username={username}

@@ -44,22 +44,22 @@ router.post("/login", async (req, res) => {
 // Route for user to register a new app account
 router.post("/register", async (req, res) => {
   const infoUser = req.body;
-  const registrationResult = await User.registerUser(req.body);
-  if (registrationResult === true) {
+  const isRegisterUserSuccessful = await User.registerUser(req.body);
+  if (isRegisterUserSuccessful === true) {
     res.status(CREATE_SUCCESS_CODE).send(infoUser);
   } else {
-    res.status(400).send({ errorMessage: registrationResult });
+    res.status(ERROR_CODE).send({ errorMessage: isRegisterUserSuccessful });
   }
 });
 
 // Route for user to create a new post
 router.post("/post", async (req, res) => {
   const { username, trackId } = req.body;
-  const result = await User.createPost(username, trackId);
-  if (result === true) {
+  const isCreatePostSuccessful = await User.createPost(username, trackId);
+  if (isCreatePostSuccessful === true) {
     res.send(CREATE_SUCCESS_CODE);
   } else {
-    res.sen(ERROR_CODE).send({ errorMessage: result });
+    res.send(ERROR_CODE).send({ errorMessage: isCreatePostSuccessful });
   }
 });
 
@@ -159,11 +159,11 @@ router.get("/topartists/:username", async (req, res) => {
 
 // Route to create a new group
 router.post("/group", async (req, res) => {
-  const result = await User.createGroup(req.body);
-  if (result === true) {
+  const isCreateGroupSuccessful = await User.createGroup(req.body);
+  if (isCreateGroupSuccessful === true) {
     res.status(CREATE_SUCCESS_CODE).send(req.body);
   } else {
-    res.status(ERROR_CODE).send({ errorMessage: result });
+    res.status(ERROR_CODE).send({ errorMessage: isCreateGroupSuccessful });
   }
 });
 
@@ -173,9 +173,8 @@ router.get("/groups/:username", async (req, res) => {
   res.send(await User.getGroups(username));
 });
 
-// Route to get specified group's information
-router.get("/group/:name", async (req, res) => {
-  const groupName = req.params.name;
+router.get("/group/:groupname", async (req, res) => {
+  const groupName = req.params.groupname;
   res.send(await User.getGroup(groupName));
 });
 
@@ -194,11 +193,11 @@ router.post("/leavegroup", async (req, res) => {
 // Route to send invite to specified user to join specified group
 router.post("/invite", async (req, res) => {
   const { username, groupName } = req.body;
-  const result = await User.sendInvite(username, groupName);
-  if (result === true) {
+  const isSendInviteSuccessful = await User.sendInvite(username, groupName);
+  if (isSendInviteSuccessful === true) {
     res.status(CREATE_SUCCESS_CODE).send(req.body);
   } else {
-    res.status(ERROR_CODE).send({ errorMessage: result });
+    res.status(ERROR_CODE).send({ errorMessage: isSendInviteSuccessful });
   }
 });
 
@@ -208,10 +207,72 @@ router.get("/inbox/:username", async (req, res) => {
   res.send(await User.getInbox(username));
 });
 
-// Route to get Parse information of current user
+router.get("/members/:groupname", async (req, res) => {
+  const groupName = req.params.groupname;
+  res.send(await User.getMembers(groupName));
+});
+
+router.post("/groupgenres", async (req, res) => {
+  let { groupName, genres } = req.body;
+  res.send(await User.setGroupGenres(groupName, genres));
+});
+
+router.post("/membershipstatus", async (req, res) => {
+  let { username, groupName } = req.body;
+  res.send(await User.getMembershipStatus(username, groupName));
+});
+
+router.post("/groupdescription", async (req, res) => {
+  let { groupName, description } = req.body;
+  res.send(await User.setGroupDescription(groupName, description));
+});
+
+router.get("/groupfeed/:groupname", async (req, res) => {
+  const groupName = req.params.groupname;
+  res.send(await User.getGroupFeed(groupName));
+});
+
+router.post("/grouppost", async (req, res) => {
+  const { username, trackId, groupName } = req.body;
+  const isCreateGroupPostSuccessful = await User.createGroupPost(
+    username,
+    trackId,
+    groupName
+  );
+  if (isCreateGroupPostSuccessful === true) {
+    res.send(CREATE_SUCCESS_CODE);
+  } else {
+    res.send(ERROR_CODE).send({ errorMessage: isCreateGroupPostSuccessful });
+  }
+});
+
+router.get("/recentsearches/:username", async (req, res) => {
+  const username = req.params.username;
+  res.send(await User.getRecentSearches(username));
+});
+
+router.post("/addrecentsearch", async (req, res) => {
+  const { username, searchValue } = req.body;
+  const isAddRecentSearchSuccessful = await User.addRecentSearch(
+    username,
+    searchValue
+  );
+  if (isAddRecentSearchSuccessful === true) {
+    res.status(CREATE_SUCCESS_CODE).send(req.body);
+  } else {
+    res.status(ERROR_CODE).send({ errorMessage: isAddRecentSearchSuccessful });
+  }
+});
+
+router.get("/clearrecentsearches/:username", async (req, res) => {
+  const username = req.params.username;
+  res.send(await User.clearRecentSearches(username));
+});
+
 router.get("/", (req, res) => {
   try {
-    res.send(User.getCurrentUser());
+    let currUser = User.getCurrentUser();
+    res.send(currUser);
   } catch {
     res.status(ERROR_CODE).send();
   }

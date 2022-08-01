@@ -45,6 +45,7 @@ class User {
     user.set("appPassword", password);
     user.set("spotifyURL", spotifyURL);
     user.set("imageURL", imageURL);
+    user.set("recentSearches", []);
 
     let userPreferences = new Parse.Object("Preferences");
     userPreferences.set("topGenres", []);
@@ -62,8 +63,6 @@ class User {
     } catch (error) {
       return `Error with ${username} saving preferences while registering`;
     }
-
-    return true;
   }
 
   /**
@@ -160,12 +159,12 @@ class User {
    */
   static async getFeed(username) {
     let followers = await this.getFollowers(username);
-    let result = [];
+    let feed = [];
     for (let i = 0; i < followers.length; i++) {
       let userPosts = await this.getTimeline(followers[i]);
-      result = result.concat(userPosts);
+      feed = feed.concat(userPosts);
     }
-    result.sort(function (a, b) {
+    feed.sort(function (a, b) {
       const timeA = a.createdAt;
       const timeB = b.createdAt;
       if (timeA < timeB) {
@@ -177,7 +176,7 @@ class User {
       return 0;
     });
 
-    return result;
+    return feed;
   }
 
   /**
@@ -195,8 +194,8 @@ class User {
 
     const postsQuery = new Parse.Query("Post");
     postsQuery.equalTo("username", username);
-    postsQuery.find().then(function (results) {
-      return Parse.Object.destroyAll(results);
+    postsQuery.find().then(function (posts) {
+      return Parse.Object.destroyAll(posts);
     });
 
     return true;
@@ -303,6 +302,21 @@ class User {
       groupInfo;
     let group = new Parse.Object("Group");
 
+    if (groupName === "") {
+      return "Name cannot be empty!";
+    }
+
+    let uniqueNameQuery = new Parse.Query("Group");
+    uniqueNameQuery.equalTo("name", groupName);
+    let uniqueNameResult = await uniqueNameQuery.find({});
+    if (uniqueNameResult.length !== 0) {
+      return "Group exists with that name already!";
+    }
+
+    if (description === "") {
+      return "Description cannot be empty!";
+    }
+
     group.set("name", groupName);
     group.set("description", description);
     group.set("isPrivate", isPrivate);
@@ -311,7 +325,7 @@ class User {
     let relationship = new Parse.Object("UserGroup");
     relationship.set("username", username);
     relationship.set("groupName", groupName);
-    relationship.set("isAdmin", isAdmin);
+    relationship.set("isAdmin", true);
 
     try {
       await group.save();
@@ -365,8 +379,8 @@ class User {
     groupNameQuery.equalTo("groupName", groupName);
 
     let compoundQuery = Parse.Query.and(usernameQuery, groupNameQuery);
-    let result = await compoundQuery.first({});
-    result.destroy({});
+    let invite = await compoundQuery.first({});
+    invite.destroy({});
 
     try {
       await relationship.save();
@@ -385,8 +399,8 @@ class User {
     let query = new Parse.Query("UserGroup");
     query.equalTo("username", username);
     query.equalTo("groupName", groupName);
-    let result = await query.first({});
-    result.destroy({});
+    let relationship = await query.first({});
+    relationship.destroy({});
   }
 
   /**
@@ -415,6 +429,111 @@ class User {
     const query = new Parse.Query("Invite");
     query.equalTo("username", username).descending("createdAt");
     return await query.find();
+  }
+
+  static async getMembers(groupName) {
+    const query = new Parse.Query("UserGroup");
+    query.equalTo("groupName", groupName);
+    return (await query.find({})).map((element) => {
+      return {
+        username: element.get("username"),
+        isAdmin: element.get("isAdmin"),
+      };
+    });
+  }
+
+  static async setGroupGenres(groupName, genres) {
+    const query = new Parse.Query("Group");
+    query.equalTo("name", groupName);
+    let group = await query.first({});
+    group.set("genres", genres);
+    await group.save();
+    return group.get("genres");
+  }
+
+  static async getMembershipStatus(username, groupName) {
+    let usernameQuery = new Parse.Query("UserGroup");
+    usernameQuery.equalTo("username", username);
+    let groupNameQuery = new Parse.Query("UserGroup");
+    groupNameQuery.equalTo("groupName", groupName);
+    let compoundQuery = Parse.Query.and(usernameQuery, groupNameQuery);
+    return await compoundQuery.first({});
+  }
+
+  static async setGroupDescription(groupName, description) {
+    const query = new Parse.Query("Group");
+    query.equalTo("name", groupName);
+    let group = await query.first({});
+    group.set("description", description);
+    await group.save();
+    return group.get("description");
+  }
+
+  static async createGroupPost(username, trackId, groupName) {
+    let Post = new Parse.Object("Post");
+    Post.set("username", username);
+    Post.set("trackId", trackId);
+    Post.set("groupName", groupName);
+    try {
+      await Post.save();
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
+
+  static async getGroupFeed(groupName) {
+    const query = new Parse.Query("Post");
+    query.equalTo("groupName", groupName);
+    query.descending("createdAt");
+    return await query.find();
+  }
+
+  static async getRecentSearches(username) {
+    const query = new Parse.Query("User");
+    query.equalTo("username", username);
+    return (await query.first({})).get("recentSearches");
+  }
+
+  static async addRecentSearch(username, searchValue) {
+    const query = new Parse.Query("User");
+    query.equalTo("username", username);
+    const user = await query.first({});
+
+    // Ensures that only the 10 most recent searches are saved
+    if (user.get("recentSearches").length >= 10) {
+      let oldestSearch = user.get("recentSearches")[0];
+      user.remove("recentSearches", oldestSearch);
+
+      try {
+        await user.save();
+      } catch (error) {
+        return `Error with ${username} deleting oldest search value ${oldestSearch}`;
+      }
+    }
+
+    user.addUnique("recentSearches", searchValue);
+
+    try {
+      await user.save();
+      return true;
+    } catch (error) {
+      return `Error with ${username} saving recent search for ${searchValue}`;
+    }
+  }
+
+  static async clearRecentSearches(username) {
+    const query = new Parse.Query("User");
+    query.equalTo("username", username);
+    const user = await query.first({});
+    user.set("recentSearches", []);
+
+    try {
+      await user.save();
+      return true;
+    } catch (error) {
+      return `Error with ${username} clearing recent searches ${searchValue}`;
+    }
   }
 }
 

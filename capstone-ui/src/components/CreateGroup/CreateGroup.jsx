@@ -6,7 +6,13 @@ import Switch from "react-switch";
 import Select from "react-select";
 import { catchErrors } from "../../utils";
 
-export default function CreateGroup({ username }) {
+/**
+ * Component to create a new group
+ * @param {object} props Component props
+ * @param {string} props.username Username of current user
+ * @param {Function} props.setShouldUpdateGroupPage Handler for triggering rerendering of group page after user changes membership status (joins/leaves)
+ */
+export default function CreateGroup({ username, setShouldUpdateGroupPage }) {
   const [groupName, setGroupName] = useState("");
   const [description, setDescription] = useState("");
   const [isPrivate, setIsPrivate] = useState(false);
@@ -17,42 +23,41 @@ export default function CreateGroup({ username }) {
 
   React.useEffect(() => {
     const fetchData = async () => {
-      const allGenres = await getGenres();
-      let genreResults = allGenres.data.genres.map((element) => {
-        return { value: element, label: element };
-      });
-      setGenreOptions(genreResults);
-
-      const memberResponse = await axios.get(
-        `http://localhost:3001/user/followers/${username}`
+      // Populates the genre options for the genre preference dropdown button
+      setGenreOptions(
+        (await getGenres()).data.genres.map((genre) => {
+          return { value: genre, label: genre };
+        })
       );
 
-      let memberResults = memberResponse.data.map((element) => {
-        return { value: element, label: element };
-      });
-      setMemberOptions(memberResults);
+      // Populates the member options for the invite dropdown button with the user's friends
+      setMemberOptions(
+        (
+          await axios.get(`http://localhost:3001/user/followers/${username}`)
+        ).data.map((member) => {
+          return { value: member, label: member };
+        })
+      );
     };
 
     catchErrors(fetchData());
   }, []);
 
   function createGroup() {
-    let postRequest = {
-      username: username,
-      groupName: groupName,
-      description: description,
-      isPrivate: isPrivate,
-      genres: selectedGenres,
-      isAdmin: isPrivate,
-    };
     axios
-      .post("http://localhost:3001/user/group", postRequest)
+      .post("http://localhost:3001/user/group", {
+        username: username,
+        groupName: groupName,
+        description: description,
+        isPrivate: isPrivate,
+        genres: selectedGenres,
+        isAdmin: isPrivate,
+      })
       .then(function (response) {
-        alert(`Success! Group ${groupName} was successfully created!`);
+        alert(`Group ${groupName} was successfully created!`);
       })
       .catch((error) => {
-        alert(`Error! ${error.message}`);
-        return false;
+        alert(`${error.response.data.errorMessage}`);
       });
 
     setGroupName("");
@@ -61,24 +66,27 @@ export default function CreateGroup({ username }) {
     setSelectedGenres([]);
 
     for (let i = 0; i < selectedMembers.length; i++) {
-      let inviteRequest = {
+      axios.post("http://localhost:3001/user/invite", {
         username: selectedMembers[i].value,
         groupName: groupName,
-      };
-      axios.post("http://localhost:3001/user/invite", inviteRequest).then();
+      });
     }
 
     setSelectedMembers([]);
+    setShouldUpdateGroupPage(true);
   }
 
+  // Toggles the group privacy settings between private and public
   function handleSwitch(privacySetting) {
     setIsPrivate(privacySetting);
   }
 
+  // Sets the selected genres to reflect the selections user makes in genre dropdown button
   async function handleGenreChange(genres) {
     setSelectedGenres(genres);
   }
 
+  // Sets the selected nenbers to reflect the selections user makes in invite dropdown button
   async function handleMemberChange(members) {
     setSelectedMembers(members);
   }

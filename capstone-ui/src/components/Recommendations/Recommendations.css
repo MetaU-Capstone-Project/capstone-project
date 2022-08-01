@@ -1,3 +1,7 @@
+.no-recommendations-text {
+    margin-left: 2rem;
+}
+
 .recommendations-heading {
     margin-top: 1.5rem;
     margin-bottom: 0.25rem;
@@ -13,8 +17,11 @@
     overflow-x: scroll;
 }
 
+.feed-view-recommendations-component {
+    overflow-x: auto;
+}
+
 .recommendations-component {
-    /* margin-top: 3rem; */
     max-width: 40rem;
     overflow-x: auto;
 }

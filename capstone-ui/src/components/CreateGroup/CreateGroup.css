@@ -21,6 +21,7 @@
 
 .group-members-text {
     font-size: 1.5rem;
+    margin: 1rem;
 }
 
 .group-members-wrapper {
@@ -74,7 +75,6 @@ img {
 
 .group-select-wrapper {
     margin-top: 1rem;
-    /* width: 20rem; */
     display: flex;
     flex-direction: column;
 }
