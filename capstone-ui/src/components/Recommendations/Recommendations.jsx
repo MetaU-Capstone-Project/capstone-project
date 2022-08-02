@@ -1,16 +1,10 @@
 import React, { useState } from "react";
 import "./Recommendations.css";
-import axios from "axios";
-import { catchErrors } from "../../utils";
-import { getTopArtists, getGenres, getRecommendations } from "../../spotify";
-import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
-import { getRecommendedUsers } from "../../recommendationUtils";
 import ProfileHeader from "../ProfileHeader/ProfileHeader";
 
 export default function Recommendations({
   username,
   token,
-  profile,
   recs,
   setShouldUpdateFeed,
   handleMouseOut,

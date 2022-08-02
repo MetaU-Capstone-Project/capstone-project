@@ -269,6 +269,12 @@ router.get("/clearrecentsearches/:username", async (req, res) => {
   res.send(await User.clearRecentSearches(username));
 });
 
+// Route to get all the posts of users that current user follows in descending chronological order by page
+router.post("/feedpage", async (req, res) => {
+  const { username, limit, page } = req.body;
+  res.send(await User.getFeedByPage(username, limit, page));
+});
+
 router.get("/", (req, res) => {
   try {
     let currUser = User.getCurrentUser();

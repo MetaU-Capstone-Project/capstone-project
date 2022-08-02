@@ -11,8 +11,6 @@ import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
  */
 export default function Followers({ username, currentUserUsername }) {
   const [followers, setFollowers] = useState(null);
-  // TODO
-  // const [shouldUpdate, setShouldUpdate] = useState(false);
   const [shouldUpdateProfileHeader, setShouldUpdateProfileHeader] =
     useState(false);
 

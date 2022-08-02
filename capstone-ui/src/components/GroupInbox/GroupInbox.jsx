@@ -56,7 +56,7 @@ export default function GroupInbox({
             key={invite.groupName}
             group={invite}
             username={username}
-            setShouldUpdateInbox={setShouldUpdateInbox}
+            setShouldUpdateGroupPage={setShouldUpdateGroupPage}
           ></GroupHeader>
         ))}
       </div>

@@ -16,10 +16,12 @@ export default function GroupHeader({
   setShouldUpdateGroupPage,
 }) {
   const [isMember, setIsMember] = useState(false);
+  const [isFetching, setIsFetching] = useState(false);
 
   // Checks if the current user is a member of the group to mark membership status
   React.useEffect(() => {
     async function getMembers() {
+      setIsFetching(true);
       if (
         (
           await axios.get(
@@ -31,6 +33,8 @@ export default function GroupHeader({
       } else {
         setIsMember(false);
       }
+
+      setIsFetching(false);
     }
     getMembers();
   }, []);
@@ -64,17 +68,21 @@ export default function GroupHeader({
 
   return (
     <div className="groupheader-component">
-      <Link to={`/group/${group.groupName}`}>
-        <div className="groupheader-info-wrapper">
-          <span className="group-info">{group.groupName}</span>
-        </div>
-      </Link>
-      {!isMember && (
-        <div className="groupheader-button-wrapper">
-          <button className="join-group-button" onClick={joinGroup}>
-            Join
-          </button>
-        </div>
+      {!isFetching && (
+        <>
+          <Link to={`/group/${group.groupName}`}>
+            <div className="groupheader-info-wrapper">
+              <span className="group-info">{group.groupName}</span>
+            </div>
+          </Link>
+          {!isMember && (
+            <div className="groupheader-button-wrapper">
+              <button className="join-group-button" onClick={joinGroup}>
+                Join
+              </button>
+            </div>
+          )}
+        </>
       )}
     </div>
   );

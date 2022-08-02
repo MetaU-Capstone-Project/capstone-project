@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import SearchBar from "../SearchBar/SearchBar";
 import SearchResults from "../SearchResults/SearchResults";
 import ProfileDetails from "../ProfileDetails/ProfileDetails";
@@ -6,29 +6,27 @@ import { accessToken } from "../../spotify";
 import { showPopup, hidePopup } from "../../utils";
 import axios from "axios";
 import TrieSearch from "trie-search";
+import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
+
 import "./Search.css";
 
-/**
- * Page to display search bar and results
- * @param {object} props Component props
- * @param {string} props.username Username of current user
- */
 export default function Search({ username }) {
-  // searchInput is the variable in the search bar input field that is cleared after each search
-  const [searchInput, setSearchInput] = useState("");
-
-  // searchInputValue is the variable storing the last search used for loading more song results, since the search bar is cleared after each search
-  const [searchInputValue, setSearchInputValue] = useState("");
-
-  // isSongResults is true if user is searching for songs, and false if searching for profiles
-  const [isSongResults, setIsSongResults] = useState(true);
+  // Indicates whether results are being retrieved from backend
+  const [loading, setLoading] = useState(false);
 
   const [songResults, setSongResults] = useState([]);
   const [profileResults, setProfileResults] = useState([]);
 
-  const [offset, setOffset] = useState(0);
+  // Value of previous search, used when user continues scrolling for song results but search bar is cleared
+  const [previousSearch, setPreviousSearch] = useState("");
 
-  // If user is hovering over component, display the popup
+  // searchInput is the variable in the search bar input field as the user types
+  const [searchInput, setSearchInput] = useState("");
+
+  // searchInputValue is the variable of the search used for loading results, since the search bar is cleared after each search
+  const [searchInputValue, setSearchInputValue] = useState("");
+
+  // If user is hovering over component, display the popup with the user's username and details
   const [isHovering, setIsHovering] = useState(false);
   const [hoverUsername, setHoverUsername] = useState(null);
   const [shouldUpdateProfileDetails, setShouldUpdateProfileDetails] =
@@ -36,6 +34,86 @@ export default function Search({ username }) {
 
   // Tabs have two options: search-songs and search-profiles
   const [tab, setTab] = useState("search-songs");
+
+  function useFetch(page, searchInput) {
+    const getSongResults = useCallback(async () => {
+      if (searchInput != "") {
+        try {
+          setLoading(true);
+          // If user scrolls down for more search results, present previously scrolled past results
+          let oldSongResults =
+            previousSearch !== searchInput ? [] : songResults;
+
+          setSongResults(
+            oldSongResults.concat(
+              (
+                await axios.get(
+                  "https://api.spotify.com/v1/search",
+                  {
+                    params: {
+                      q: searchInput,
+                      type: "track",
+                      include_external: "audio",
+                      limit: 30,
+                      offset: page * 30,
+                    },
+                  },
+                  {
+                    headers: {
+                      Authorization: `Bearer ${accessToken}`,
+                    },
+                  }
+                )
+              ).data.tracks.items
+            )
+          );
+          setLoading(false);
+          setPreviousSearch(searchInput);
+        } catch (err) {
+          alert(`Error loading more song results for ${searchInput}`);
+        }
+      }
+    }, [page, searchInput]);
+
+    useEffect(() => {
+      getSongResults();
+    }, [getSongResults]);
+
+    return { loading, songResults };
+  }
+
+  function useInfiniteScroll() {
+    const [page, setPage] = useState(1);
+    const loadMoreRef = useRef(null);
+
+    const handleInfiniteScrollingObserver = useCallback((viewingTarget) => {
+      // If the search results has reached the loading spinner, increase the page to offset the next search results
+      if (viewingTarget[0].isIntersecting) {
+        setPage((prev) => prev + 1);
+      }
+    }, []);
+
+    useEffect(() => {
+      const option = {
+        root: null,
+        rootMargin: "0px",
+        threshold: 0,
+      };
+
+      const infiniteScrollingObserver = new IntersectionObserver(
+        handleInfiniteScrollingObserver,
+        option
+      );
+
+      if (loadMoreRef.current)
+        infiniteScrollingObserver.observe(loadMoreRef.current);
+    }, [handleInfiniteScrollingObserver]);
+
+    return { loadMoreRef, page };
+  }
+
+  const { loadMoreRef, page } = useInfiniteScroll();
+  useFetch(page, searchInputValue);
 
   // Searches for profiles whenever tab is on "search-profiles" to have live results as user types
   React.useEffect(() => {
@@ -68,48 +146,11 @@ export default function Search({ username }) {
     setShouldUpdateProfileDetails(false);
   };
 
-  // Retrieves 5 songs from the Spotify API at a specified offset to ensure new unique results are rendered
-  const searchSongs = async () => {
-    // Seaarches for songs that match what was previously input into the search bar, as user has pressed load more button if the search input is clear
-    // Otherwise, user is searching for the first time
-    let trueSearchValue = searchInput == "" ? searchInputValue : searchInput;
-
-    // Save previous search results as user has pressed load more button since search input is cleared
-    // Otherwise, uer is searching for the first time, so clear search results grid
-    let oldResults = searchInput == "" ? songResults : [];
-
-    const { data } = await axios
-      .get(
-        "https://api.spotify.com/v1/search",
-        {
-          params: {
-            q: trueSearchValue,
-            type: "track",
-            include_external: "audio",
-            limit: 5,
-            offset: offset,
-          },
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      )
-      .catch((error) => {
-        alert(`Error searching for songs to do with ${trueSearchValue}.`);
-      });
-
-    // Display the previous results along with the 5 new songs if user has pressed the load more button
-    setSongResults(oldResults.concat(data.tracks.items));
-    setIsSongResults(true);
-    setOffset((previousValue) => previousValue + 5);
-    setSearchInputValue(trueSearchValue);
-    setSearchInput("");
-  };
-
   // Retrieves profiles that have usernames with the search input as prefix
   const searchProfiles = async (e) => {
+    setSongResults([]);
+    setProfileResults([]);
+
     const trie = new TrieSearch();
     const profiles = (
       await axios
@@ -120,18 +161,10 @@ export default function Search({ username }) {
       trie.map(profiles[i].username, profiles[i].username);
     }
     setProfileResults(trie.search(searchInput));
-    setIsSongResults(false);
-  };
-
-  // Loads more song results when user clicks load more button
-  const loadMore = (e) => {
-    if (isSongResults) {
-      searchSongs(e);
-    }
   };
 
   return (
-    <div className="search-page">
+    <div id="search-page">
       <div id="overlay">
         <div className="profile-details-wrapper">
           {hoverUsername != null && (
@@ -143,28 +176,24 @@ export default function Search({ username }) {
         </div>
       </div>
       <SearchBar
-        searchSongs={searchSongs}
         setSearchInput={setSearchInput}
         searchInput={searchInput}
         tab={tab}
         handleTabChange={handleTabChange}
+        setSearchInputValue={setSearchInputValue}
       ></SearchBar>
       <SearchResults
         username={username}
         songResults={songResults}
         profileResults={profileResults}
-        isSongResults={isSongResults}
+        isHovering={isHovering}
         handleMouseOut={handleMouseOut}
         handleMouseOver={handleMouseOver}
+        tab={tab}
       ></SearchResults>
-      {(songResults.length != 0 || profileResults.length != 0) &&
-        tab === "search-songs" && (
-          <div className="load-more-button-wrapper">
-            <button className="load-more-button" onClick={loadMore}>
-              Load More
-            </button>
-          </div>
-        )}
+      <div ref={loadMoreRef} className="search-loading-spinner">
+        {loading && <LoadingSpinner></LoadingSpinner>}
+      </div>
     </div>
   );
 }

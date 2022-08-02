@@ -5,7 +5,6 @@ import SongHeaderView from "../SongHeaderView/SongHeaderView";
 import axios from "axios";
 import { accessToken } from "../../spotify";
 import { formatDate } from "../../utils";
-import { accessToken } from "../../spotify";
 
 export default function PostHeader({
   username,
@@ -17,15 +16,15 @@ export default function PostHeader({
 
   React.useEffect(() => {
     async function getTrack() {
-      const response = await axios.get(
-        `https://api.spotify.com/v1/tracks/${post.trackId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
+      setSongInfo(
+        (
+          await axios.get(`https://api.spotify.com/v1/tracks/${post.trackId}`, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          })
+        ).data
       );
-      setSongInfo(response.data);
     }
 
     getTrack();

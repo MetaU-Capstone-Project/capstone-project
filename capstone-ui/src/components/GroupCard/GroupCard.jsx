@@ -26,7 +26,6 @@ export default function GroupCard({ username, tab, setTab, group }) {
       })
       .then(function (response) {
         alert(`You have left ${group.name} succesfully!`);
-        setTab("feed");
       });
   };
 

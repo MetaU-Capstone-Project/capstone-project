@@ -6,6 +6,7 @@ import "./Post.css";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 import { accessToken } from "../../spotify";
 import Select from "react-select";
+import { catchErrors } from "../../utils";
 
 export default function Post({ username, profile }) {
   let { songId } = useParams();
@@ -43,6 +44,7 @@ export default function Post({ username, profile }) {
     catchErrors(fetchData());
   }, []);
 
+  // Add post to user's personal timeline
   const addPostToPersonal = async function () {
     let postRequest = {
       username: username,
@@ -59,6 +61,7 @@ export default function Post({ username, profile }) {
       });
   };
 
+  // Add post to specified group feed
   const addPostToGroup = async function (groupName) {
     let postRequest = {
       username: username,
@@ -76,6 +79,7 @@ export default function Post({ username, profile }) {
       });
   };
 
+  // Handle adding post to backend based on user's selected audience preference
   const addPostToAudience = async function () {
     if (selectedPostAudience === null) {
       alert("You have not selected a feed to post to.");
