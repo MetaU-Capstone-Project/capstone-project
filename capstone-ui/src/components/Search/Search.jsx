@@ -123,12 +123,12 @@ export default function Search({ username }) {
   }, [searchInput]);
 
   // Changes tab and emphasizes which tab the user is on
-  function handleTabChange(e) {
+  function handleTabChange(tab) {
     setSearchInput("");
     setSongResults([]);
     setProfileResults([]);
-    setTab(e.target.id);
-    e.target.className = "is-active-search";
+    setTab(tab.target.id);
+    tab.target.className = "is-active-search";
   }
 
   // Displays the popup if user is hovering over a profile result

@@ -12,9 +12,9 @@ import { formatDate } from "../../utils";
  */
 export default function GroupCard({ username, tab, setTab, group }) {
   // Highlights the tab that the user is currently on
-  function handleTabChange(e) {
-    setTab(e.target.id);
-    e.target.className = "is-active";
+  function handleTabChange(tab) {
+    setTab(tab.target.id);
+    tab.target.className = "is-active";
   }
 
   // Alerts user that they have left the current group

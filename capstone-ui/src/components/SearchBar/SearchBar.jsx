@@ -30,7 +30,7 @@ export default function SearchBar({
       <input
         id="search-input"
         className="search-input"
-        onChange={(e) => setSearchInput(e.target.value)}
+        onChange={(input) => setSearchInput(input.target.value)}
         value={searchInput}
       ></input>
       <button

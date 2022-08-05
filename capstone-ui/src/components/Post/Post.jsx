@@ -92,8 +92,8 @@ export default function Post({ username, profile }) {
     }
   };
 
-  function handlePostAudienceChange(e) {
-    setSelectedPostAudience(e);
+  function handlePostAudienceChange(audience) {
+    setSelectedPostAudience(audience);
   }
 
   return (

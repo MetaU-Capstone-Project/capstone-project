@@ -70,26 +70,26 @@ export default function GroupInformation({ username, groupName }) {
   }, []);
 
   // Saves the selected genres as group's genre preferences in Parse
-  async function handleGenreChange(e) {
+  async function handleGenreChange(genres) {
     await axios.post("http://localhost:3001/user/groupgenres", {
       groupName: groupName,
-      genres: e,
+      genres: genres,
     });
-    setSelectedGenres(e);
+    setSelectedGenres(genres);
   }
 
   // Saves the description as group's description in Parse
-  async function handleDescriptionChange(e) {
-    setDescription(e.target.value);
+  async function handleDescriptionChange(description) {
+    setDescription(description.target.value);
     await axios.post("http://localhost:3001/user/groupdescription", {
       groupName: groupName,
-      description: e.target.value,
+      description: description.target.value,
     });
   }
 
   // Sets the selected invites to be invited to reflect the selections user makes
-  async function handleInviteChange(e) {
-    setSelectedInvites(e);
+  async function handleInviteChange(invites) {
+    setSelectedInvites(invites);
   }
 
   // Sends invites to all the members selected in the invite dropdown button
