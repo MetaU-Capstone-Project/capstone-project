@@ -35,8 +35,8 @@ class User {
    * @param {object} userInfo contains user's different fields
    */
   static async registerUser(userInfo) {
-    let { username, password, email, spotifyURL, imageURL } = userInfo;
-    let user = new Parse.User();
+    const { username, password, email, spotifyURL, imageURL } = userInfo;
+    const user = new Parse.User();
 
     user.set("username", username);
     user.set("password", password);
@@ -47,7 +47,7 @@ class User {
     user.set("imageURL", imageURL);
     user.set("recentSearches", []);
 
-    let userPreferences = new Parse.Object("Preferences");
+    const userPreferences = new Parse.Object("Preferences");
     userPreferences.set("topGenres", []);
     userPreferences.set("topArtists", []);
     userPreferences.set("username", username);
@@ -71,7 +71,7 @@ class User {
    * @param {string} trackId id of song to be posted
    */
   static async createPost(username, trackId) {
-    let Post = new Parse.Object("Post");
+    const Post = new Parse.Object("Post");
     Post.set("username", username);
     Post.set("trackId", trackId);
     try {
@@ -126,7 +126,7 @@ class User {
    * @param {string} followUsername username of friend that current user wants to follow
    */
   static async followUser(followUsername) {
-    let user = Parse.User.current();
+    const user = Parse.User.current();
     user.addUnique("followers", followUsername);
     await user.save();
     return true;
@@ -137,7 +137,7 @@ class User {
    * @param {string} unfollowUsername username of friend that current user wants to unfollow
    */
   static async unfollowUser(unfollowUsername) {
-    let user = Parse.User.current();
+    const user = Parse.User.current();
     user.remove("followers", unfollowUsername);
     await user.save();
     return true;
@@ -158,11 +158,10 @@ class User {
    * @param {string} username of user specified
    */
   static async getFeed(username) {
-    let followers = await this.getFollowers(username);
+    const followers = await this.getFollowers(username);
     let feed = [];
     for (let i = 0; i < followers.length; i++) {
-      let userPosts = await this.getTimeline(followers[i]);
-      feed = feed.concat(userPosts);
+      feed = feed.concat(await this.getTimeline(followers[i]));
     }
     feed.sort(function (a, b) {
       const timeA = a.createdAt;
@@ -216,7 +215,7 @@ class User {
    * @param {string} email of user specified
    */
   static async getUserExists(email) {
-    let appUsers = await this.getUsers();
+    const appUsers = await this.getUsers();
     for (let i = 0; i < appUsers.length; i++) {
       if (appUsers[i].get("email") == email) {
         return true;
@@ -253,7 +252,7 @@ class User {
   static async setTopGenres(username, genres) {
     const query = new Parse.Query("Preferences");
     query.equalTo("username", username);
-    let user = await query.first({});
+    const user = await query.first({});
     user.set("topGenres", genres);
     await user.save();
     return user.get("topGenres");
@@ -267,7 +266,7 @@ class User {
   static async setTopArtists(username, artists) {
     const query = new Parse.Query("Preferences");
     query.equalTo("username", username);
-    let user = await query.first({});
+    const user = await query.first({});
     user.set("topArtists", artists);
     await user.save();
     return user.get("topArtists");
@@ -298,17 +297,17 @@ class User {
    * @param {object} groupInfo contains group information to be registered
    */
   static async createGroup(groupInfo) {
-    let { username, groupName, description, isPrivate, genres, isAdmin } =
+    const { username, groupName, description, isPrivate, genres, isAdmin } =
       groupInfo;
-    let group = new Parse.Object("Group");
+    const group = new Parse.Object("Group");
 
     if (groupName === "") {
       return "Name cannot be empty!";
     }
 
-    let uniqueNameQuery = new Parse.Query("Group");
+    const uniqueNameQuery = new Parse.Query("Group");
     uniqueNameQuery.equalTo("name", groupName);
-    let uniqueNameResult = await uniqueNameQuery.find({});
+    const uniqueNameResult = await uniqueNameQuery.find({});
     if (uniqueNameResult.length !== 0) {
       return "Group exists with that name already!";
     }
@@ -322,7 +321,7 @@ class User {
     group.set("isPrivate", isPrivate);
     group.set("genres", genres);
 
-    let relationship = new Parse.Object("UserGroup");
+    const relationship = new Parse.Object("UserGroup");
     relationship.set("username", username);
     relationship.set("groupName", groupName);
     relationship.set("isAdmin", true);
@@ -368,18 +367,18 @@ class User {
    * @param {string} groupName name of specified group
    */
   static async joinGroup(username, groupName) {
-    let relationship = new Parse.Object("UserGroup");
+    const relationship = new Parse.Object("UserGroup");
     relationship.set("username", username);
     relationship.set("groupName", groupName);
     relationship.set("isAdmin", false);
 
-    let usernameQuery = new Parse.Query("Invite");
+    const usernameQuery = new Parse.Query("Invite");
     usernameQuery.equalTo("username", username);
-    let groupNameQuery = new Parse.Query("Invite");
+    const groupNameQuery = new Parse.Query("Invite");
     groupNameQuery.equalTo("groupName", groupName);
 
-    let compoundQuery = Parse.Query.and(usernameQuery, groupNameQuery);
-    let invite = await compoundQuery.first({});
+    const compoundQuery = Parse.Query.and(usernameQuery, groupNameQuery);
+    const invite = await compoundQuery.first({});
     invite.destroy({});
 
     try {
@@ -396,10 +395,10 @@ class User {
    * @param {string} groupName name of specified group
    */
   static async leaveGroup(username, groupName) {
-    let query = new Parse.Query("UserGroup");
+    const query = new Parse.Query("UserGroup");
     query.equalTo("username", username);
     query.equalTo("groupName", groupName);
-    let relationship = await query.first({});
+    const relationship = await query.first({});
     relationship.destroy({});
   }
 
@@ -409,7 +408,7 @@ class User {
    * @param {string} groupName name of specified group
    */
   static async sendInvite(username, groupName) {
-    let invite = new Parse.Object("Invite");
+    const invite = new Parse.Object("Invite");
     invite.set("username", username);
     invite.set("groupName", groupName);
 
@@ -445,32 +444,32 @@ class User {
   static async setGroupGenres(groupName, genres) {
     const query = new Parse.Query("Group");
     query.equalTo("name", groupName);
-    let group = await query.first({});
+    const group = await query.first({});
     group.set("genres", genres);
     await group.save();
     return group.get("genres");
   }
 
   static async getMembershipStatus(username, groupName) {
-    let usernameQuery = new Parse.Query("UserGroup");
+    const usernameQuery = new Parse.Query("UserGroup");
     usernameQuery.equalTo("username", username);
-    let groupNameQuery = new Parse.Query("UserGroup");
+    const groupNameQuery = new Parse.Query("UserGroup");
     groupNameQuery.equalTo("groupName", groupName);
-    let compoundQuery = Parse.Query.and(usernameQuery, groupNameQuery);
+    const compoundQuery = Parse.Query.and(usernameQuery, groupNameQuery);
     return await compoundQuery.first({});
   }
 
   static async setGroupDescription(groupName, description) {
     const query = new Parse.Query("Group");
     query.equalTo("name", groupName);
-    let group = await query.first({});
+    const group = await query.first({});
     group.set("description", description);
     await group.save();
     return group.get("description");
   }
 
   static async createGroupPost(username, trackId, groupName) {
-    let Post = new Parse.Object("Post");
+    const Post = new Parse.Object("Post");
     Post.set("username", username);
     Post.set("trackId", trackId);
     Post.set("groupName", groupName);
@@ -502,7 +501,7 @@ class User {
 
     // Ensures that only the 10 most recent searches are saved
     if (user.get("recentSearches").length >= 10) {
-      let oldestSearch = user.get("recentSearches")[0];
+      const oldestSearch = user.get("recentSearches")[0];
       user.remove("recentSearches", oldestSearch);
 
       try {
@@ -534,6 +533,13 @@ class User {
     } catch (error) {
       return `Error with ${username} clearing recent searches ${searchValue}`;
     }
+  }
+
+  static async getFeedByPage(username, limit, page) {
+    return (await this.getFeed(username)).slice(
+      limit * page,
+      limit * (page + 1)
+    );
   }
 }
 
