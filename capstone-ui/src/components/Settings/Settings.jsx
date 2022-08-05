@@ -48,10 +48,10 @@ export default function Settings({ username, profile, isRegisterView }) {
     catchErrors(fetchData());
   }, []);
 
-  async function handleGenreChange(e) {
+  async function handleGenreChange(genres) {
     let postRequest = {
       username: username,
-      genres: e,
+      genres: genres,
     };
     let { data } = await axios.post(
       "http://localhost:3001/user/topgenres",
@@ -60,10 +60,10 @@ export default function Settings({ username, profile, isRegisterView }) {
     setSelectedGenres(data);
   }
 
-  async function handleArtistChange(e) {
+  async function handleArtistChange(artists) {
     let postRequest = {
       username: username,
-      artists: e,
+      artists: artists,
     };
     let { data } = await axios.post(
       "http://localhost:3001/user/topartists",

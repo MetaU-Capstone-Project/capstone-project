@@ -1,5 +1,6 @@
 .song-info {
     font-size: 2rem;
+    text-overflow: clip;
     text-align: start;
 }
 

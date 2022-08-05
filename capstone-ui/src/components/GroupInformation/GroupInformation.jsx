@@ -17,8 +17,8 @@ export default function GroupInformation({ username, groupName }) {
   const [selectedGenres, setSelectedGenres] = useState(null);
   const [description, setDescription] = useState(null);
   const [isAdmin, setIsAdmin] = useState(false);
-  const [memberOptions, setMemberOptions] = useState(null);
-  const [selectedMembers, setSelectedMembers] = useState([]);
+  const [inviteOptions, setInviteOptions] = useState(null);
+  const [selectedInvites, setSelectedInvites] = useState([]);
 
   React.useEffect(() => {
     const fetchData = async () => {
@@ -47,12 +47,21 @@ export default function GroupInformation({ username, groupName }) {
         ).data.isAdmin
       );
 
-      // Populates the member options for the invite dropdown button with the user's friends
-      setMemberOptions(
-        (
-          await axios.get(`http://localhost:3001/user/followers/${username}`)
-        ).data.map((member) => {
-          return { value: member, label: member };
+      // Populates the invite options for the invite dropdown button with the user's friends who aren't already members
+      let members = (
+        await axios.get(`http://localhost:3001/user/members/${groupName}`)
+      ).data;
+      let followers = (
+        await axios.get(`http://localhost:3001/user/followers/${username}`)
+      ).data;
+
+      let nonInvited = followers.filter((follower) =>
+        members.some((member) => member.username !== follower)
+      );
+
+      setInviteOptions(
+        nonInvited.map((invite) => {
+          return { value: invite, label: invite };
         })
       );
     };
@@ -61,40 +70,39 @@ export default function GroupInformation({ username, groupName }) {
   }, []);
 
   // Saves the selected genres as group's genre preferences in Parse
-  async function handleGenreChange(e) {
-    setSelectedGenres(
-      await axios.post("http://localhost:3001/user/groupgenres", {
-        groupName: groupName,
-        genres: e,
-      })
-    );
+  async function handleGenreChange(genres) {
+    await axios.post("http://localhost:3001/user/groupgenres", {
+      groupName: groupName,
+      genres: genres,
+    });
+    setSelectedGenres(genres);
   }
 
   // Saves the description as group's description in Parse
-  async function handleDescriptionChange(e) {
-    setDescription(e.target.value);
+  async function handleDescriptionChange(description) {
+    setDescription(description.target.value);
     await axios.post("http://localhost:3001/user/groupdescription", {
       groupName: groupName,
-      description: e.target.value,
+      description: description.target.value,
     });
   }
 
-  // Sets the selected members to be invited to reflect the selections user makes
-  async function handleMemberChange(e) {
-    setSelectedMembers(e);
+  // Sets the selected invites to be invited to reflect the selections user makes
+  async function handleInviteChange(invites) {
+    setSelectedInvites(invites);
   }
 
   // Sends invites to all the members selected in the invite dropdown button
   async function inviteMembers() {
-    for (let i = 0; i < selectedMembers.length; i++) {
+    for (let i = 0; i < selectedInvites.length; i++) {
       axios.post("http://localhost:3001/user/invite", {
-        username: selectedMembers[i].value,
+        username: selectedInvites[i].value,
         groupName: groupName,
       });
     }
 
     alert(`Sent invites for ${groupName}!`);
-    setSelectedMembers([]);
+    setSelectedInvites([]);
   }
 
   return (
@@ -147,10 +155,10 @@ export default function GroupInformation({ username, groupName }) {
                 <Select
                   className="preference-select"
                   closeMenuOnSelect={false}
-                  value={selectedMembers}
+                  value={selectedInvites}
                   isMulti
-                  options={memberOptions}
-                  onChange={handleMemberChange}
+                  options={inviteOptions}
+                  onChange={handleInviteChange}
                 />
                 <button className="invite-group-button" onClick={inviteMembers}>
                   Invite

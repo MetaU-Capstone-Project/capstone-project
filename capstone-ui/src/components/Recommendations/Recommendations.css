@@ -10,6 +10,7 @@
 }
 
 .recommendations-wrapper {
+    margin-left: 2rem;
     display: flex;
     flex-direction: row;
     gap: 1rem;
