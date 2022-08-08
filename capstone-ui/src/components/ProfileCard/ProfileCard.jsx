@@ -1,7 +1,6 @@
 import React from "react";
 import "./ProfileCard.css";
 import axios from "axios";
-import { logout, logoutWithUsername } from "../../spotify";
 import { formatDate } from "../../utils";
 import logo from "../../logo.svg";
 
@@ -43,6 +42,17 @@ export default function ProfileCard({
     if (window.confirm("Are you sure you want to delete your account?")) {
       deleteAccount();
     }
+  };
+
+  const logout = async (e) => {
+    await axios.get(
+      `http://localhost:3001/user/clearrecentsearches/${username}`
+    );
+
+    window.localStorage.clear();
+
+    // Navigate to login page
+    window.location = window.location.origin;
   };
 
   const isProfileImageDefined =
@@ -104,10 +114,7 @@ export default function ProfileCard({
               <button className="delete-account-button" onClick={confirmDelete}>
                 Delete Account
               </button>
-              <button
-                className="logout-account-button"
-                onClick={() => logoutWithUsername(username)}
-              >
+              <button className="logout-account-button" onClick={logout}>
                 Logout
               </button>
             </div>

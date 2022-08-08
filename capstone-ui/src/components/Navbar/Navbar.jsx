@@ -16,6 +16,9 @@ export default function Navbar() {
       <Link to={"/groups"} className="navbar-link">
         Groups
       </Link>
+      <Link to={"/chat"} className="navbar-link">
+        Chat
+      </Link>
       <Link to={"/profile"} className="navbar-link">
         Profile
       </Link>

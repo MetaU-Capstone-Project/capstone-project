@@ -571,11 +571,10 @@ class User {
     if (userObject !== undefined) {
       const nicknameQuery = new Parse.Query("Nickname");
       nicknameQuery.equalTo("name", nickname);
-      const nicknameQueryResult = await nicknameQuery.first();
+      let nicknameObject = await nicknameQuery.first();
 
       // Retrieves Nickname Parse object if it already exists, and otherwise creates a new Nickname object
-      let nicknameObject = nicknameQueryResult;
-      if (nicknameQueryResult == undefined) {
+      if (nicknameObject == undefined) {
         nicknameObject = new Parse.Object("Nickname");
         nicknameObject.set("name", nickname);
         nicknameObject.set("user", userObject);

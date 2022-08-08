@@ -9,6 +9,7 @@ import "./Home.css";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 import FriendProfile from "../FriendProfile/FriendProfile";
 import Group from "../Group/Group";
+import Chat from "../Chat/Chat";
 
 /**
  * Page that renders which page the user is currently on
@@ -42,6 +43,9 @@ export default function Home({ username, page, profile }) {
           )}
           {page === "group" && (
             <Group username={username} profile={profile}></Group>
+          )}
+          {page === "chat" && (
+            <Chat username={username} profile={profile}></Chat>
           )}
         </div>
       ) : (

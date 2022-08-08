@@ -7,6 +7,15 @@ import Main from "../Main/Main";
 import RegistrationPreferences from "../RegistrationPreferences/RegistrationPreferences";
 import Error from "../Error/Error";
 import "./App.css";
+import { initializeParse } from "@parse/react";
+
+const PARSE_LIVE_QUERY_URL = "https://capstone.b4a.io/";
+
+initializeParse(
+  PARSE_LIVE_QUERY_URL,
+  process.env.REACT_APP_PARSE_APPLICATION_ID,
+  process.env.REACT_APP_PARSE_JAVASCRIPT_KEY
+);
 
 function App() {
   const [userExists, setUserExists] = useState(null);
@@ -123,6 +132,17 @@ function App() {
             element={
               <Home
                 page={"group"}
+                username={username}
+                profile={spotifyProfile}
+              ></Home>
+            }
+          />
+          <Route
+            exact
+            path="/chat"
+            element={
+              <Home
+                page={"chat"}
                 username={username}
                 profile={spotifyProfile}
               ></Home>
