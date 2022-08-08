@@ -1,0 +1,36 @@
+.group-detail-heading {
+    font-weight: bold;
+}
+
+.groupdetails-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.groupdetails-preference {
+    font-size: 1rem;
+    margin: 0.5rem;
+}
+
+.groupdetails-name {
+    font-size: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    margin: 1rem;
+}
+
+.groupdetails-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.groupdetails-component {
+    display: flex;
+    flex-direction: column;
+    background-color: darkseagreen;
+    width: 20rem;
+    height: 20rem;
+    z-index: 1;
+    align-items: center;
+    justify-content: center;
+}

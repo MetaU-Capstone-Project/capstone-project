@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "./Login.css";
-import logo from "../../logo.svg";
+import logo from "../../logo.png";
 import axios from "axios";
 
 const Parse = require("parse");
