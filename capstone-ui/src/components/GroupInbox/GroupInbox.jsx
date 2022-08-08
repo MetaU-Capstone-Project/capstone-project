@@ -15,6 +15,8 @@ export default function GroupInbox({
   username,
   myGroups,
   setShouldUpdateGroupPage,
+  handleMouseOver,
+  handleMouseOut,
 }) {
   const [inbox, setInbox] = React.useState([]);
   const [shouldUpdateInbox, setShouldUpdateInbox] = React.useState(false);
@@ -44,6 +46,8 @@ export default function GroupInbox({
               group={group}
               username={username}
               setShouldUpdateGroupPage={setShouldUpdateGroupPage}
+              handleMouseOut={() => {}}
+              handleMouseOver={() => {}}
             ></GroupHeader>
           ))}
       </div>
@@ -57,6 +61,8 @@ export default function GroupInbox({
             group={invite}
             username={username}
             setShouldUpdateGroupPage={setShouldUpdateGroupPage}
+            handleMouseOut={handleMouseOut}
+            handleMouseOver={handleMouseOver}
           ></GroupHeader>
         ))}
       </div>

@@ -8,6 +8,7 @@ import Followers from "../Followers/Followers";
 import { useParams } from "react-router-dom";
 import Profile from "../Profile/Profile";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
+import Settings from "../Settings/Settings";
 
 /**
  * Page to display specified user's profile
@@ -76,6 +77,16 @@ export default function FriendProfile({ friendUsername, profile }) {
             username={username}
             currentUserUsername={friendUsername}
           ></Followers>
+        </div>
+      )}
+      {tab == "settings" && (
+        <div className="settings-wrapper">
+          <span className="settings-heading">Settings</span>
+          <Settings
+            username={username}
+            profile={profile}
+            isFriendView={true}
+          ></Settings>
         </div>
       )}
     </div>

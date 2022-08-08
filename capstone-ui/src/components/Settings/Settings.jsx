@@ -13,7 +13,12 @@ import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 import { getRecommendedUsers } from "../../recommendationUtils";
 import Recommendations from "../Recommendations/Recommendations";
 
-export default function Settings({ username, profile, isRegisterView }) {
+export default function Settings({
+  username,
+  profile,
+  isRegisterView,
+  isFriendView,
+}) {
   const [genreOptions, setGenreOptions] = useState(null);
   const [artistOptions, setArtistOptions] = useState(null);
   const [selectedGenres, setSelectedGenres] = useState(null);
@@ -99,31 +104,55 @@ export default function Settings({ username, profile, isRegisterView }) {
       {genreOptions != null && artistOptions != null ? (
         <>
           <div className="preferences">
-            <span className="preference-heading">Your Favorite Genres</span>
-            <Select
-              className="preference-select"
-              closeMenuOnSelect={false}
-              value={selectedGenres}
-              isMulti
-              options={genreOptions}
-              onChange={handleGenreChange}
-            />
+            <span className="preference-heading">Favorite Genres</span>
+            {/* Renders read only genres if the profile is that of a friend */}
+            {isFriendView && (
+              <Select
+                className="preference-select"
+                value={selectedGenres}
+                isMulti
+                readOnly
+              />
+            )}
+            {/* Allows user to make changes to their favorite genres if this is their own profile */}
+            {!isFriendView && (
+              <Select
+                className="preference-select"
+                closeMenuOnSelect={false}
+                value={selectedGenres}
+                isMulti
+                options={genreOptions}
+                onChange={handleGenreChange}
+              />
+            )}
           </div>
           <div className="preferences">
-            <span className="preference-heading">Your Favorite Artists</span>
-            <Select
-              className="preference-select"
-              closeMenuOnSelect={false}
-              value={selectedArtists}
-              isMulti
-              options={artistOptions}
-              onChange={handleArtistChange}
-            />
+            <span className="preference-heading">Favorite Artists</span>
+            {/* Renders read only artists if the profile is that of a friend */}
+            {isFriendView && (
+              <Select
+                className="preference-select"
+                closeMenuOnSelect={false}
+                value={selectedArtists}
+                isMulti
+                readOnly
+              />
+            )}
+            {/* Allows user to make changes to their favorite artists if this is their own profile */}
+            {!isFriendView && (
+              <Select
+                className="preference-select"
+                closeMenuOnSelect={false}
+                value={selectedArtists}
+                isMulti
+                options={artistOptions}
+                onChange={handleArtistChange}
+              />
+            )}
           </div>
           {isRegisterView && <button onClick={handleNext}>Next</button>}
-          {!isRegisterView && (
+          {!isRegisterView && !isFriendView && (
             <div className="recommend-buttons-wrapper">
-              <button className="recommend-button">Recommend Me Songs</button>
               <button className="recommend-button" onClick={recommendUsers}>
                 Recommend Me Users
               </button>

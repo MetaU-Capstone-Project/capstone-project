@@ -93,7 +93,6 @@ export default function CreateGroup({ username, setShouldUpdateGroupPage }) {
 
   return (
     <div className="groupcard-component">
-      <span className="instruction">Create a Group</span>
       <div className="group-info-wrapper">
         <span>Group Name</span>
         <input

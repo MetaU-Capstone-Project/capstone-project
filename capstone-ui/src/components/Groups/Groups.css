@@ -9,11 +9,16 @@
     margin-left: 4rem;
 }
 
-.groups-grid {
+.create-group-wrapper {
     display: flex;
     gap: 1rem;
     justify-content: center;
     margin-top: 2rem;
     margin-bottom: 8rem;
     align-items: center;
+}
+
+.groups-grid {
+    display: flex;
+    flex-direction: column;
 }
