@@ -24,29 +24,20 @@ export default function Home({ username, page, profile }) {
       {username != null ? (
         <div className="home-page">
           <Navbar />
-          {page === "home" && <Feed username={username}></Feed>}
-          {page === "search" && <Search username={username}></Search>}
+          {page === "home" && <Feed username={username} />}
+          {page === "search" && <Search username={username} />}
           {page === "groups" && (
-            <Groups username={username} profile={profile}></Groups>
+            <Groups username={username} profile={profile} />
           )}
           {page === "profile" && (
-            <Profile username={username} profile={profile}></Profile>
+            <Profile username={username} profile={profile} />
           )}
           {page === "friendprofile" && (
-            <FriendProfile
-              friendUsername={username}
-              profile={profile}
-            ></FriendProfile>
+            <FriendProfile friendUsername={username} profile={profile} />
           )}
-          {page === "post" && (
-            <Post username={username} profile={profile}></Post>
-          )}
-          {page === "group" && (
-            <Group username={username} profile={profile}></Group>
-          )}
-          {page === "chat" && (
-            <Chat username={username} profile={profile}></Chat>
-          )}
+          {page === "post" && <Post username={username} profile={profile} />}
+          {page === "group" && <Group username={username} profile={profile} />}
+          {page === "chat" && <Chat username={username} profile={profile} />}
         </div>
       ) : (
         <LoadingSpinner />

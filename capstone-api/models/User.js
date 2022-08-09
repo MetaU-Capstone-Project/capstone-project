@@ -581,10 +581,9 @@ class User {
         nicknameObject = await nicknameObject.save();
       }
       return nicknameObject;
-    } else {
-      // User does not exist so cannot create a Nickname object
-      return false;
     }
+    // User does not exist so cannot create a Nickname object
+    return false;
   }
 
   static async sendMessage(message, senderNicknameId, receiverNicknameId) {

@@ -40,9 +40,9 @@ export default function Group({ username, profile }) {
             group={groupInfo}
             tab={tab}
             setTab={setTab}
-          ></GroupCard>
+          />
         ) : (
-          <LoadingSpinner></LoadingSpinner>
+          <LoadingSpinner />
         )}
       </div>
       {tab == "feed" && (
@@ -53,9 +53,9 @@ export default function Group({ username, profile }) {
               username={username}
               profile={profile}
               groupName={groupInfo.name}
-            ></GroupFeed>
+            />
           ) : (
-            <LoadingSpinner></LoadingSpinner>
+            <LoadingSpinner />
           )}
         </div>
       )}
@@ -67,9 +67,9 @@ export default function Group({ username, profile }) {
               username={username}
               groupName={groupInfo.name}
               currentUserUsername={username}
-            ></Members>
+            />
           ) : (
-            <LoadingSpinner></LoadingSpinner>
+            <LoadingSpinner />
           )}
         </div>
       )}
@@ -77,12 +77,9 @@ export default function Group({ username, profile }) {
         <div className="followers-wrapper">
           <span className="followers-heading">Information</span>
           {groupInfo ? (
-            <GroupInformation
-              username={username}
-              groupName={groupInfo.name}
-            ></GroupInformation>
+            <GroupInformation username={username} groupName={groupInfo.name} />
           ) : (
-            <LoadingSpinner></LoadingSpinner>
+            <LoadingSpinner />
           )}
         </div>
       )}

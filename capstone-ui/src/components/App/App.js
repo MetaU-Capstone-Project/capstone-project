@@ -32,11 +32,7 @@ function App() {
             element={<Navigate replace to="/authorization" />}
           />
           <Route exact path="/error" element={<Error />} />
-          <Route
-            exact
-            path="/authorization"
-            element={<Authorization></Authorization>}
-          />
+          <Route exact path="/authorization" element={<Authorization />} />
           <Route
             exact
             path="/main"
@@ -48,7 +44,7 @@ function App() {
                 setSpotifyProfile={setSpotifyProfile}
                 username={username}
                 setUsername={setUsername}
-              ></Main>
+              />
             }
           />
           <Route
@@ -59,7 +55,7 @@ function App() {
                 page={"home"}
                 username={username}
                 profile={spotifyProfile}
-              ></Home>
+              />
             }
           />
           <Route
@@ -70,7 +66,7 @@ function App() {
                 page={"search"}
                 username={username}
                 profile={spotifyProfile}
-              ></Home>
+              />
             }
           />
           <Route
@@ -81,7 +77,7 @@ function App() {
                 page={"groups"}
                 username={username}
                 profile={spotifyProfile}
-              ></Home>
+              />
             }
           />
           <Route
@@ -92,7 +88,7 @@ function App() {
                 page={"friendprofile"}
                 username={username}
                 profile={spotifyProfile}
-              ></Home>
+              />
             }
           />
           <Route
@@ -103,7 +99,7 @@ function App() {
                 page={"profile"}
                 username={username}
                 profile={spotifyProfile}
-              ></Home>
+              />
             }
           />
           <Route
@@ -114,17 +110,13 @@ function App() {
                 page={"post"}
                 username={username}
                 profile={spotifyProfile}
-              ></Home>
+              />
             }
           />
           <Route
             exact
             path="/preferences/:username"
-            element={
-              <RegistrationPreferences
-                username={username}
-              ></RegistrationPreferences>
-            }
+            element={<RegistrationPreferences username={username} />}
           />
           <Route
             exact
@@ -134,7 +126,7 @@ function App() {
                 page={"group"}
                 username={username}
                 profile={spotifyProfile}
-              ></Home>
+              />
             }
           />
           <Route
@@ -145,7 +137,7 @@ function App() {
                 page={"chat"}
                 username={username}
                 profile={spotifyProfile}
-              ></Home>
+              />
             }
           />
         </Routes>
