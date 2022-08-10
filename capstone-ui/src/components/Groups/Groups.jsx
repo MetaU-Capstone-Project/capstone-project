@@ -45,13 +45,13 @@ export default function Groups({ username }) {
               inbox={inbox}
               myGroups={myGroups}
               setShouldUpdateGroupPage={setShouldUpdateGroupPage}
-            ></GroupInbox>
+            />
           </div>
           <div className="groups-grid">
             <CreateGroup
               username={username}
               setShouldUpdateGroupPage={setShouldUpdateGroupPage}
-            ></CreateGroup>
+            />
           </div>
         </>
       ) : (

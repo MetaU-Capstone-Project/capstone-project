@@ -17,3 +17,7 @@ export const showPopup = () => {
 export const hidePopup = () => {
   document.getElementById("overlay").style.display = "none";
 };
+
+export const formatChatDateToTime = (date) => {
+  return `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+};

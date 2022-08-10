@@ -44,7 +44,7 @@ export default function GroupInbox({
               group={group}
               username={username}
               setShouldUpdateGroupPage={setShouldUpdateGroupPage}
-            ></GroupHeader>
+            />
           ))}
       </div>
       <div className="groupinbox-heading-wrapper">
@@ -57,7 +57,7 @@ export default function GroupInbox({
             group={invite}
             username={username}
             setShouldUpdateGroupPage={setShouldUpdateGroupPage}
-          ></GroupHeader>
+          />
         ))}
       </div>
     </div>

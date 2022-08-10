@@ -1,0 +1,40 @@
+.chat-heading {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.chat-heading-wrapper {
+    margin-top: 4rem;
+    text-align: start;
+    margin-left: 4rem;
+}
+
+.chat-input {
+    width: 20rem;
+    font-size: 1rem;
+}
+
+.chat-button {
+    background-color: darkseagreen;
+    text-decoration: none;
+    width: 10rem;
+    height: 3rem;
+    font-size: 1rem;
+}
+
+.chat-users-wrapper {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+}
+
+.chat-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10rem;
+}
+
+.chat-page {
+    display: flex;
+    flex-direction: column;
+}

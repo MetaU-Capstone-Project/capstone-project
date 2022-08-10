@@ -5,6 +5,7 @@ const User = require("../models/User");
 const dotenv = require("dotenv");
 dotenv.config();
 
+const SUCCESS_CODE = 200;
 const CREATE_SUCCESS_CODE = 201;
 const ERROR_CODE = 400;
 
@@ -107,6 +108,12 @@ router.get("/feed/:username", async (req, res) => {
 router.get("/delete/:username", async (req, res) => {
   const username = req.params.username;
   res.send(await User.deleteUser(username));
+});
+
+// Route to delete all chat nicknames and messages after a user logs out
+router.get("/clearchat", async (req, res) => {
+  await User.clearChat();
+  res.send(SUCCESS_CODE);
 });
 
 // Route to get specified user's app profile information
@@ -267,6 +274,25 @@ router.post("/addrecentsearch", async (req, res) => {
 router.get("/clearrecentsearches/:username", async (req, res) => {
   const username = req.params.username;
   res.send(await User.clearRecentSearches(username));
+});
+
+router.post("/nickname", async (req, res) => {
+  let result = await User.createNickname(req.body.nickname);
+  res.send(await User.createNickname(req.body.nickname));
+});
+
+router.post("/message", async (req, res) => {
+  const { message, senderNicknameId, receiverNicknameId } = req.body;
+  const isSendMessageSuccessful = await User.sendMessage(
+    message,
+    senderNicknameId,
+    receiverNicknameId
+  );
+  if (isSendMessageSuccessful) {
+    res.send(CREATE_SUCCESS_CODE);
+  } else {
+    res.send(ERROR_CODE).send({ errorMessage: isSendMessageSuccessful });
+  }
 });
 
 // Route to get all the posts of users that current user follows in descending chronological order by page
