@@ -301,6 +301,11 @@ router.post("/feedpage", async (req, res) => {
   res.send(await User.getFeedByPage(username, limit, page));
 });
 
+// Route to delete specified user's account
+router.get("/deletegroup/:groupname", async (req, res) => {
+  res.send(await User.deleteGroup(req.params.groupname));
+});
+
 router.get("/", (req, res) => {
   try {
     let currUser = User.getCurrentUser();

@@ -2,7 +2,8 @@ import React from "react";
 import "./ProfileCard.css";
 import axios from "axios";
 import { formatDate } from "../../utils";
-import logo from "../../logo.svg";
+import logo from "../../logo.png";
+import { logoutWithUsername } from "../../spotify";
 
 /**
  * Component to display individual profile information and tabs to learn more
@@ -98,27 +99,27 @@ export default function ProfileCard({
         >
           Friends
         </button>
-        {/* Renders settings tab only if profile being viewed belongs to current user */}
+        <button
+          id="settings"
+          className={
+            tab === "settings" ? "is-active" : "profile-friends-button"
+          }
+          onClick={handleTabChange}
+        >
+          Settings
+        </button>
         {!isFriendProfileView && (
-          <>
-            <button
-              id="settings"
-              className={
-                tab === "settings" ? "is-active" : "profile-friends-button"
-              }
-              onClick={handleTabChange}
-            >
-              Settings
+          <div className="delete-account-wrapper">
+            <button className="delete-account-button" onClick={confirmDelete}>
+              Delete Account
             </button>
-            <div className="delete-account-wrapper">
-              <button className="delete-account-button" onClick={confirmDelete}>
-                Delete Account
-              </button>
-              <button className="logout-account-button" onClick={logout}>
-                Logout
-              </button>
-            </div>
-          </>
+            <button
+              className="logout-account-button"
+              onClick={() => logoutWithUsername(username)}
+            >
+              Logout
+            </button>
+          </div>
         )}
       </div>
     </div>

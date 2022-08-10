@@ -14,6 +14,8 @@ export default function GroupHeader({
   username,
   group,
   setShouldUpdateGroupPage,
+  handleMouseOut,
+  handleMouseOver,
 }) {
   const [isMember, setIsMember] = useState(false);
   const [isFetching, setIsFetching] = useState(false);
@@ -42,8 +44,7 @@ export default function GroupHeader({
   // Adds user to group upon success and displays message
   const joinGroup = async (e) => {
     let groupName =
-      e.target.parentNode.parentNode.childNodes[0].childNodes[0].childNodes[0]
-        .innerText;
+      e.target.parentNode.parentNode.childNodes[0].childNodes[0].innerText;
 
     e.preventDefault();
     axios
@@ -70,11 +71,24 @@ export default function GroupHeader({
     <div className="groupheader-component">
       {!isFetching && (
         <>
-          <Link to={`/group/${group.groupName}`}>
-            <div className="groupheader-info-wrapper">
+          {/* Only allow user to click on more group details if they are already a member */}
+          {isMember && (
+            <Link to={`/group/${group.groupName}`}>
+              <div className="groupheader-info-wrapper">
+                <span className="group-info">{group.groupName}</span>
+              </div>
+            </Link>
+          )}
+          {!isMember && (
+            <div
+              className="groupheader-info-wrapper"
+              onMouseOver={() => handleMouseOver(group.groupName)}
+              onMouseOut={handleMouseOut}
+            >
               <span className="group-info">{group.groupName}</span>
             </div>
-          </Link>
+          )}
+          {/* Display join button if user is not currently a member of group */}
           {!isMember && (
             <div className="groupheader-button-wrapper">
               <button className="join-group-button" onClick={joinGroup}>

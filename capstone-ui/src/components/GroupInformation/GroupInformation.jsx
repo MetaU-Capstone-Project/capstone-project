@@ -105,6 +105,18 @@ export default function GroupInformation({ username, groupName }) {
     setSelectedInvites([]);
   }
 
+  // Deletes the current group
+  const deleteGroup = async (e) => {
+    await axios.get(`http://localhost:3001/user/deletegroup/${groupName}`);
+  };
+
+  // Displays confirmation message to delete group
+  const confirmDeleteGroup = async (e) => {
+    if (window.confirm("Are you sure you want to delete this group?")) {
+      deleteGroup();
+    }
+  };
+
   return (
     <div className="groupinformation-component">
       {description != null && genreOptions != null ? (
@@ -169,6 +181,17 @@ export default function GroupInformation({ username, groupName }) {
               <span className="preference-heading">Membership Status:</span>
               <span>{isAdmin ? "Admin" : "Member"}</span>
             </div>
+            {isAdmin && (
+              <div className="groupinformation-wrapper">
+                <span className="preference-heading">Delete Group</span>
+                <button
+                  className="delete-group-button"
+                  onClick={confirmDeleteGroup}
+                >
+                  Delete
+                </button>
+              </div>
+            )}
           </div>
         </>
       ) : (

@@ -379,7 +379,9 @@ class User {
 
     const compoundQuery = Parse.Query.and(usernameQuery, groupNameQuery);
     const invite = await compoundQuery.first({});
-    invite.destroy({});
+    if (invite != undefined) {
+      invite.destroy({});
+    }
 
     try {
       await relationship.save();
@@ -540,6 +542,29 @@ class User {
       limit * page,
       limit * (page + 1)
     );
+  }
+
+  /**
+   * Deletes all information associated with specified group
+   * @param {string} groupName name of specified group
+   */
+  static async deleteGroup(groupName) {
+    const groupQuery = new Parse.Query("Group");
+    groupQuery.equalTo("name", groupName);
+    (await groupQuery.first({})).destroy({});
+
+    const invitesQuery = new Parse.Query("Invite");
+    invitesQuery.equalTo("groupName", groupName);
+    invitesQuery.find().then(function (invites) {
+      return Parse.Object.destroyAll(invites);
+    });
+
+    const usersInGroupsQuery = new Parse.Query("UserGroup");
+    usersInGroupsQuery.equalTo("groupName", groupName);
+    usersInGroupsQuery.find().then(function (usersInGroups) {
+      return Parse.Object.destroyAll(usersInGroups);
+    });
+    return true;
   }
 
   // Clears all the nicknames and messages used in the chat after a user logs out
