@@ -3,6 +3,11 @@
     padding: 1rem;
 }
 
+.welcome-text {
+    font-size: 1.25rem;
+    margin-bottom: 2rem;
+}
+
 .register-button {
     width: 5rem;
     height: 2rem;

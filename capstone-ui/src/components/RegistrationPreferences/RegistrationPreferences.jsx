@@ -3,7 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import "./RegistrationPreferences.css";
 import axios from "axios";
 import Settings from "../Settings/Settings";
-import logo from "../../logo.svg";
+import logo from "../../logo.png";
 import Recommendations from "../Recommendations/Recommendations";
 
 const Parse = require("parse");

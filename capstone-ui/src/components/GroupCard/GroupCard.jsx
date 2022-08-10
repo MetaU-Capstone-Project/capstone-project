@@ -2,6 +2,7 @@ import "./GroupCard.css";
 import axios from "axios";
 import { logout } from "../../spotify";
 import { formatDate } from "../../utils";
+import Home from "../Home/Home";
 
 /**
  * Component to display individual group information and tabs to learn more
@@ -65,9 +66,6 @@ export default function GroupCard({ username, tab, setTab, group }) {
       <div className="delete-account-wrapper">
         <button className="delete-account-button" onClick={leaveGroup}>
           Leave Group
-        </button>
-        <button className="logout-account-button" onClick={logout}>
-          Logout
         </button>
       </div>
     </div>

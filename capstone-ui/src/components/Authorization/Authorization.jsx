@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { deleteTokens } from "../../spotify";
 import "./Authorization.css";
-import logo from "../../logo.svg";
+import logo from "../../logo.png";
 
 export default function Authorization() {
   function handleLogin() {
@@ -18,8 +18,11 @@ export default function Authorization() {
         <img src={logo} alt="logo"></img>
       </div>
       <div className="submission-wrapper">
-        <span className="instruction">Spotify Authorization</span>
-        <button onClick={handleLogin}>Welcome</button>
+        <span className="instruction">Get Rec'ed!</span>
+        <span className="welcome-text">
+          {"a platform for music lovers to share song recomendations :)"}
+        </span>
+        <button onClick={handleLogin}>Spotify Login</button>
       </div>
     </div>
   );

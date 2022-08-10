@@ -48,6 +48,4 @@ button {
 .groupcard-component {
     display: flex;
     flex-direction: column;
-    max-width: 30rem;
-    max-height: 30rem;
 }
