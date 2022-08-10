@@ -566,6 +566,84 @@ class User {
     });
     return true;
   }
+
+  // Clears all the nicknames and messages used in the chat after a user logs out
+  static async clearChat() {
+    const nicknameQuery = new Parse.Query("Nickname");
+    const messageQuery = new Parse.Query("Message");
+
+    const nicknames = await nicknameQuery.find({});
+    for (let i = 0; i < nicknames.length; i++) {
+      nicknames[i].destroy({});
+    }
+
+    const messages = await messageQuery.find({});
+    for (let i = 0; i < messages.length; i++) {
+      messages[i].destroy({});
+    }
+
+    return true;
+  }
+
+  // Creates Nickname object in Parse to indicate user is actively on chat
+  static async createNickname(nickname) {
+    // Get User Parse object associated with given nickname
+    const userQuery = new Parse.Query("User");
+    userQuery.equalTo("username", nickname);
+    const userObject = await userQuery.first();
+
+    // Check if nickname is associated with user
+    if (userObject !== undefined) {
+      const nicknameQuery = new Parse.Query("Nickname");
+      nicknameQuery.equalTo("name", nickname);
+      let nicknameObject = await nicknameQuery.first();
+
+      // Retrieves Nickname Parse object if it already exists, and otherwise creates a new Nickname object
+      if (nicknameObject == undefined) {
+        nicknameObject = new Parse.Object("Nickname");
+        nicknameObject.set("name", nickname);
+        nicknameObject.set("user", userObject);
+        nicknameObject = await nicknameObject.save();
+      }
+      return nicknameObject;
+    }
+    // User does not exist so cannot create a Nickname object
+    return false;
+  }
+
+  static async sendMessage(message, senderNicknameId, receiverNicknameId) {
+    // Get sender and receiver nickname Parse objects
+    const senderNicknameObjectQuery = new Parse.Query("Nickname");
+    senderNicknameObjectQuery.equalTo("objectId", senderNicknameId);
+    const senderNicknameObject = await senderNicknameObjectQuery.first();
+    const receiverNicknameObjectQuery = new Parse.Query("Nickname");
+    receiverNicknameObjectQuery.equalTo("objectId", receiverNicknameId);
+    const receiverNicknameObject = await receiverNicknameObjectQuery.first();
+
+    // Check to ensure if specified sender and receiver Users exist in User table
+    if (senderNicknameObject == undefined) {
+      return `Error with sending memssage to user with nickname id ${senderNicknameId}.`;
+    }
+
+    if (receiverNicknameObject == undefined) {
+      return `Error with user with nickname id ${senderNicknameId} receiving message.`;
+    }
+
+    // Create new Message object and save it
+    const Message = new Parse.Object("Message");
+    Message.set("text", message);
+    Message.set("sender", senderNicknameObject);
+    Message.set("receiver", receiverNicknameObject);
+
+    try {
+      await Message.save();
+      return true;
+    } catch (error) {
+      return `Error with ${senderNicknameObject.get(
+        "name"
+      )} sending message ${message} to ${receiverNicknameObject.get("name")}`;
+    }
+  }
 }
 
 module.exports = User;

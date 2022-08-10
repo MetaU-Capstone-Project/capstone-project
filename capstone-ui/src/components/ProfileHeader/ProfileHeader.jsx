@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import "./ProfileHeader.css";
 import { Link } from "react-router-dom";
-import logo from "../../logo.svg";
+import logo from "../../logo.png";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 
 /**

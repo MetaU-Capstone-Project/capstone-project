@@ -1,9 +1,9 @@
 import React from "react";
 import "./ProfileCard.css";
 import axios from "axios";
-import { logout, logoutWithUsername } from "../../spotify";
 import { formatDate } from "../../utils";
 import logo from "../../logo.png";
+import { logoutWithUsername } from "../../spotify";
 
 /**
  * Component to display individual profile information and tabs to learn more
@@ -43,6 +43,17 @@ export default function ProfileCard({
     if (window.confirm("Are you sure you want to delete your account?")) {
       deleteAccount();
     }
+  };
+
+  const logout = async (e) => {
+    await axios.get(
+      `http://localhost:3001/user/clearrecentsearches/${username}`
+    );
+
+    window.localStorage.clear();
+
+    // Navigate to login page
+    window.location = window.location.origin;
   };
 
   const isProfileImageDefined =

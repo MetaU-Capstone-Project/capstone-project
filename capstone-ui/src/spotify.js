@@ -56,15 +56,12 @@ export const logout = () => {
 };
 
 export const logoutWithUsername = (username) => {
-  // Clear all localStorage items
-  for (const property in LOCALSTORAGE_KEYS) {
-    window.localStorage.removeItem(LOCALSTORAGE_KEYS[property]);
-  }
   // Navigate to homepage
   const clearRecentSearchesResponse = axios.get(
     `http://localhost:3001/user/clearrecentsearches/${username}`
   );
 
+  window.localStorage.clear();
   window.location = window.location.origin;
 };
 

@@ -1,0 +1,72 @@
+.chat-button {
+    background-color: darkseagreen;
+    text-decoration: none;
+    width: 10rem;
+    height: 3rem;
+    font-size: 1rem;
+}
+
+.message-text {
+    padding: 1rem;
+    display: flex;
+}
+
+.message-sent .message-bubble {
+    font-size: 1rem;
+    background-color: lightblue;
+    border-radius: 0.5rem;
+}
+
+.message-received .message-bubble {
+    font-size: 1rem;
+    background-color: lightgrey;
+    border-radius: 0.5rem;
+}
+
+.message-time {
+    font-size: 0.75rem;
+    margin: 0rem;
+}
+
+.message-name {
+    font-size: 0.75rem;
+    font-weight: bold;
+    margin: 0rem;
+}
+
+.sent-message-info-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    margin-right: 1rem;
+}
+
+.received-message-info-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    margin-left: 1rem;
+}
+
+.send-message-wrapper {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.chat-users-heading {
+    font-size: 2rem;
+    text-decoration: none;
+    margin: 1rem;
+}
+
+.chat-users-heading-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.chat-component {
+    display: flex;
+    flex-direction: column;
+}
